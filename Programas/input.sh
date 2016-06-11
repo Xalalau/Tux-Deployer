@@ -1,16 +1,14 @@
 #!/bin/bash
-#----------------------------
-# INSTALADOR SUPREMO DA MORTE
+#-----------
+# ISNTALATOR
 #------------------------------------------------------------v1.0---10/06/16
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-# Um script que serve para instalar a porra toda no Ubuntu (versão deb)!!
+# Um script que serve para instalar a droga toda no Ubuntu (versão deb)!!
 # Ele também é capaz de detectar o que já foi feito no sistema e com isso
 # evita problemas e perda de tempo.
 #
-# Este script está sob a licença CC BY-NC-SA 4.0.
-# (Attribution-NonCommercial-ShareAlike 4.0 International)
-# http://creativecommons.org/licenses/by-nc-sa/4.0/
-#
+# Licença: GPL v2
+# https://github.com/xalalau/Instalator
 # Por Xalalau Xubilozo
 # __________________________________________________________________________
 
