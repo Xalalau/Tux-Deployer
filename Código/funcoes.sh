@@ -263,14 +263,6 @@ function apt-get_autoremove() {
     sudo apt-get autoremove -y &>$CONSOLE;
 }
 
-function criarPrefixoWine32Bits() {
-    if [ ! -f "$HOME/.wine" ] && [[ $LISTA2 != *"wine"* ]]; then
-        echo "[SCRIPT] Criando prefixo padrão de 32bits para o Wine"
-        WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;
-        echo
-    fi
-}
-
 function finalizar() {
     read -p "[SCRIPT] Tudo pronto! Aperte \"Enter\" para finalizar (Isso removerá o terminal secundário)."
     echo

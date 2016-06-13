@@ -123,7 +123,6 @@ echo
 # AJUSTES FINAIS
 # -------------------------------------------------------------
 
-criarPrefixoWine32Bits
 apt-get_autoremove
 echo
 finalizar
