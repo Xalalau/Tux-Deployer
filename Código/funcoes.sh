@@ -248,6 +248,11 @@ function criarListasDePacotes2() {
     LISTA2=$(dpkg --get-selections | grep -v deinstall | awk '{print $1}')
 }
 
+function iniciarTlp() {
+    echo "[SCRIPT] Iniciando TLP..."
+    sudo tlp start &>$CONSOLE;
+}
+
 function apt-get_update() {
     echo "[SCRIPT] Atualizando banco de dados de pacotes..."
     sudo apt-get update &>$CONSOLE;

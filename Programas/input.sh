@@ -45,12 +45,13 @@ function input() {
 
     # CHAVES
     if [ "$1" == "1" ]; then
-        adicionarChave pgp.mit.edu 1C61A2656FB57B7E4DE0F4C1FC918B335044912E "Dropbox"
         adicionarChave2 https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key "Insync"
         adicionarChave2 https://dl.google.com/linux/linux_signing_key.pub "Google Chrome"
     # PPAS
     elif [ "$2" == "1" ]; then
         adicionarPPA ppa:webupd8team/y-ppa-manager "y-ppa-manager"
+        adicionarPPA ppa:atareao/atareao "ubuntu-atareao" #clima
+        adicionarPPA ppa:atareao/telegram "telegram" #clima
         adicionarPPA ppa:yannubuntu/boot-repair "boot-repair"
         adicionarPPA ppa:oibaf/graphics-drivers "oibaf"
         #adicionarPPA ppa:ubuntu-wine/ppa "ubuntu-wine"
@@ -65,9 +66,9 @@ function input() {
         adicionarPPA ppa:fingerprint/fingerprint-gui "fingerprint"
         adicionarPPA ppa:ermshiperete/monodevelop "mono"
         adicionarPPA ppa:danielrichter2007/grub-customizer "grub-customizer"
+        adicionarPPA ppa:linrunner/tlp "tlp"
         adicionarPPA ppa:vlijm/takeabreak "takeabreak"
         adicionarPPA ppa:sunab/kdenlive-release "kdenlive"
-        adicionarPPA2 "deb http://linux.dropbox.com/ubuntu/ $CODENOME main" dropbox.list "dropbox"
         adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
     #EULAS
     elif [ "$3" == "1" ]; then
@@ -92,10 +93,10 @@ function input() {
         instalarApt cifs-utils
         instalarApt codeblocks
         instalarApt cmake
-        instalarApt dropbox
         instalarApt fceux
         instalarApt filezilla
         instalarApt gcc-multilib
+        instalarApt gdebi
         instalarApt geany
         instalarApt geogebra
         instalarApt gimp
@@ -112,9 +113,12 @@ function input() {
         instalarApt insync-nautilus
         instalarApt jstest-gtk
         instalarApt kdenlive
+        instalarApt libavcodec-extra
         instalarApt lxc
         instalarApt mesa-utils
         instalarApt mono-complete
+        instalarApt my-weather-indicator
+        instalarApt nautilus-dropbox
         instalarApt oracle-java8-installer
         instalarApt oracle-java8-set-default
         instalarApt p7zip-full
@@ -127,9 +131,13 @@ function input() {
         instalarApt simple-scan
         instalarApt simplescreenrecorder
         instalarApt simplescreenrecorder-lib:i386
+        instalarApt synaptic
         instalarApt skype
         instalarApt steam
         instalarApt takeabreak
+        instalarApt tlp
+        instalarApt tlp-rdw
+        instalarApt ubuntu-restricted-extras
         instalarApt unetbootin
         instalarApt unity-tweak-tool
         instalarApt vlc

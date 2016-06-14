@@ -127,6 +127,8 @@ echo
 # AJUSTES FINAIS
 # -------------------------------------------------------------
 
+iniciarTlp
+echo
 apt-get_autoremove
 echo
 finalizar
