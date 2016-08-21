@@ -68,7 +68,7 @@ function input() {
         adicionarPPA ppa:danielrichter2007/grub-customizer "grub-customizer"
         adicionarPPA ppa:linrunner/tlp "tlp"
         adicionarPPA ppa:vlijm/takeabreak "takeabreak"
-        adicionarPPA ppa:sunab/kdenlive-release "kdenlive"
+        adicionarPPA ppa:kdenlive/kdenlive-stable "kdenlive"
         adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
     #EULAS
     elif [ "$3" == "1" ]; then
@@ -80,6 +80,7 @@ function input() {
         instalarDeb "hamachi" https://secure.logmein.com/labs/logmein-hamachi_2.1.0.139-1_amd64.deb # Pacote com versão fixa, verificar se há updates manualmente.
         instalarDeb "snes9x-gtk" https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb # Essa versão é desbugada na parte de cima do menu.
         instalarDeb "teamviewer" http://download.teamviewer.com/download/teamviewer_i386.deb
+        instalarDeb "skypeforlinux" https://repo.skype.com/latest/skypeforlinux-64-alpha.deb
     # DEBS POR APT-GET
     elif [ "$5" == "1" ]; then
         instalarApt axel
@@ -87,6 +88,7 @@ function input() {
         instalarApt blender
         instalarApt bleachbit
         instalarApt boot-repair
+        instalarApt brasero
         instalarApt browser-plugin-freshplayer-pepperflash
         instalarApt build-essential
         instalarApt cheese
@@ -98,9 +100,9 @@ function input() {
         instalarApt gcc-multilib
         instalarApt gdebi
         instalarApt geany
-        instalarApt geogebra
         instalarApt gimp
         instalarApt git
+        instalarApt git-cola
         instalarApt g++-multilib
         instalarApt gparted
         instalarApt grub-customizer
@@ -117,6 +119,8 @@ function input() {
         instalarApt lxc
         instalarApt mesa-utils
         instalarApt mono-complete
+        instalarApt mupen64plus
+        instalarApt mupen64plus-qt
         instalarApt my-weather-indicator
         instalarApt nautilus-dropbox
         instalarApt oracle-java8-installer
@@ -131,8 +135,8 @@ function input() {
         instalarApt simple-scan
         instalarApt simplescreenrecorder
         instalarApt simplescreenrecorder-lib:i386
+        instalarApt snes9x-gtk
         instalarApt synaptic
-        instalarApt skype
         instalarApt steam
         instalarApt takeabreak
         instalarApt tlp
