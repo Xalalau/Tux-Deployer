@@ -2,6 +2,7 @@
 #-----------
 # ISNTALATOR
 #------------------------------------------------------------v1.0---10/06/16
+#-----------------------------------------------------Pacotes de:---24/08/16
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 # Um script que serve para instalar a droga toda no Ubuntu (versão deb)!!
 # Ele também é capaz de detectar o que já foi feito no sistema e com isso
@@ -47,6 +48,8 @@ function input() {
     if [ "$1" == "1" ]; then
         adicionarChave2 https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key "Insync"
         adicionarChave2 https://dl.google.com/linux/linux_signing_key.pub "Google Chrome"
+        adicionarChave2 https://www.virtualbox.org/download/oracle_vbox_2016.asc "VirtualBox"
+        adicionarChave2 https://content.runescape.com/downloads/ubuntu/runescape.gpg.key "Runescape"
     # PPAS
     elif [ "$2" == "1" ]; then
         adicionarPPA ppa:webupd8team/y-ppa-manager "y-ppa-manager"
@@ -69,7 +72,10 @@ function input() {
         adicionarPPA ppa:linrunner/tlp "tlp"
         adicionarPPA ppa:vlijm/takeabreak "takeabreak"
         adicionarPPA ppa:kdenlive/kdenlive-stable "kdenlive"
+        adicionarPPA ppa:atareao/atareao "atareao" #my-weather-indicator
         adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
+        adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" virtualbox.list "virtualbox"
+        adicionarPPA2 "deb https://content.runescape.com/downloads/ubuntu $CODENOME non-free" runescape.list "runescape"
     #EULAS
     elif [ "$3" == "1" ]; then
         aceitarEula "oracle" Java "oracle-java8-installer" shared/accepted-oracle-license-v1-1
@@ -131,6 +137,7 @@ function input() {
         instalarApt qbittorrent
         instalarApt qjoypad
         instalarApt rar
+        instalarApt runescape-launcher
         instalarApt samba
         instalarApt simple-scan
         instalarApt simplescreenrecorder
@@ -144,6 +151,7 @@ function input() {
         instalarApt ubuntu-restricted-extras
         instalarApt unetbootin
         instalarApt unity-tweak-tool
+        instalarApt virtualbox-5.1
         instalarApt vlc
         instalarApt winbind
         instalarApt wine1.9
