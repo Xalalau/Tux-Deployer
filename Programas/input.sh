@@ -49,7 +49,6 @@ function input() {
         adicionarChave2 https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key "Insync"
         adicionarChave2 https://dl.google.com/linux/linux_signing_key.pub "Google Chrome"
         adicionarChave2 https://www.virtualbox.org/download/oracle_vbox_2016.asc "VirtualBox"
-        adicionarChave2 https://content.runescape.com/downloads/ubuntu/runescape.gpg.key "Runescape"
     # PPAS
     elif [ "$2" == "1" ]; then
         adicionarPPA ppa:webupd8team/y-ppa-manager "y-ppa-manager"
@@ -74,7 +73,6 @@ function input() {
         adicionarPPA ppa:kdenlive/kdenlive-stable "kdenlive"
         adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
         adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" virtualbox.list "virtualbox"
-        adicionarPPA2 "deb https://content.runescape.com/downloads/ubuntu trusty non-free" runescape.list "runescape"
     #EULAS
     elif [ "$3" == "1" ]; then
         aceitarEula "oracle" Java "oracle-java8-installer" shared/accepted-oracle-license-v1-1
@@ -138,7 +136,6 @@ function input() {
         instalarApt qbittorrent
         instalarApt qjoypad
         instalarApt rar
-        instalarApt runescape-launcher
         instalarApt samba
         instalarApt simple-scan
         instalarApt simplescreenrecorder
