@@ -86,6 +86,7 @@ function input() {
         instalarDeb "snes9x-gtk" https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb # Essa versão é desbugada na parte de cima do menu.
         instalarDeb "teamviewer" http://download.teamviewer.com/download/teamviewer_i386.deb
         instalarDeb "skypeforlinux" https://repo.skype.com/latest/skypeforlinux-64-alpha.deb
+        instalarDeb "libglew1.10_1.10.0-3_amd64" http://launchpadlibrarian.net/161405671/libglew1.10_1.10.0-3_amd64.deb #Para o Runescape.
     # DEBS POR APT-GET
     elif [ "$5" == "1" ]; then
         instalarApt axel
