@@ -121,6 +121,7 @@ function input() {
         instalarApt insync-nautilus
         instalarApt jstest-gtk
         instalarApt kdenlive
+        instalarApt kde-runtime # Adiciona os ícones do kdenlive
         instalarApt libavcodec-extra
         instalarApt lxc
         instalarApt mesa-utils
