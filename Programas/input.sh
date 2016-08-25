@@ -53,8 +53,8 @@ function input() {
     # PPAS
     elif [ "$2" == "1" ]; then
         adicionarPPA ppa:webupd8team/y-ppa-manager "y-ppa-manager"
-        adicionarPPA ppa:atareao/atareao "ubuntu-atareao" #clima
-        adicionarPPA ppa:atareao/telegram "telegram" #clima
+        adicionarPPA ppa:atareao/atareao "atareao/atareao" #my-weather-indicator
+        adicionarPPA ppa:atareao/telegram "telegram"
         adicionarPPA ppa:yannubuntu/boot-repair "boot-repair"
         adicionarPPA ppa:oibaf/graphics-drivers "oibaf"
         #adicionarPPA ppa:ubuntu-wine/ppa "ubuntu-wine"
@@ -72,10 +72,9 @@ function input() {
         adicionarPPA ppa:linrunner/tlp "tlp"
         adicionarPPA ppa:vlijm/takeabreak "takeabreak"
         adicionarPPA ppa:kdenlive/kdenlive-stable "kdenlive"
-        adicionarPPA ppa:atareao/atareao "atareao" #my-weather-indicator
         adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
         adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" virtualbox.list "virtualbox"
-        adicionarPPA2 "deb https://content.runescape.com/downloads/ubuntu $CODENOME non-free" runescape.list "runescape"
+        adicionarPPA2 "deb https://content.runescape.com/downloads/ubuntu trusty non-free" runescape.list "runescape"
     #EULAS
     elif [ "$3" == "1" ]; then
         aceitarEula "oracle" Java "oracle-java8-installer" shared/accepted-oracle-license-v1-1
