@@ -55,7 +55,8 @@ function input() {
         adicionarPPA ppa:atareao/atareao "atareao/atareao" #my-weather-indicator
         adicionarPPA ppa:atareao/telegram "telegram"
         adicionarPPA ppa:yannubuntu/boot-repair "boot-repair"
-        adicionarPPA ppa:oibaf/graphics-drivers "oibaf"
+        adicionarPPA ppa:oibaf/graphics-drivers "graphics-drivers"
+        adicionarPPA ppa:oibaf/gallium-nine "gallium-nine"
         #adicionarPPA ppa:ubuntu-wine/ppa "ubuntu-wine"
         adicionarPPA ppa:commendsarnex/winedri3 "winedri3" # Wine sempre atualizado e com gallium-nine ativo
         adicionarPPA ppa:qbittorrent-team/qbittorrent-stable "qbittorrent"
