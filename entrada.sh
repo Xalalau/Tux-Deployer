@@ -36,8 +36,8 @@ function entrada() {
     elif [ "$2" == "1" ]; then
         adicionarPPA ppa:atareao/telegram "telegram"
         #adicionarPPA ppa:oibaf/graphics-drivers "graphics-drivers"
+	#adicionarPPA ppa:oibaf/gallium-nine "gallium-nine" # Não pode ser usado com o ppa:paulo-miguel-dias/mesa!!
         adicionarPPA ppa:paulo-miguel-dias/mesa "paulo-miguel-dias"
-        adicionarPPA ppa:oibaf/gallium-nine "gallium-nine"
         #adicionarPPA ppa:ubuntu-wine/ppa "ubuntu-wine"
         adicionarPPA ppa:commendsarnex/winedri3 "winedri3" # Wine sempre atualizado e com gallium-nine ativo
         adicionarPPA ppa:qbittorrent-team/qbittorrent-stable "qbittorrent"
