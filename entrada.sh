@@ -88,7 +88,7 @@ function entrada() {
         instalarApt haguichi
         instalarApt hardinfo
         instalarApt hplip-gui
-        instalarApt insync-nautilus
+        #instalarApt insync-nautilus
         instalarApt jstest-gtk
         instalarApt kdenlive
         instalarApt kde-runtime # Ícones para o Kdenlive
