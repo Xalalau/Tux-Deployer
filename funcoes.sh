@@ -124,13 +124,14 @@ function liberarRepositorioParceirosUbuntu() {
 }
 
 function aceitarEula() {
-    # $1 = termo usado para checar se o pacote já existe no sistema
-    # $2 = nome para impressão pelo script
-    # $3 = pacote de instalação
-    # $4 = arquivo de eula que será marcado
+    # $1 = nome do pacote que será instalado posteriormente
+    # $1 = nome do elemento que requer a aceitação
+    # $2 = arquivo de eula que será marcado
+    # $3 = opção a ser configurada
+    # $4 = valor da opção
     if [[ $LISTA2 != *"$1"* ]]; then
-        echo "[SCRIPT] Automatizando instalação do $2..."
-        echo $3 $4 select true | sudo debconf-set-selections
+        echo "[SCRIPT] Automatizando instalação de $1, item \"$2\"..."
+        echo $2 $3 $4 $5 | sudo debconf-set-selections
         LIB=1
     fi
 }

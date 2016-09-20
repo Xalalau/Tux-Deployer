@@ -1,22 +1,5 @@
-#!/bin/bash
-#-----------
-# ISNTALATOR
-#------------------------------------------------------------v1.0---10/06/16
-#-----------------------------------------------------Pacotes de:---24/08/16
-# ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-# Um script que serve para instalar a droga toda no Ubuntu (versão deb)!!
-# Ele também é capaz de detectar o que já foi feito no sistema e com isso
-# evita problemas e perda de tempo.
-#
-# Licença: GPL v2
-# https://github.com/xalalau/Instalator
-# Por Xalalau Xubilozo
-# __________________________________________________________________________
 
-
-
-
-function input() {
+function entrada() {
     # Entrar com 0/1 nos parâmetros para ignorar/ativar cada seção:
     # $1 = chaves
     # $2 = ppas
@@ -46,16 +29,14 @@ function input() {
 
     # CHAVES
     if [ "$1" == "1" ]; then
-        adicionarChave2 https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key "Insync"
+        #adicionarChave2 https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key "Insync"
         adicionarChave2 https://dl.google.com/linux/linux_signing_key.pub "Google Chrome"
-        adicionarChave2 https://www.virtualbox.org/download/oracle_vbox_2016.asc "VirtualBox"
+        #adicionarChave2 https://www.virtualbox.org/download/oracle_vbox_2016.asc "VirtualBox"
     # PPAS
     elif [ "$2" == "1" ]; then
-        adicionarPPA ppa:webupd8team/y-ppa-manager "y-ppa-manager"
-        adicionarPPA ppa:atareao/atareao "atareao/atareao" #my-weather-indicator
         adicionarPPA ppa:atareao/telegram "telegram"
-        adicionarPPA ppa:yannubuntu/boot-repair "boot-repair"
-        adicionarPPA ppa:oibaf/graphics-drivers "graphics-drivers"
+        #adicionarPPA ppa:oibaf/graphics-drivers "graphics-drivers"
+        adicionarPPA ppa:paulo-miguel-dias/mesa "paulo-miguel-dias"
         adicionarPPA ppa:oibaf/gallium-nine "gallium-nine"
         #adicionarPPA ppa:ubuntu-wine/ppa "ubuntu-wine"
         adicionarPPA ppa:commendsarnex/winedri3 "winedri3" # Wine sempre atualizado e com gallium-nine ativo
@@ -64,20 +45,18 @@ function input() {
         adicionarPPA ppa:nilarimogard/webupd8 "webupd8" #freshplayer vem daqui
         adicionarPPA ppa:maarten-baert/simplescreenrecorder "simplescreenrecorder"
         adicionarPPA ppa:webupd8team/java "java"
-        adicionarPPA ppa:gezakovacs/ppa "gezakovacs" #unetbootin
-        adicionarPPA ppa:unity8-desktop-session-team/unity8-preview-lxc "unity8"
-        adicionarPPA ppa:fingerprint/fingerprint-gui "fingerprint"
-        adicionarPPA ppa:ermshiperete/monodevelop "mono"
         adicionarPPA ppa:danielrichter2007/grub-customizer "grub-customizer"
+        adicionarPPA ppa:ermshiperete/monodevelop "mono"
         adicionarPPA ppa:linrunner/tlp "tlp"
-        adicionarPPA ppa:vlijm/takeabreak "takeabreak"
         adicionarPPA ppa:kdenlive/kdenlive-stable "kdenlive"
-        adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
-        adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" virtualbox.list "virtualbox"
+        #adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
+        #adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" virtualbox.list "virtualbox"
     #EULAS
     elif [ "$3" == "1" ]; then
-        aceitarEula "oracle" Java "oracle-java8-installer" shared/accepted-oracle-license-v1-1
-        aceitarEula "wine" Wine "ttf-mscorefonts-installer" msttcorefonts/accepted-mscorefonts-eula
+        aceitarEula oracle "oracle-java8-installer" shared/accepted-oracle-license-v1-1 "select" true
+        aceitarEula wine "ttf-mscorefonts-installer" msttcorefonts/accepted-mscorefonts-eula "select" true
+        aceitarEula steam "steam/license" note " "
+        aceitarEula steam "steam/question" select "I AGREE"
     # DEBS POR DOWNLOAD NORMAL
     elif [ "$4" == "1" ]; then
         instalarDeb "google-chrome-stable" https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -85,50 +64,41 @@ function input() {
         instalarDeb "snes9x-gtk" https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb # Essa versão é desbugada na parte de cima do menu.
         instalarDeb "teamviewer" http://download.teamviewer.com/download/teamviewer_i386.deb
         instalarDeb "skypeforlinux" https://repo.skype.com/latest/skypeforlinux-64-alpha.deb
-        instalarDeb "libglew1.10_1.10.0-3_amd64" http://launchpadlibrarian.net/161405671/libglew1.10_1.10.0-3_amd64.deb #Para o Runescape.
+        instalarDeb "spotifywebplayer" https://github.com/Quacky2200/Spotify-Web-Player-for-Linux/releases/download/0.9.5-1/spotifywebplayerv0.9.5-1-alpha-x64.deb
     # DEBS POR APT-GET
     elif [ "$5" == "1" ]; then
         instalarApt axel
         instalarApt audacity
         instalarApt blender
         instalarApt bleachbit
-        instalarApt boot-repair
         instalarApt brasero
+        instalarApt breeze-cursor-theme
         instalarApt browser-plugin-freshplayer-pepperflash
-        instalarApt build-essential
         instalarApt cheese
-        instalarApt cifs-utils
-        instalarApt codeblocks
-        instalarApt cmake
+        instalarApt cifs-utils # Para o Samba
         instalarApt fceux
         instalarApt filezilla
         instalarApt gcc-multilib
-        instalarApt gdebi
         instalarApt geany
         instalarApt gimp
         instalarApt git
         instalarApt git-cola
         instalarApt g++-multilib
         instalarApt gparted
-        instalarApt grub-customizer
         instalarApt haguichi
-        instalarApt haguichi-indicator
-        instalarApt handbrake
         instalarApt hardinfo
         instalarApt hplip-gui
-        instalarApt insync
         instalarApt insync-nautilus
         instalarApt jstest-gtk
         instalarApt kdenlive
-        instalarApt kde-runtime # Adiciona os ícones do kdenlive
+        instalarApt kde-runtime # Ícones para o Kdenlive
         instalarApt libavcodec-extra
-        instalarApt lxc
+        instalarApt libreoffice
         instalarApt mesa-utils
         instalarApt mono-complete
-        instalarApt mupen64plus
         instalarApt mupen64plus-qt
-        instalarApt my-weather-indicator
         instalarApt nautilus-dropbox
+        instalarApt openssh-server # Para o XMouse
         instalarApt oracle-java8-installer
         instalarApt oracle-java8-set-default
         instalarApt p7zip-full
@@ -141,20 +111,18 @@ function input() {
         instalarApt simple-scan
         instalarApt simplescreenrecorder
         instalarApt simplescreenrecorder-lib:i386
-        instalarApt snes9x-gtk
         instalarApt synaptic
         instalarApt steam
-        instalarApt takeabreak
+        instalarApt telegram
         instalarApt tlp
         instalarApt tlp-rdw
-        instalarApt ubuntu-restricted-extras
-        instalarApt unetbootin
-        instalarApt unity-tweak-tool
-        instalarApt virtualbox-5.1
+        #instalarApt ubuntu-restricted-extras
+        #instalarApt virtualbox-5.1
         instalarApt vlc
+        instalarApt xdotool # Para o XMouse
         instalarApt winbind
         instalarApt wine1.9
         instalarApt playonlinux # Deve vir depois do Wine para não instalar um monte de bosta
-        instalarApt y-ppa-manager
     fi
 }
+
