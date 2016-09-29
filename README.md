@@ -1,4 +1,4 @@
-# Instalator
+# Instaleytor
 
 Esse é o meu instalador de pacotes DEB supimpa.
 
