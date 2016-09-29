@@ -36,7 +36,7 @@ function entrada() {
     elif [ "$2" == "1" ]; then
         adicionarPPA ppa:atareao/telegram "telegram"
         #adicionarPPA ppa:oibaf/graphics-drivers "graphics-drivers"
-	#adicionarPPA ppa:oibaf/gallium-nine "gallium-nine" # Não pode ser usado com o ppa:paulo-miguel-dias/mesa!!
+        #adicionarPPA ppa:oibaf/gallium-nine "gallium-nine" # Não pode ser usado com o ppa:paulo-miguel-dias/mesa!!
         adicionarPPA ppa:paulo-miguel-dias/mesa "paulo-miguel-dias"
         #adicionarPPA ppa:ubuntu-wine/ppa "ubuntu-wine"
         adicionarPPA ppa:commendsarnex/winedri3 "winedri3" # Wine sempre atualizado e com gallium-nine ativo
@@ -49,6 +49,8 @@ function entrada() {
         adicionarPPA ppa:ermshiperete/monodevelop "mono"
         adicionarPPA ppa:linrunner/tlp "tlp"
         adicionarPPA ppa:kdenlive/kdenlive-stable "kdenlive"
+        adicionarPPA ppa:gnome3-team/gnome3-staging "ubuntu-gnome3-staging"
+        adicionarPPA ppa:gnome3-team/gnome3 "ubuntu-gnome3"
         #adicionarPPA2 "deb http://apt.insynchq.com/ubuntu/ $CODENOME non-free contrib" insync.list "insync"
         #adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" virtualbox.list "virtualbox"
     #EULAS
@@ -74,6 +76,7 @@ function entrada() {
         instalarApt brasero
         instalarApt breeze-cursor-theme
         instalarApt browser-plugin-freshplayer-pepperflash
+        instalarApt build-essential
         instalarApt cheese
         instalarApt cifs-utils # Para o Samba
         instalarApt fceux
