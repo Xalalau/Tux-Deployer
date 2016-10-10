@@ -50,6 +50,7 @@ function entrada() {
         adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
         adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
         adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
+        adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
         adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     #EULAS
     elif [ "$3" == "1" ]; then
@@ -76,6 +77,7 @@ function entrada() {
         instalarApt "browser-plugin-freshplayer-pepperflash"
         instalarApt "build-essential"
         instalarApt "cheese"
+        instalarApt "dolphin-emu-master"
         instalarApt "cifs-utils" # Para o Samba
         instalarApt "fceux"
         instalarApt "filezilla"
