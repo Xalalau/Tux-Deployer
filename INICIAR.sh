@@ -8,7 +8,7 @@
 # Ele também é capaz de detectar o que já foi feito no sistema e com isso
 # evita problemas e perda de tempo.
 #
-# Licença: GPL v2
+# Licença: MIT
 # https://github.com/xalalau/Instalator
 # Por Xalalau Xubilozo
 # __________________________________________________________________________
