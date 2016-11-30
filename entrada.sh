@@ -48,8 +48,8 @@ function entrada() {
         adicionarPPA "ppa:ermshiperete/monodevelop" "mono"
         adicionarPPA "ppa:linrunner/tlp" "tlp"
         adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
-        adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
-        adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
+#         adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
+#         adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
         adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
         adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     #EULAS
@@ -65,42 +65,44 @@ function entrada() {
         instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão é desbugada na parte de cima do menu.
         instalarDeb "teamviewer" "http://download.teamviewer.com/download/teamviewer_i386.deb"
         instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
-        instalarDeb "spotifywebplayer" "https://github.com/Quacky2200/Spotify-Web-Player-for-Linux/releases/download/0.9.5-1/spotifywebplayerv0.9.5-1-alpha-x64.deb"
+#         instalarDeb "spotifywebplayer" "https://github.com/Quacky2200/Spotify-Web-Player-for-Linux/releases/download/0.9.5-1/spotifywebplayerv0.9.5-1-alpha-x64.deb"
     # DEBS POR APT-GET
     elif [ "$5" == "1" ]; then
         instalarApt "axel"
         instalarApt "audacity"
         instalarApt "blender"
         instalarApt "bleachbit"
-        instalarApt "brasero"
-        instalarApt "breeze-cursor-theme"
+#         instalarApt "breeze-cursor-theme"
         instalarApt "browser-plugin-freshplayer-pepperflash"
         instalarApt "build-essential"
         instalarApt "cheese"
         instalarApt "dolphin-emu-master"
-        instalarApt "cifs-utils" # Para o Samba
+#         instalarApt "cifs-utils" # Para o Samba
         instalarApt "fceux"
         instalarApt "filezilla"
         instalarApt "gcc-multilib"
         instalarApt "geany"
+        instalarApt "geogebra"
         instalarApt "gimp"
         instalarApt "git"
         instalarApt "git-cola"
         instalarApt "g++-multilib"
         instalarApt "gparted"
+        instalarApt "grub-customizer"
         instalarApt "haguichi"
         instalarApt "hardinfo"
         instalarApt "hplip-gui"
         instalarApt "jstest-gtk"
+        instalarApt "k3b"
         instalarApt "kdenlive"
-        instalarApt "kde-runtime" # Ícones para o Kdenlive
+#         instalarApt "kde-runtime" # Ícones para o Kdenlive
         instalarApt "libavcodec-extra"
         instalarApt "libreoffice"
         instalarApt "mesa-utils"
         instalarApt "mono-complete"
         instalarApt "mupen64plus-qt"
-        instalarApt "nautilus-dropbox"
-        instalarApt "openssh-server" # Para o XMouse
+#         instalarApt "nautilus-dropbox"
+#         instalarApt "openssh-server" # Para o XMouse
         instalarApt "oracle-java8-installer"
         instalarApt "oracle-java8-set-default"
         instalarApt "p7zip-full"
@@ -120,7 +122,7 @@ function entrada() {
         instalarApt "tlp-rdw"
         instalarApt "virtualbox-5.1"
         instalarApt "vlc"
-        instalarApt "xdotool" # Para o XMouse
+#         instalarApt "xdotool" # Para o XMouse
         instalarApt "winbind"
         instalarApt "wine1.9"
         instalarApt "playonlinux" # Deve vir depois do Wine para não instalar um monte de bosta
