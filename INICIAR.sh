@@ -145,6 +145,7 @@ echo
 # -------------------------------------------------------------
 
 iniciarTlp
+criarPrefixoWine32Bits
 echo
 apt-get_autoremove
 echo

@@ -166,7 +166,8 @@ function instalarDeb() {
     if [ "$RES" -eq "1" ]; then
         printf "  [  OK  ]\n"
     else
-        wget $2 &>$CONSOLE;
+        local NOME="${1}.deb"
+        wget -O $NOME $2 &>$CONSOLE;
         sudo dpkg -i *.deb -f -y &>$CONSOLE;
         sudo apt-get -f install -y &>$CONSOLE;
         checarExistenciaPacoteOuComando $1 1
@@ -252,6 +253,14 @@ function criarListasDePacotes2() {
 function iniciarTlp() {
     echo "[SCRIPT] Iniciando TLP..."
     sudo tlp start &>$CONSOLE;
+}
+
+function criarPrefixoWine32Bits() {
+    if [ ! -f "$HOME/.wine" ] && [[ $LISTA2 != *"wine"* ]]; then
+        echo "[SCRIPT] Criando prefixo padrão de 32bits para o Wine"
+        WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;
+        echo
+    fi
 }
 
 function apt-get_update() {

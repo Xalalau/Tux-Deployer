@@ -34,10 +34,10 @@ function entrada() {
     # PPAS
     elif [ "$2" == "1" ]; then
         adicionarPPA "ppa:atareao/telegram" "telegram"
-        #adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
-        #adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # Não pode ser usado com o ppa:paulo-miguel-dias/mesa!!
+#         adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
+#         adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # Não pode ser usado com o ppa:paulo-miguel-dias/mesa!!
         adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
-        #adicionarPPA "ppa:ubuntu-wine/ppa" "ubuntu-wine"
+#         adicionarPPA "ppa:ubuntu-wine/ppa" "ubuntu-wine"
         adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine sempre atualizado e com gallium-nine ativo
         adicionarPPA "ppa:qbittorrent-team/qbittorrent-stable" "qbittorrent"
         adicionarPPA "ppa:webupd8team/haguichi" "haguichi"
@@ -50,7 +50,7 @@ function entrada() {
         adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
 #         adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
 #         adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
-        adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
+#         adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
         adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     #EULAS
     elif [ "$3" == "1" ]; then
@@ -62,9 +62,10 @@ function entrada() {
     elif [ "$4" == "1" ]; then
         instalarDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
         instalarDeb "hamachi" "https://secure.logmein.com/labs/logmein-hamachi_2.1.0.139-1_amd64.deb" # Pacote com versão fixa, verificar se há updates manualmente.
-        instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão é desbugada na parte de cima do menu.
+#         instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão é desbugada na parte de cima do menu.
         instalarDeb "teamviewer" "http://download.teamviewer.com/download/teamviewer_i386.deb"
         instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
+        instalarDeb "discord-canary" "https://discordapp.com/api/download/canary?platform=linux" #https://github.com/crmarsh/discord-linux-bugs
 #         instalarDeb "spotifywebplayer" "https://github.com/Quacky2200/Spotify-Web-Player-for-Linux/releases/download/0.9.5-1/spotifywebplayerv0.9.5-1-alpha-x64.deb"
     # DEBS POR APT-GET
     elif [ "$5" == "1" ]; then
@@ -76,9 +77,9 @@ function entrada() {
         instalarApt "browser-plugin-freshplayer-pepperflash"
         instalarApt "build-essential"
         instalarApt "cheese"
-        instalarApt "dolphin-emu-master"
+#         instalarApt "dolphin-emu-master"
 #         instalarApt "cifs-utils" # Para o Samba
-        instalarApt "fceux"
+#         instalarApt "fceux"
         instalarApt "filezilla"
         instalarApt "gcc-multilib"
         instalarApt "geany"
@@ -100,8 +101,9 @@ function entrada() {
         instalarApt "libreoffice"
         instalarApt "mesa-utils"
         instalarApt "mono-complete"
-        instalarApt "mupen64plus-qt"
+#         instalarApt "mupen64plus-qt"
 #         instalarApt "nautilus-dropbox"
+        instalarApt "okular"
 #         instalarApt "openssh-server" # Para o XMouse
         instalarApt "oracle-java8-installer"
         instalarApt "oracle-java8-set-default"
@@ -115,7 +117,7 @@ function entrada() {
         instalarApt "simple-scan"
         instalarApt "simplescreenrecorder"
         instalarApt "simplescreenrecorder-lib:i386"
-        instalarApt "synaptic"
+#         instalarApt "synaptic"
         instalarApt "steam"
         instalarApt "telegram"
         instalarApt "tlp"
@@ -123,6 +125,9 @@ function entrada() {
         instalarApt "virtualbox-5.1"
         instalarApt "vlc"
 #         instalarApt "xdotool" # Para o XMouse
+#         instalarApt "xscreensaver"
+#         instalarApt "xscreensaver-gl-extra"
+#         instalarApt "xscreensaver-data-extra"
         instalarApt "winbind"
         instalarApt "wine1.9"
         instalarApt "playonlinux" # Deve vir depois do Wine para não instalar um monte de bosta
