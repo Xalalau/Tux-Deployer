@@ -81,13 +81,13 @@ liberarRepositorioParceirosUbuntu
 
 if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "S" ]; then
     echo "[SCRIPT] Adicionando chaves..."
-    entrada 1 0 0 0 0
+    adicionarChaves
     LIB=1
 fi
 
 if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ]; then 
     echo "[SCRIPT] Adicionando repositórios..."
-    entrada 0 1 0 0 0
+    adicionarPPAs
     LIB=1
 fi
 
@@ -114,7 +114,7 @@ echo
 
 LIB=0
 
-entrada 0 0 1 0 0
+aceitarEulas
 
 if [ $LIB -eq 1 ]; then
     echo
@@ -128,7 +128,7 @@ if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "S" ]; then
     echo "[SCRIPT] Instalando debs:"
     echo
     cd ~/Downloads
-    entrada 0 0 0 1 0
+    instalarDebs
     cd "$DIR_BASE"
     echo
 fi
@@ -139,7 +139,7 @@ fi
 
 echo "[SCRIPT] Instalando programas por apt-get:"
 echo
-entrada 0 0 0 0 1
+instalacoesApt
 echo
 
 # -------------------------------------------------------------
