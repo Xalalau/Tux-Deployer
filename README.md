@@ -2,6 +2,8 @@
 
 *Um instalador de pacotes DEB supimpa! Automatize a sua vida, não perca tempo!*
 
+![Screenshot](http://i.imgur.com/CFKKS26.png)
+
 **As vantagens são:**
 
 - Você configura uma instalação completa de forma objetiva, compacta e explicada! Tudo fica no arquivo "entrada.sh";
@@ -44,7 +46,5 @@ Para rodar o Instaleytor, dê direito de executável ao "INICIAR.sh" e abra-o pe
 Também sugiro que você leia com atenção as perguntas que o script fará antes de sair marcando "Sim" (s) ou "Não" (n).
 
 **!!!ATENÇÃO!!!**
+
 Eu não me responsabilizo por danos inesperados que esse script possa vir a fazer no seu computador! Use por própria conta e risco! Se possível, até dê uma olhada no código fonte antes de utilizá-lo!
-
-
-![Screenshot](http://i.imgur.com/CFKKS26.png)
