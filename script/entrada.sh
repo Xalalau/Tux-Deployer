@@ -14,7 +14,7 @@ function entrada() {
       # adicionarChave2 "LINK_DOWNLOAD_CHAVE" "RÓTULO QUALQUER"
       # EX: adicionarChave2 "https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key" "Insync"
    # Funcionamento PPAS:
-      # adicionarPPA "PPA" "TERMO QUE PODE IDENTIFICÁ-LO EM /etc/apt/sources.list.d/*"
+      # adicionarPPA "PPA" "TERMO QUE PODE IDENTIFICÁ-LO EM /etc/apt/sources.list.d"
       # Ex: adicionarPPA "ppa:webupd8team/y-ppa-manager" "y-ppa-manager"
       # adicionarPPA2 "COMANDO DEB DE ADIÇÃO DE REPOSITÓRIOS" "NOME_DO_ARQUIVO.list" "RÓTULO QUALQUER"
       # Ex: adicionarPPA2 "deb http://linux.dropbox.com/ubuntu/ $CODENOME main" "dropbox.list" "dropbox"
@@ -35,10 +35,10 @@ function entrada() {
     # PPAS
     elif [ "$2" == "1" ]; then
         # -----------
-        # O Padoka e o Oibaf entregam gráficos de ponta mas podem acabar com o sistema. Caso eles tragam problemas e a imagem suma, só será possível removê-los
+        # O Padoka e o Oibaf entregam gráficos de ponta mas podem acabar com o sistema. Caso eles tragam problemas ou a imagem suma, só será possível removê-los
         # pelo terminal se conectando com a internet pelo wpa_supplicant e desinstalando os ppas com o ppa-purge (primeiro o de Wine e depois o principal).
-        # Algo que pode causar bugs complicados é misturá-los. Eles devem ser utulizados separadamente. Caso haja intenção de alterná-los, o que está no sistema
-        # deve ser limpo com ppa-purge antes que o novo seja instalado.
+        # Algo que pode causar bugs complicados é misturá-los. Eles devem ser utilizados separadamente. Caso haja intenção de alterná-los, o que está no sistema
+        # deverá ser limpo com ppa-purge antes de começar a instação do novo.
 #         adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
 #         adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
 #         adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # Wine atualizado com gallium-nine para o Oibaf
@@ -50,7 +50,7 @@ function entrada() {
 #         adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
         # -----------
 #         adicionarPPA "ppa:ubuntu-wine/ppa" "ubuntu-wine" # Wine atualizado versão estável
-        adicionarPPA "ppa:wine/wine-builds" # Wine git
+        adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine git
         adicionarPPA "ppa:atareao/telegram" "telegram"
         adicionarPPA "ppa:qbittorrent-team/qbittorrent-stable" "qbittorrent"
         adicionarPPA "ppa:webupd8team/haguichi" "haguichi"
@@ -73,11 +73,11 @@ function entrada() {
     elif [ "$4" == "1" ]; then
         instalarDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
         instalarDeb "hamachi" "https://secure.logmein.com/labs/logmein-hamachi_2.1.0.139-1_amd64.deb" # Pacote com versão fixa! Verificar se há updates manualmente e atualizar o link de download.
-#         instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão é desbugada na parte de cima do menu.
+#         instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão tem o topmenu desbugado.
         instalarDeb "teamviewer" "http://download.teamviewer.com/download/teamviewer_i386.deb"
         instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
-        instalarDeb "steam" "http://ftp.us.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-1_i386.deb" #Estou instalando esse Steam vindo do Debian porque o que está na loja do Ubuntu possue um bug que estraga sua automatização
-        instalarDeb "discord-canary" "https://discordapp.com/api/download/canary?platform=linux" #https://github.com/crmarsh/discord-linux-bugs
+        instalarDeb "steam" "http://ftp.us.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-1_i386.deb" # O Steam do Debian não tem o bug que estraga a automatização das eulas
+        instalarDeb "discord-canary" "https://discordapp.com/api/download/canary?platform=linux" # https://github.com/crmarsh/discord-linux-bugs
 #         instalarDeb "spotifywebplayer" "https://github.com/Quacky2200/Spotify-Web-Player-for-Linux/releases/download/0.9.5-1/spotifywebplayerv0.9.5-1-alpha-x64.deb"
     # DEBS POR APT-GET
     elif [ "$5" == "1" ]; then
@@ -130,7 +130,6 @@ function entrada() {
         instalarApt "simple-scan"
         instalarApt "simplescreenrecorder"
         instalarApt "simplescreenrecorder-lib:i386"
-#         instalarApt "steam" #Instalar versão por deb para automatizar a instalação (essa versão 1.0.0.48 não vai)
 #         instalarApt "synaptic"
         instalarApt "telegram"
         instalarApt "tlp"
@@ -144,7 +143,7 @@ function entrada() {
         instalarApt "winbind"
         instalarApt "wine-staging" "--install-recommends"
         instalarApt "winehq-staging"
-        instalarApt "playonlinux" # Deve vir depois do Wine para não instalar um monte de bosta
+        instalarApt "playonlinux" # Deve ser instalado depois do Wine para não cagar um Wine 1.6 no sistema
     fi
 }
 
