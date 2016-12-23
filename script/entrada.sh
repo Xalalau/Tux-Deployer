@@ -55,7 +55,6 @@ function aceitarEulas() {
     aceitarEula "steam" "steam/question" "select" "I AGREE"
 }
 
-
 function instalarDebs() {
     instalarDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
     instalarDeb "hamachi" "https://secure.logmein.com/labs/logmein-hamachi_2.1.0.139-1_amd64.deb" # Pacote com versão fixa! Verificar se há updates manualmente e atualizar o link de download.
@@ -142,10 +141,10 @@ function instalacoesApt() {
     # PPAS
 
         # -----------
-        # O Padoka e o Oibaf entregam gráficos de ponta mas podem acabar com o sistema. Caso eles tragam problemas ou a imagem suma, só será possível removê-los
-        # pelo terminal se conectando com a internet pelo wpa_supplicant e desinstalando os ppas com o ppa-purge (primeiro o de Wine e depois o principal).
-        # Algo que pode causar bugs complicados é misturá-los. Eles devem ser utilizados separadamente. Caso haja intenção de alterná-los, o que está no sistema
-        # deverá ser limpo com ppa-purge antes de começar a instação do novo.
+        # O Padoka e o Oibaf entregam gráficos open-source de ponta mas podem acabar com o sistema. Caso eles tragam problemas ou a imagem suma, só será
+        # possível removê-los pelo terminal se conectando com a internet pelo wpa_supplicant e desinstalando os ppas com o ppa-purge (primeiro o de Wine
+        # e depois o principal). Algo que pode causar bugs complicados é misturá-los. Eles devem ser utilizados separadamente. Caso haja intenção de
+        # alterná-los, o que está no sistema deverá ser limpo com ppa-purge antes de começar a instação do novo.
         adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
         adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # Wine atualizado com gallium-nine para o Oibaf
         adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
