@@ -1,8 +1,8 @@
 #!/bin/bash
 #-----------
 # INSTALEYTOR
-#------------------------------------------------------------v1.1---20/09/16
-#-----------------------------------------------------Pacotes de:---29/09/16
+#------------------------------------------------------------v1.2---22/12/16
+#-----------------------------------------------------Pacotes de:---22/12/16
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 # Um script que serve para instalar a droga toda no Ubuntu (versão deb)!!
 # Ele também é capaz de detectar o que já foi feito no sistema e com isso
@@ -12,7 +12,6 @@
 # https://github.com/xalalau/Instalator
 # Por Xalalau Xubilozo
 # __________________________________________________________________________
-
 
 
 # -------------------------------------------------------------
@@ -31,13 +30,13 @@ ADICIONAR_REPOSITORIOS=""
 ADICIONAR_CHAVES=""
 PROCESSAR_DEBS=""
 LIBERAR_PARCEIROS=""
+USAR_DIST_UPGRADE=""
 
 # Terminal secundário
 CONSOLE=""
 
 # Listagem de pacotes instalados
 LISTA=""
-LISTA2=""
 
 # Variável para guardar a quantidade de itens em LISTA
 QUANTPACOTES=0
@@ -67,12 +66,12 @@ source "entrada.sh"
 # -------------------------------------------------------------
 
 clear
+definirOpcoes
+echo
 ativarSudo
 gerarTerminalSecundario
 instalarTtyecho
 echo
-definirOpcoes
-clear
 
 # -------------------------------------------------------------
 # CHAVES E REPOSITÓRIOS
@@ -101,9 +100,12 @@ fi
 # -------------------------------------------------------------
 
 apt-get_update
-apt-get_upgrade
-criarListasDePacotes1 1
-criarListasDePacotes2
+if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "S" ]; then
+    apt-get_dist-upgrade
+else
+    apt-get_upgrade
+fi
+criarListasDePacotes 1
 echo
 
 # -------------------------------------------------------------
@@ -146,7 +148,6 @@ echo
 
 iniciarTlp
 criarPrefixoWine32Bits
-echo
 apt-get_autoremove
 echo
 finalizar

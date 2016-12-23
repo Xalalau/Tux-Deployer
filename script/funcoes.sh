@@ -5,42 +5,135 @@ function ativarSudo {
     sudo clear
 }
 
+function checarPacote() {
+    # Algoritmo de busca binária
+    # https://en.wikipedia.org/wiki/Binary_search_algorithm
+    # $1 = nome do pacote
+    # $2 = limite inicial da busca
+    # $3 = limite final da busca
+    # Retorna: 1 [Achou] / 0 [Não achou]
+    if [ "$3" -lt "$2" ]; then
+        return 0
+    else
+        local var3=$2
+        local var4=$3
+        local imid=$(((var3+var4)/2))
+        if [ "${LISTA[$imid]}" \> "$1" ]; then
+            checarPacote $1 $2 $((imid - 1))
+        elif [ "${LISTA[$imid]}" \< "$1" ]; then
+            checarPacote $1 $((imid + 1)) $3
+        else
+            return 1
+        fi
+    fi
+    return $?
+}
+
+function checarComando() {
+    # $1 comando
+    # Retorna: 1 [Achou] / 0 [Não achou]
+    type $1 >/dev/null 2>&1 && { 
+        return 1
+    } || {
+        return 0
+    }
+}
+
+function checarExistenciaPacoteOuComando() {
+    # $1 = nome do pacote
+    # $2 = [1/0] se vai ou não refazer a variável LISTA
+    # Retorna: 1 [Achou] / 0 [Não achou]
+    checarComando $1
+    if [ "$?" -eq "1" ]; then
+        return 1
+    fi
+    if [ "$2" -eq "1" ]; then
+        criarListasDePacotes 0
+    fi
+    checarPacote $1 0 $QUANTPACOTES
+    if [ "$?" -eq "1" ]; then
+        return 1
+    fi
+    return 0
+}
+
+function criarListasDePacotes() {
+    # $1 = [1/0] se vai ou não imprimir a mensagem da função
+    if [ "$1" -eq "1" ]; then
+        echo "[SCRIPT] Gerando lista de pacotes dinâmica inicial..."
+    fi
+    # Lista dinâmica onde serão procurados pacotes com exatidão
+    LISTA=($(dpkg --get-selections | grep -v deinstall | awk '{print $1}'))
+    # Contagem de resultados da lista 1
+    while [ ${LISTA[$QUANTPACOTES]} ]; do 
+        QUANTPACOTES=$((QUANTPACOTES + 1))
+    done
+}
+
+function apt-get_update() {
+    echo "[SCRIPT] Atualizando banco de dados de pacotes..."
+    sudo apt-get update &>$CONSOLE;
+}
+
+function apt-get_dist-upgrade() {
+    echo "[SCRIPT] Atualizando pacotes (com \"sudo apt dist-upgrade\")..."
+    sudo apt-get dist-upgrade -y &>$CONSOLE;
+}
+
+function apt-get_upgrade() {
+    echo "[SCRIPT] Atualizando pacotes..."
+    sudo apt-get upgrade -y &>$CONSOLE;
+}
+
+function apt-get_autoremove() {
+    echo "[SCRIPT] limpando pacotes inutilizados..."
+    sudo apt-get autoremove -y &>$CONSOLE;
+}
+
 function gerarTerminalSecundario() {
     # Criar terminal extra
-    checarComando "gnome-terminal"
-    local RES=$?
-    if [ "$RES" -eq "0" ]; then
-        sudo apt-get install gnome-terminal
-    fi
-    clear
-    echo "[SCRIPT] Gerando e linkando segundo terminal..."
+    echo "[SCRIPT] Gerando e linkando um terminal secunadário..."
+    cd "../external/"
     if ! [ -f console.txt ]; then
-        gnome-terminal -x sh -c "clear; tty > console.txt; bash"
-        sleep 0.1
+        ./newterm.sh "tty" ">" "console.txt"
+        sleep 1.2
         CONSOLE=$(cat console.txt)
     else
         CONSOLE=$(cat console.txt)
         if ! echo >& $CONSOLE; then
-            gnome-terminal -x sh -c "clear; tty > console.txt; bash"
-            sleep 0.1
+            ./newterm.sh "tty" ">" "console.txt"
+            sleep 1.2
             CONSOLE=$(cat console.txt)
         fi
     fi
+    cd "$DIR_BASE"
     echo "" >& $CONSOLE
 }
 
 function instalarTtyecho() {
     # Compilar e instalar "ttyecho" - programa que executa comandos em outro terminal
     command -v ttyecho >/dev/null 2>&1 || {
-        echo "[SCRIPT] Compilando e ativando ttyecho..."
-        make ttyecho >& $CONSOLE;
-        cd ~
-        sudo mv "$DIR_BASE/ttyecho" "/usr/bin" >& $CONSOLE;
+        echo -n "[SCRIPT] Compilando e ativando ttyecho"
+		checarComando "gcc"
+		if [ "$?" -eq "0" ]; then
+			echo " (Requisito: gcc)..."
+			sudo apt-get install gcc-multilib -y >& $CONSOLE;
+		else
+            echo "..."
+		fi
+		cd "../external/"
+        gcc ttyecho.c -o ttyecho >& $CONSOLE;
+        sudo mv ttyecho "/usr/bin" >& $CONSOLE;
         cd "$DIR_BASE"
     }
 }
 
 function definirOpcoes() {
+    echo "==========="
+    echo "INSTALEYTOR"
+    echo "==========="
+    echo
+
     echo -n "[SCRIPT] Registrar repositórios do script? [S/N] "
     while true; do
         read -r ADICIONAR_REPOSITORIOS
@@ -59,7 +152,7 @@ function definirOpcoes() {
         done
     fi
 
-    echo -n "[SCRIPT] Baixar e instalar os debs do script? [S/N] "
+    echo -n "[SCRIPT] Baixar e instalar os arquivos .deb do script? [S/N] "
     while true; do
         read -r PROCESSAR_DEBS
         if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "n" ] || [ "$PROCESSAR_DEBS" == "S" ] || [ "$PROCESSAR_DEBS" == "N" ]; then
@@ -67,8 +160,8 @@ function definirOpcoes() {
         fi
     done
 
-    if [ ! $(find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src | grep partner) ]; then
-        echo -n "[SCRIPT] Liberar repositório de parceiros do Ubuntu? [S/N] "
+    if [ "$(find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src | grep partner)" == "" ]; then
+        echo -n "[SCRIPT] Liberar o repositório de parceiros do Ubuntu? [S/N] "
         while true; do
             read -r LIBERAR_PARCEIROS
             if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "n" ] || [ "$LIBERAR_PARCEIROS" == "S" ] || [ "$LIBERAR_PARCEIROS" == "N" ]; then
@@ -76,13 +169,21 @@ function definirOpcoes() {
             fi
         done
     fi
+
+    echo -n "[SCRIPT] Atualizar pacotes com apt em \"dist-upgrade\" ao invés de \"upgrade\"? [S/N] "
+    while true; do
+        read -r USAR_DIST_UPGRADE
+        if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "n" ] || [ "$USAR_DIST_UPGRADE" == "S" ] || [ "$USAR_DIST_UPGRADE" == "N" ]; then
+            break
+        fi
+    done
 }
 
 function adicionarPPA() {
     # $1 = ppa
     # $2 = termo usado para checar se esse ppa já existe
     if ! grep -q "$2" /etc/apt/sources.list /etc/apt/sources.list.d/* >/dev/null 2>&1; then # O Grep olha dentro dos arquivos
-        echo "[SCRIPT] $2" &>$CONSOLE;
+        echo "[SCRIPT] Adicionando PPA \"$1\"..." &>$CONSOLE;
         sudo add-apt-repository "$1" -y &>$CONSOLE;
     fi
 }
@@ -124,28 +225,31 @@ function liberarRepositorioParceirosUbuntu() {
 }
 
 function aceitarEula() {
-    # $1 = nome do pacote que será instalado posteriormente
-    # $1 = nome do elemento que requer a aceitação
-    # $2 = arquivo de eula que será marcado
-    # $3 = opção a ser configurada
-    # $4 = valor da opção
-    if [[ $LISTA2 != *"$1"* ]]; then
-        echo "[SCRIPT] Automatizando instalação de $1, item \"$2\"..."
-        echo $2 $3 $4 $5 | sudo debconf-set-selections
+    # $1 = nome do pacote que requer a automatização
+    # $2 = seção de eula que será marcada
+    # $3 = item de seção a ser configurado
+    # $4 = valor do item de seção
+    if [ "$(sudo debconf-show $1 | grep $2)" == "" ]; then
+        echo "[SCRIPT] Automatizando instalação de \"$1\"..."
+        echo $1 $2 $3 $4 | sudo debconf-set-selections
         LIB=1
     fi
 }
 
 function instalarApt() {
     # $1 = pacote a ser instalado via apt-get
-    printf "[SCRIPT] %-40s" $1
+    # $2 = algum parâmetro qualquer
+    local JUNTAR=$1
+    JUNTAR+=" "
+    JUNTAR+=$2
+    printf "[SCRIPT] %-40s" "$JUNTAR"
     checarExistenciaPacoteOuComando $1 0
     local RES=$?
     if [ "$RES" -eq "1" ]; then
         printf "  [  OK  ]\n"
     else
-        echo "[SCRIPT] $1" &>$CONSOLE;
-        sudo apt-get install $1 -y &>$CONSOLE;
+        echo "[SCRIPT] $1 $2" &>$CONSOLE;
+        sudo apt-get install $1 $2 -y &>$CONSOLE;
 		dpkg -s "$1" &>$CONSOLE;
         checarExistenciaPacoteOuComando $1 1
         RES=$?
@@ -180,102 +284,19 @@ function instalarDeb() {
     fi
 }
 
-function checarExistenciaPacoteOuComando() {
-    # $1 = nome do pacote
-    # $2 = [1/0] se vai ou não refazer a variável LISTA
-    # Retorna: 1 [Achou] / 0 [Não achou]
-    checarComando $1
-    if [ "$?" -eq "1" ]; then
-        return 1
-    fi
-    if [ "$2" -eq "1" ]; then
-        criarListasDePacotes1 0
-    fi
-    checarPacote $1 0 $QUANTPACOTES
-    if [ "$?" -eq "1" ]; then
-        return 1
-    fi
-    return 0
-}
-
-function checarPacote() {
-    # Algoritmo de busca binária
-    # https://en.wikipedia.org/wiki/Binary_search_algorithm
-    # $1 = nome do pacote
-    # $2 = limite inicial da busca
-    # $3 = limite final da busca
-    # Retorna: 1 [Achou] / 0 [Não achou]
-    if [ "$3" -lt "$2" ]; then
-        return 0
-    else
-        local var3=$2
-        local var4=$3
-        local imid=$(((var3+var4)/2))
-        if [ "${LISTA[$imid]}" \> "$1" ]; then
-            checarPacote $1 $2 $((imid - 1))
-        elif [ "${LISTA[$imid]}" \< "$1" ]; then
-            checarPacote $1 $((imid + 1)) $3
-        else
-            return 1
-        fi
-    fi
-    return $?
-}
-
-function checarComando() {
-    # $1 comando
-    # Retorna: 1 [Achou] / 0 [Não achou]
-    type $1 >/dev/null 2>&1 && { 
-        return 1
-    } || {
-        return 0
-    }
-}
-
-function criarListasDePacotes1() {
-    # $1 = [1/0] se vai ou não imprimir a mensagem da função
-    if [ "$1" -eq "1" ]; then
-        echo "[SCRIPT] Gerando lista de pacotes dinâmica inicial..."
-    fi
-    # Lista dinâmica onde serão procurados pacotes com exatidão
-    LISTA=($(dpkg --get-selections | grep -v deinstall | awk '{print $1}'))
-    # Contagem de resultados da lista 1
-    while [ ${LISTA[$QUANTPACOTES]} ]; do 
-        QUANTPACOTES=$((QUANTPACOTES + 1))
-    done
-}
-
-function criarListasDePacotes2() {
-    # Lista estática onde serão buscados termos que comprovem a presença de determinados pacotes no sistema
-    LISTA2=$(dpkg --get-selections | grep -v deinstall | awk '{print $1}')
-}
-
 function iniciarTlp() {
-    echo "[SCRIPT] Iniciando TLP..."
-    sudo tlp start &>$CONSOLE;
+    if [ "$(sudo service --status-all | grep tlp)" == "tlp" ]; then
+        echo "[SCRIPT] Iniciando TLP..."
+        sudo tlp start &>$CONSOLE;
+    fi
 }
 
 function criarPrefixoWine32Bits() {
-    if [ ! -f "$HOME/.wine" ] && [[ $LISTA2 != *"wine"* ]]; then
+    if [ ! -d "$HOME/.wine" ]; then
         echo "[SCRIPT] Criando prefixo padrão de 32bits para o Wine"
         WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;
         echo
     fi
-}
-
-function apt-get_update() {
-    echo "[SCRIPT] Atualizando banco de dados de pacotes..."
-    sudo apt-get update &>$CONSOLE;
-}
-
-function apt-get_upgrade() {
-    echo "[SCRIPT] Atualizando pacotes..."
-    sudo apt-get upgrade -y &>$CONSOLE;
-}
-
-function apt-get_autoremove() {
-    echo "[SCRIPT] limpando pacotes inutilizados..."
-    sudo apt-get autoremove -y &>$CONSOLE;
 }
 
 function finalizar() {
@@ -286,8 +307,8 @@ function finalizar() {
 
 function removerTerminalSecundario() {
     echo "[SCRIPT] Removendo terminal secundário..."
-    if [ -f "console.txt" ]; then
-        rm console.txt
+    if [ -f "../external/console.txt" ]; then
+        rm ../external/console.txt
     fi
     sudo ttyecho -n $CONSOLE exit
 }
