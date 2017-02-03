@@ -1,6 +1,6 @@
 # Instaleytor
 
-*Um instalador de pacotes DEB supimpa! Automatize a sua vida, não perca tempo!*
+*Um instalador de **pacotes DEB** supimpa! Automatize a sua vida, não perca tempo!*
 
 ![Screenshot](http://i.imgur.com/CFKKS26.png)
 
@@ -14,17 +14,19 @@
 
 **O script passa pelos seguintes passos, podendo variar diante as escolhas do usuário:**
 
+- Pergunta ao usuário o que ele quer fazer (única parte manual);
 - Divide os outputs em dois terminais (um geral e outro de detalhadamento);
 - Adiciona o repositório de parceiros do Ubuntu;
-- Adiciona chaves de repositórios por diversos modos;
-- Adiciona repositórios por diversos modos;
+- Adiciona chaves de repositórios diversos;
+- Adiciona repositórios diversos;
 - Atualiza a tabela de versões dos pacotes;
 - Atualiza os pacotes do sistema;
 - Automatiza aceitação de Eulas;
 - Baixa e instala arquivos .deb de links da internet;
 - Baixa e instala programas por apt-get;
+- Baixa e extrai arquivos compactados de links da internet;
 - Inicializa o TLP (programa para melhor gerenciamento de energia);
-- Cria no wine um prefixo padrão de 32 bits;
+- Cria um prefixo padrão de 32 bits no Wine;
 - Remove pacotes ultrapassados;
 - Finaliza o processo.
 
@@ -43,8 +45,8 @@
 **Utilização:**
 
 Para rodar o Instaleytor, dê direito de executável ao "INICIAR.sh" e abra-o pelo seu emulador de terminal.
-Também sugiro que você leia com atenção as perguntas que o script fará antes de sair marcando "Sim" (s) ou "Não" (n).
+Também sugiro fortemente que você leia com atenção as perguntas iniciais do script antes de sair marcando "Sim" (s) ou "Não" (n).
 
 **!!!ATENÇÃO!!!**
 
-Eu não me responsabilizo por danos inesperados que esse script possa vir a fazer no seu computador! Use por própria conta e risco! Se possível, até dê uma olhada no código fonte antes de utilizá-lo!
+Eu não me responsabilizo por danos inesperados que o Instaleytor possa vir a fazer no seu computador! Use por própria conta e risco! Se possível, até dê uma olhada no código fonte antes de utilizá-lo!

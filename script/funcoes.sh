@@ -114,14 +114,14 @@ function instalarTtyecho() {
     # Compilar e instalar "ttyecho" - programa que executa comandos em outro terminal
     command -v ttyecho >/dev/null 2>&1 || {
         echo -n "[SCRIPT] Compilando e ativando ttyecho"
-		checarComando "gcc"
-		if [ "$?" -eq "0" ]; then
-			echo " (Requisito: gcc)..."
-			sudo apt-get install gcc-multilib -y >& $CONSOLE;
-		else
+        checarComando "gcc"
+        if [ "$?" -eq "0" ]; then
+            echo " (Requisito: gcc)..."
+            sudo apt-get install gcc-multilib -y >& $CONSOLE;
+        else
             echo "..."
-		fi
-		cd "../external/"
+        fi
+        cd "../external/"
         gcc ttyecho.c -o ttyecho >& $CONSOLE;
         sudo mv ttyecho "/usr/bin" >& $CONSOLE;
         cd "$DIR_BASE"
@@ -129,12 +129,15 @@ function instalarTtyecho() {
 }
 
 function definirOpcoes() {
-    echo "==========="
-    echo "INSTALEYTOR"
-    echo "==========="
+    echo "====================================="
+    echo $NOME "-" $VERSAO
+    echo "====================================="
+    echo $POR", licença:" $LICENCA
+    echo $LINK
+    echo "====================================="
     echo
 
-    echo -n "[SCRIPT] Registrar repositórios do script? [S/N] "
+    echo -n "[SCRIPT] Registrar repositórios? [S/N] "
     while true; do
         read -r ADICIONAR_REPOSITORIOS
         if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "n" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ] || [ "$ADICIONAR_REPOSITORIOS" == "N" ]; then
@@ -143,7 +146,7 @@ function definirOpcoes() {
     done
 
     if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ]; then 
-        echo -n "[SCRIPT] Registrar chaves dos repositórios do script? [S/N] "
+        echo -n "[SCRIPT] Registrar chaves dos repositórios? [S/N] "
         while true; do
             read -r ADICIONAR_CHAVES
             if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "n" ] || [ "$ADICIONAR_CHAVES" == "S" ] || [ "$ADICIONAR_CHAVES" == "N" ]; then
@@ -152,10 +155,26 @@ function definirOpcoes() {
         done
     fi
 
-    echo -n "[SCRIPT] Baixar e instalar os arquivos .deb do script? [S/N] "
+    echo -n "[SCRIPT] Baixar e instalar os arquivos .deb? [S/N] "
     while true; do
         read -r PROCESSAR_DEBS
         if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "n" ] || [ "$PROCESSAR_DEBS" == "S" ] || [ "$PROCESSAR_DEBS" == "N" ]; then
+            break
+        fi
+    done
+
+    echo -n "[SCRIPT] Baixar e instalar os programas por apt? [S/N] "
+    while true; do
+        read -r PROCESSAR_APT
+        if [ "$PROCESSAR_APT" == "s" ] || [ "$PROCESSAR_APT" == "n" ] || [ "$PROCESSAR_APT" == "S" ] || [ "$PROCESSAR_APT" == "N" ]; then
+            break
+        fi
+    done
+
+    echo -n "[SCRIPT] Baixar e extrair em pastas os programas compactados? [S/N] "
+    while true; do
+        read -r PROCESSAR_COMPACTADOS
+        if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "n" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ] || [ "$PROCESSAR_COMPACTADOS" == "N" ]; then
             break
         fi
     done
@@ -193,7 +212,7 @@ function adicionarPPA2() {
     # $2 = arquivo onde ficará o ppa
     # $3 = termo para impressão
     if [ ! -f "/etc/apt/sources.list.d/$2" ]; then
-        echo "[SCRIPT] Adicionando ppa do $3..." &>$CONSOLE;
+        echo "[SCRIPT] Adicionando PPA do $3..." &>$CONSOLE;
         echo "$1" >> "$2"
         sudo mv "$2" "/etc/apt/sources.list.d/"
     fi
@@ -250,7 +269,7 @@ function instalarApt() {
     else
         echo "[SCRIPT] $1 $2" &>$CONSOLE;
         sudo apt-get install $1 $2 -y &>$CONSOLE;
-		dpkg -s "$1" &>$CONSOLE;
+        dpkg -s "$1" &>$CONSOLE;
         checarExistenciaPacoteOuComando $1 1
         RES=$?
         if [ "$RES" -eq "0" ]; then
@@ -284,10 +303,52 @@ function instalarDeb() {
     fi
 }
 
+function baixarEExtrair() {
+    # $1 = nome da pasta onde iremos extrair o pacote
+    # $1 = extensão do pacote (zip, rar ou tar.gz)
+    # $2 = link de download
+    printf "[SCRIPT] %-40s" "$1"
+    check=~/$1
+    if test -d "$check"
+    then
+        printf "  [  OK  ]\n"
+    else
+        cd ~/
+        mkdir "$1" &>$CONSOLE;
+        cd "$1"
+        wget $3 -O "$1.$2" &>$CONSOLE;
+        if [ "$2" == "zip" ]; then
+            unzip ./*.zip &>$CONSOLE;
+            rm ./*.zip &>$CONSOLE;
+        elif [ "$2" == "rar" ]; then
+            unrar ./*.rar &>$CONSOLE;
+            rm ./*.rar &>$CONSOLE;
+        elif [ "$2" == "tar.gz" ]; then
+            tar -zxvf ./*.tar.gz &>$CONSOLE;
+            rm ./*.tar.gz &>$CONSOLE;
+        fi
+        quant=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l)
+        if [ $quant -eq 0 ]; then
+            printf "  [ NOPE ]\n"
+            cd ~/
+            rm -r "$1"
+            return
+        elif [ $quant -eq 1 ]; then
+            dir=$(find . -mindepth 1 -maxdepth 1 -type d)
+            mv $dir/* ./ &>$CONSOLE;
+            rm -r $dir &>$CONSOLE;
+        fi
+        cd "$DIR_BASE"
+        printf "⟳ [  OK  ]\n"
+    fi
+}
+
 function iniciarTlp() {
-    if [ "$(sudo service --status-all | grep tlp)" == "tlp" ]; then
+    string=$(sudo service tlp status)
+    if [[ $string != *"active (exited)"* ]]; then
         echo "[SCRIPT] Iniciando TLP..."
         sudo tlp start &>$CONSOLE;
+        sudo service tlp start &>$CONSOLE;
     fi
 }
 
@@ -299,12 +360,6 @@ function criarPrefixoWine32Bits() {
     fi
 }
 
-function finalizar() {
-    read -p "[SCRIPT] Tudo pronto! Aperte \"Enter\" para finalizar (Isso removerá o terminal secundário)."
-    echo
-    removerTerminalSecundario
-}
-
 function removerTerminalSecundario() {
     echo "[SCRIPT] Removendo terminal secundário..."
     if [ -f "../external/console.txt" ]; then
@@ -312,3 +367,10 @@ function removerTerminalSecundario() {
     fi
     sudo ttyecho -n $CONSOLE exit
 }
+
+function finalizar() {
+    read -p "[SCRIPT] Tudo pronto! Aperte \"Enter\" para finalizar (Isso removerá o terminal secundário)."
+    echo
+    removerTerminalSecundario
+}
+

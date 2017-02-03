@@ -1,16 +1,16 @@
 #!/bin/bash
 #-----------
-# INSTALEYTOR
-#------------------------------------------------------------v1.2---23/12/16
-#-----------------------------------------------------Pacotes de:---23/12/16
+NOME="INSTALEYTOR"
+#------------------------------------------------------------
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 # Um script que serve para instalar a droga toda no Ubuntu (versão deb)!!
 # Ele também é capaz de detectar o que já foi feito no sistema e com isso
 # evita problemas e perda de tempo.
 #
-# Licença: MIT
-# https://github.com/xalalau/Instalator
-# Por Xalalau Xubilozo
+LICENCA="MIT"
+LINK="https://github.com/xalalau/Instalator"
+POR="Por Xalalau Xubilozo"
+VERSAO="v1.3 (03/02/17)"
 # __________________________________________________________________________
 
 
@@ -23,12 +23,13 @@ DIR_BASE="$(cd "${0%/*}" && echo $PWD)"
 
 # Codinome e versão do sistema
 CODENOME="$(lsb_release -c | awk '{print $2}')"
-VERSAO="$(lsb_release -r | awk '{print $2}')"
 
 # Opções a serem preenchidas pelo usuário
-ADICIONAR_REPOSITORIOS=""
 ADICIONAR_CHAVES=""
+ADICIONAR_REPOSITORIOS=""
 PROCESSAR_DEBS=""
+PROCESSAR_APT=""
+PROCESSAR_COMPACTADOS=""
 LIBERAR_PARCEIROS=""
 USAR_DIST_UPGRADE=""
 
@@ -137,10 +138,23 @@ fi
 # INSTALAÇÕES VIA APT-GET
 # -------------------------------------------------------------
 
-echo "[SCRIPT] Instalando programas por apt-get:"
-echo
-instalacoesApt
-echo
+if [ "$PROCESSAR_APT" == "s" ] || [ "$PROCESSAR_APT" == "S" ]; then 
+    echo "[SCRIPT] Instalando programas por apt-get:"
+    echo
+    instalacoesApt
+    echo
+fi
+
+# -------------------------------------------------------------
+# INSTALAÇÕES DE PROGRAMAS COMPACTADOS
+# -------------------------------------------------------------
+
+if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ]; then 
+    echo "[SCRIPT] Baixando e extraindo programas compactados:"
+    echo
+    instalarCompactado
+    echo
+fi
 
 # -------------------------------------------------------------
 # AJUSTES FINAIS
