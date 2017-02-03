@@ -1,6 +1,6 @@
 # Instaleytor
 
-*Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!*
+Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 
 ![Screenshot 1](http://i.imgur.com/0iWDOZV.png)
 
