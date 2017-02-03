@@ -2,7 +2,9 @@
 
 *Um instalador de **pacotes DEB** supimpa! Automatize a sua vida, não perca tempo!*
 
-![Screenshot](http://i.imgur.com/CFKKS26.png)
+![Screenshot 1](http://i.imgur.com/0iWDOZV.png)
+
+![Screenshot 2](http://i.imgur.com/hTmsWPG.png)
 
 **As vantagens são:**
 
