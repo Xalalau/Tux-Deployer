@@ -2,9 +2,11 @@
 
 Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 
-![Screenshot 1](http://i.imgur.com/0iWDOZV.png)
+![Screenshot 1](http://i.imgur.com/Hkx9Nso.png)
 
-![Screenshot 2](http://i.imgur.com/hTmsWPG.png)
+![Screenshot 2](http://i.imgur.com/o4L8rez.png)
+
+![Screenshot 3](http://i.imgur.com/hTmsWPG.png)
 
 **As vantagens são:**
 
@@ -48,9 +50,9 @@ Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 
 Para rodar o Instaleytor, clone o repositório, dê direito de executável ao "INICIAR.sh" e abra-o pelo seu emulador de terminal.
 
-```sh
+```shell
 git clone https://github.com/xalalau/Instaleytor.git
-cd Instaleytor/script/
+cd ~/Instaleytor/script/
 sudo chmod +x INICIAR.sh
 ./INICIAR.sh
 ```
