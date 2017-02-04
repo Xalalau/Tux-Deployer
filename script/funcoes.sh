@@ -1,5 +1,144 @@
 # !/bin/bash
 
+function printarCabecalho() {
+    echo "====================================="
+    echo $NOME "-" $VERSAO
+    echo "====================================="
+    echo $POR", licença:" $LICENCA
+    echo $LINK
+    echo "====================================="
+    echo
+}
+
+function definirOpcoes() {
+    printarCabecalho
+    
+    echo "[SCRIPT] Deseja fazer a instalação completa? [S/N] "
+    echo 
+    echo "Passos:"
+    echo "- Liberar repositório de parceiros da Canonical;"
+    echo "- Adicionar chaves de repositórios;"
+    echo "- Adicionar repositórios;"
+    echo "- Atualizar sistema com \"apt update\" e \"apt upgrade\";"
+    echo "- Aceitar EULAS;"
+    echo "- Baixar e instalar arquivos .deb;"
+    echo "- Instalar programas via \"apt install\";"
+    echo "- Baixar e extrair programas compactados;"
+    echo "- Criar um prefixo 32 bits no Wine (caso necessário)."
+    echo ""
+    echo "Selecionar \"N\" (Não) implicará na escolha dos passos."
+    echo
+    echo -n "Escolha: "
+    while true; do
+        read -r INSTALACAO_PADRAO
+        if [ "$INSTALACAO_PADRAO" == "s" ] || [ "$INSTALACAO_PADRAO" == "n" ] || [ "$INSTALACAO_PADRAO" == "S" ] || [ "$INSTALACAO_PADRAO" == "N" ]; then
+            break
+        fi
+    done
+
+    clear
+
+    if [ "$INSTALACAO_PADRAO" == "s" ] || [ "$INSTALACAO_PADRAO" == "S" ]; then
+        ADICIONAR_REPOSITORIOS="s"
+        ADICIONAR_CHAVES="s"
+        PROCESSAR_DEBS="s"
+        PROCESSAR_APT="s"
+        PROCESSAR_COMPACTADOS="s"
+        LIBERAR_PARCEIROS="s"
+        USAR_DIST_UPGRADE="n"
+        ACEITAR_EULAS="s"
+        ATUALIZAR_PACOTES="s"
+    else
+        printarCabecalho
+    
+        echo -n "[SCRIPT] Registrar repositórios? [S/N] "
+        while true; do
+            read -r ADICIONAR_REPOSITORIOS
+            if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "n" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ] || [ "$ADICIONAR_REPOSITORIOS" == "N" ]; then
+                break
+            fi
+        done
+
+        if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ]; then 
+            echo -n "[SCRIPT] Registrar chaves dos repositórios? [S/N] "
+            while true; do
+                read -r ADICIONAR_CHAVES
+                if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "n" ] || [ "$ADICIONAR_CHAVES" == "S" ] || [ "$ADICIONAR_CHAVES" == "N" ]; then
+                    break
+                fi
+            done
+        fi
+
+        echo -n "[SCRIPT] Baixar e instalar os arquivos .deb? [S/N] "
+        while true; do
+            read -r PROCESSAR_DEBS
+            if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "n" ] || [ "$PROCESSAR_DEBS" == "S" ] || [ "$PROCESSAR_DEBS" == "N" ]; then
+                break
+            fi
+        done
+
+        echo -n "[SCRIPT] Baixar e instalar os programas por apt? [S/N] "
+        while true; do
+            read -r PROCESSAR_APT
+            if [ "$PROCESSAR_APT" == "s" ] || [ "$PROCESSAR_APT" == "n" ] || [ "$PROCESSAR_APT" == "S" ] || [ "$PROCESSAR_APT" == "N" ]; then
+                break
+            fi
+        done
+
+        echo -n "[SCRIPT] Baixar e extrair em pastas os programas compactados? [S/N] "
+        while true; do
+            read -r PROCESSAR_COMPACTADOS
+            if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "n" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ] || [ "$PROCESSAR_COMPACTADOS" == "N" ]; then
+                break
+            fi
+        done
+
+        echo -n "[SCRIPT] Aceitar EULAS das instalações? [S/N] "
+        while true; do
+            read -r ACEITAR_EULAS
+            if [ "$ACEITAR_EULAS" == "s" ] || [ "$ACEITAR_EULAS" == "n" ] || [ "$ACEITAR_EULAS" == "S" ] || [ "$ACEITAR_EULAS" == "N" ]; then
+                break
+            fi
+        done
+
+        if [ "$(find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src | grep partner)" == "" ]; then
+            echo -n "[SCRIPT] Liberar o repositório de parceiros do Ubuntu? [S/N] "
+            while true; do
+                read -r LIBERAR_PARCEIROS
+                if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "n" ] || [ "$LIBERAR_PARCEIROS" == "S" ] || [ "$LIBERAR_PARCEIROS" == "N" ]; then
+                    break
+                fi
+            done
+        fi
+
+        echo -n "[SCRIPT] Atualizar a listagem de pacotes com \"apt update\"? [S/N] "
+        while true; do
+            read -r ATUALIZAR_PACOTES
+            if [ "$ATUALIZAR_PACOTES" == "s" ] || [ "$ATUALIZAR_PACOTES" == "n" ] || [ "$ATUALIZAR_PACOTES" == "S" ] || [ "$ATUALIZAR_PACOTES" == "N" ]; then
+                break
+            fi
+        done
+
+        if [ "$ATUALIZAR_PACOTES" == "s" ] || [ "$ATUALIZAR_PACOTES" == "S" ]; then
+            echo -n "[SCRIPT] Atualizar pacotes com \"apt dist-upgrade\" ao invés de \"apt upgrade\"? [S/N] "
+            while true; do
+                read -r USAR_DIST_UPGRADE
+                if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "n" ] || [ "$USAR_DIST_UPGRADE" == "S" ] || [ "$USAR_DIST_UPGRADE" == "N" ]; then
+                    break
+                fi
+            done
+        fi
+
+        echo -n "[SCRIPT] Criar um prefixo 32 bits para o Wine (caso seja necessário)? [S/N] "
+        while true; do
+            read -r PREFIXO_WINE32
+            if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "n" ] || [ "$PREFIXO_WINE32" == "S" ] || [ "$PREFIXO_WINE32" == "N" ]; then
+                break
+            fi
+        done
+    fi
+}
+
 function ativarSudo {
     # Ativar o sudo
     sudo clear
@@ -92,7 +231,7 @@ function apt-get_autoremove() {
 
 function gerarTerminalSecundario() {
     # Criar terminal extra
-    echo "[SCRIPT] Gerando e linkando um terminal secunadário..."
+    echo "[SCRIPT] Gerando e linkando um terminal secundário..."
     cd "../external/"
     if ! [ -f console.txt ]; then
         ./newterm.sh "tty" ">" "console.txt"
@@ -126,76 +265,6 @@ function instalarTtyecho() {
         sudo mv ttyecho "/usr/bin" >& $CONSOLE;
         cd "$DIR_BASE"
     }
-}
-
-function definirOpcoes() {
-    echo "====================================="
-    echo $NOME "-" $VERSAO
-    echo "====================================="
-    echo $POR", licença:" $LICENCA
-    echo $LINK
-    echo "====================================="
-    echo
-
-    echo -n "[SCRIPT] Registrar repositórios? [S/N] "
-    while true; do
-        read -r ADICIONAR_REPOSITORIOS
-        if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "n" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ] || [ "$ADICIONAR_REPOSITORIOS" == "N" ]; then
-            break
-        fi
-    done
-
-    if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ]; then 
-        echo -n "[SCRIPT] Registrar chaves dos repositórios? [S/N] "
-        while true; do
-            read -r ADICIONAR_CHAVES
-            if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "n" ] || [ "$ADICIONAR_CHAVES" == "S" ] || [ "$ADICIONAR_CHAVES" == "N" ]; then
-                break
-            fi
-        done
-    fi
-
-    echo -n "[SCRIPT] Baixar e instalar os arquivos .deb? [S/N] "
-    while true; do
-        read -r PROCESSAR_DEBS
-        if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "n" ] || [ "$PROCESSAR_DEBS" == "S" ] || [ "$PROCESSAR_DEBS" == "N" ]; then
-            break
-        fi
-    done
-
-    echo -n "[SCRIPT] Baixar e instalar os programas por apt? [S/N] "
-    while true; do
-        read -r PROCESSAR_APT
-        if [ "$PROCESSAR_APT" == "s" ] || [ "$PROCESSAR_APT" == "n" ] || [ "$PROCESSAR_APT" == "S" ] || [ "$PROCESSAR_APT" == "N" ]; then
-            break
-        fi
-    done
-
-    echo -n "[SCRIPT] Baixar e extrair em pastas os programas compactados? [S/N] "
-    while true; do
-        read -r PROCESSAR_COMPACTADOS
-        if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "n" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ] || [ "$PROCESSAR_COMPACTADOS" == "N" ]; then
-            break
-        fi
-    done
-
-    if [ "$(find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src | grep partner)" == "" ]; then
-        echo -n "[SCRIPT] Liberar o repositório de parceiros do Ubuntu? [S/N] "
-        while true; do
-            read -r LIBERAR_PARCEIROS
-            if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "n" ] || [ "$LIBERAR_PARCEIROS" == "S" ] || [ "$LIBERAR_PARCEIROS" == "N" ]; then
-                break
-            fi
-        done
-    fi
-
-    echo -n "[SCRIPT] Atualizar pacotes com apt em \"dist-upgrade\" ao invés de \"upgrade\"? [S/N] "
-    while true; do
-        read -r USAR_DIST_UPGRADE
-        if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "n" ] || [ "$USAR_DIST_UPGRADE" == "S" ] || [ "$USAR_DIST_UPGRADE" == "N" ]; then
-            break
-        fi
-    done
 }
 
 function adicionarPPA() {
@@ -235,12 +304,9 @@ function adicionarChave2() {
     wget -qO - $1 | sudo apt-key add - &>$CONSOLE;
 }
 
-function liberarRepositorioParceirosUbuntu() {
-    if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "S" ]; then 
-        echo "[SCRIPT] Ativando repositório de parceiros do Ubuntu..."
-        sudo sed -i "/^# deb .*partner/ s/^# //" /etc/apt/sources.list &>$CONSOLE;
-        LIB=1
-    fi
+function liberarRepositorioParceirosCanonical() {
+    echo "[SCRIPT] Ativando repositório de parceiros da Canonical..."
+    sudo sed -i "/^# deb .*partner/ s/^# //" /etc/apt/sources.list &>$CONSOLE;
 }
 
 function aceitarEula() {
@@ -344,19 +410,26 @@ function baixarEExtrair() {
 }
 
 function iniciarTlp() {
-    string=$(sudo service tlp status)
-    if [[ $string != *"active (exited)"* ]]; then
-        echo "[SCRIPT] Iniciando TLP..."
-        sudo tlp start &>$CONSOLE;
-        sudo service tlp start &>$CONSOLE;
+    checarExistenciaPacoteOuComando "tlp" 0
+    RES=$?
+    if [ "$RES" -ne "0" ]; then
+        if [[ $(sudo service tlp status) != *"active (exited)"* ]]; then
+            echo "[SCRIPT] Iniciando TLP..."
+            sudo tlp start &>$CONSOLE;
+            sudo service tlp start &>$CONSOLE;
+        fi
     fi
 }
 
 function criarPrefixoWine32Bits() {
-    if [ ! -d "$HOME/.wine" ]; then
-        echo "[SCRIPT] Criando prefixo padrão de 32bits para o Wine"
-        WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;
-        echo
+    checarExistenciaPacoteOuComando "wine" 0
+    RES=$?
+    if [ "$RES" -ne "0" ]; then
+        if [ ! -d "$HOME/.wine" ]; then
+            echo "[SCRIPT] Criando prefixo padrão de 32bits para o Wine"
+            WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;
+            echo
+        fi
     fi
 }
 

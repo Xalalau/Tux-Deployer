@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.3 (03/02/17)"
+VERSAO="v1.4 (03/02/17)"
 # __________________________________________________________________________
 
 
@@ -21,17 +21,21 @@ VERSAO="v1.3 (03/02/17)"
 # Pasta atual
 DIR_BASE="$(cd "${0%/*}" && echo $PWD)"
 
-# Codinome e versão do sistema
+# Codinome do sistema
 CODENOME="$(lsb_release -c | awk '{print $2}')"
 
 # Opções a serem preenchidas pelo usuário
+INSTALACAO_PADRAO=""
 ADICIONAR_CHAVES=""
 ADICIONAR_REPOSITORIOS=""
 PROCESSAR_DEBS=""
 PROCESSAR_APT=""
 PROCESSAR_COMPACTADOS=""
 LIBERAR_PARCEIROS=""
+ATUALIZAR_PACOTES=""
 USAR_DIST_UPGRADE=""
+ACEITAR_EULAS=""
+PREFIXO_WINE32=""
 
 # Terminal secundário
 CONSOLE=""
@@ -78,7 +82,10 @@ echo
 # CHAVES E REPOSITÓRIOS
 # -------------------------------------------------------------
 
-liberarRepositorioParceirosUbuntu
+if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "S" ]; then 
+    liberarRepositorioParceirosCanonical
+    LIB=1
+fi
 
 if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "S" ]; then
     echo "[SCRIPT] Adicionando chaves..."
@@ -100,13 +107,17 @@ fi
 # PREPARAÇÕES COM OS PACOTES DO SISTEMA
 # -------------------------------------------------------------
 
-apt-get_update
-if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "S" ]; then
-    apt-get_dist-upgrade
-else
-    apt-get_upgrade
+if [ "$ATUALIZAR_PACOTES" == "s" ] || [ "$ATUALIZAR_PACOTES" == "S" ]; then
+    apt-get_update
+    if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "S" ]; then
+        apt-get_dist-upgrade
+    else
+        apt-get_upgrade
+    fi
 fi
+
 criarListasDePacotes 1
+
 echo
 
 # -------------------------------------------------------------
@@ -115,10 +126,13 @@ echo
 
 LIB=0
 
-aceitarEulas
+if [ "$ACEITAR_EULAS" == "s" ] || [ "$ACEITAR_EULAS" == "S" ]; then 
+    aceitarEulas
+    # LIB pode ser alterado para 1 dentro dessa chamada
 
-if [ $LIB -eq 1 ]; then
-    echo
+    if [ $LIB -eq 1 ]; then
+        echo
+    fi
 fi
 
 # -------------------------------------------------------------
@@ -160,8 +174,10 @@ fi
 # AJUSTES FINAIS
 # -------------------------------------------------------------
 
-iniciarTlp
-criarPrefixoWine32Bits
+iniciarTlp # Só roda se o TLP estiver instalado
+if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "S" ]; then 
+    criarPrefixoWine32Bits
+fi
 apt-get_autoremove
 echo
 finalizar

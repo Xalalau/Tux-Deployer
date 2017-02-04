@@ -32,7 +32,7 @@
 
 
 # --------------------
-# Pacotes de: 02/02/17
+# Pacotes de: 03/02/17
 # --------------------
 
 
@@ -55,8 +55,7 @@ function adicionarPPAs() {
     adicionarPPA "ppa:linrunner/tlp" "tlp"
     adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
-    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
-    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
+    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine git
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
 }
@@ -142,6 +141,7 @@ function instalacoesApt() {
     instalarApt "vlc"
     instalarApt "winbind"
     instalarApt "wine2.0"
+    instalarApt "winetricks"
     instalarApt "playonlinux" # Deve ser instalado depois do Wine para não cagar um Wine 1.6 no sistema
     instalarApt "xdotool" # Para o XMouse
 }
@@ -166,14 +166,15 @@ function instalarCompactado() {
     xx
 
 # PPAS
+    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
+    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
     adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
-    # ----------- # Gnome atualizado para o Ubuntu.
+    # ----------- # Gnome atualizado para o Ubuntu Gnome.
     adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
     adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
     # -----------
     adicionarPPA "ppa:ubuntu-wine/ppa" "ubuntu-wine" # Wine atualizado versão estável. Não usar junto com o Wine do gallium-nine.
-    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine git
     adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
 
 #EULAS
