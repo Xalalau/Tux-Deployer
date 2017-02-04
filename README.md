@@ -10,11 +10,11 @@ Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 
 **As vantagens são:**
 
-- Você configura uma instalação completa de forma objetiva, compacta e explicada! Tudo fica no arquivo "entrada.sh";
-- As instalações realmente vão do começo ao final sozinhas! Você só executa o "INICIO.sh" e fica presente nesse começo para efetuar algumas escolhas;
-- Caso você seja desconfiado, não se preocupe! Acompanhe o processo detalhadamente. Todos os outputs são claros graças a divisão em dois terminais;
-- Rode o script várias vezes! As checagens feitas nele permitem que você o reexecute diversas vezes sem repetição de passos, perda de tempo ou danos;
-- Velocidade! Todos as funções foram feitas vizando eficiência, portanto a execução do script em si é bem rápida.
+[x] Você configura uma instalação completa de forma objetiva, compacta e explicada! Tudo fica no arquivo "entrada.sh";
+[x] As instalações realmente vão do começo ao final sozinhas! Você só executa o "INICIO.sh" e fica presente nesse começo para efetuar algumas escolhas;
+[x] Caso você seja desconfiado, não se preocupe! Acompanhe o processo detalhadamente. Todos os outputs são claros graças a divisão em dois terminais;
+[x] Rode o script várias vezes! As checagens feitas nele permitem que você o reexecute diversas vezes sem repetição de passos, perda de tempo ou danos;
+[x] Velocidade! Todos as funções foram feitas vizando eficiência, portanto a execução do script em si é bem rápida.
 
 **O script executa os seguintes passos:**
 
