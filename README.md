@@ -48,12 +48,20 @@ Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 
 **Utilização:**
 
-Para rodar o Instaleytor, clone o repositório, dê direito de executável ao "INICIAR.sh" e abra-o pelo seu emulador de terminal.
+Para executar o Instaleytor:
+
+1) clone esse repositório;
+2) dê direito de executável ao "INICIAR.sh";
+3) edite o "entrada.sh" como quiser;
+4) rode o "INICIAR.sh".
+
+Assim:
 
 ```shell
 git clone https://github.com/xalalau/Instaleytor.git
 cd ~/Instaleytor/script/
 sudo chmod +x INICIAR.sh
+gedit entrada.sh
 ./INICIAR.sh
 ```
 
