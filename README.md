@@ -50,10 +50,10 @@ Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 
 Para executar o Instaleytor:
 
-- clone esse repositório;
-- dê direito de executável ao "INICIAR.sh";
-- edite o "entrada.sh" como quiser;
-- rode o "INICIAR.sh".
+1. clone esse repositório;
+2. dê direito de executável ao "INICIAR.sh";
+3. edite o "entrada.sh" como quiser;
+4. rode o "INICIAR.sh".
 
 Assim:
 
