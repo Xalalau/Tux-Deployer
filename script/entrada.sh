@@ -32,7 +32,7 @@
 
 
 # --------------------
-# Pacotes de: 03/02/17
+# Pacotes de: 10/02/17
 # --------------------
 
 
@@ -97,7 +97,6 @@ function instalacoesApt() {
     instalarApt "geany"
     instalarApt "geogebra"
     instalarApt "hostapd"
-    instalarApt "furiusisomount"
     instalarApt "gimp"
     instalarApt "git"
     instalarApt "git-cola"
@@ -107,6 +106,7 @@ function instalacoesApt() {
     instalarApt "haguichi"
     instalarApt "hardinfo"
     instalarApt "hplip-gui"
+    instalarApt "indicator-kdeconnect"
     instalarApt "jstest-gtk"
     instalarApt "k3b"
     instalarApt "kde-runtime" # Ícones para o Kdenlive 
@@ -136,6 +136,7 @@ function instalacoesApt() {
     instalarApt "telegram"
     instalarApt "tlp"
     instalarApt "tlp-rdw"
+    instalarApt "unity-tweak-tool"
     instalarApt "unrar"
     instalarApt "virtualbox-5.1"
     instalarApt "vlc"
@@ -192,6 +193,7 @@ function instalarCompactado() {
     instalarApt "dolphin-emu-master" #Emulador
     instalarApt "dolphin-plugins" #Para o gerenciador de arquivos dolphin
     instalarApt "fceux"
+    instalarApt "furiusisomount"
     instalarApt "kdesudo"
     instalarApt "mupen64plus-qt"
     instalarApt "xscreensaver"
