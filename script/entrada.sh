@@ -28,15 +28,15 @@
    # NOTA: "TERMO DE BUSCA" é opcional. Deve ser usado para encontrar a instalação de pacotes que não
    #       estão sendo detectados normalmente.
 
-# PROGRAMAS COMPACTADOS (EX: ZIP, RAR, TAR.GZ):
-   # baixarEExtrair "NOME DA PASTA DESTINO" "EXTENSÃO" "LINK DE DOWNLOAD"
-   # Ex: baixarEExtrair "Create AP" "zip" "https://codeload.github.com/oblique/create_ap/zip/master"
+# PROGRAMAS AVULSOS (EX: ZIP, RAR, TAR.GZ... APPIMAGE):
+   # baixarEExtrair "PASTA DESTINO" "EXTENSÃO" "LINK DE DOWNLOAD"
+   # Ex: baixarEExtrair "~/Create AP" "zip" "https://codeload.github.com/oblique/create_ap/zip/master"
 
 
 
 
 # --------------------
-# Pacotes de: 23/09/17
+# Pacotes de: 24/09/17
 # --------------------
 
 
@@ -44,6 +44,7 @@ function adicionarChaves() {
     adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome" "Google Inc."
     adicionarChave2 "https://www.virtualbox.org/download/oracle_vbox_2016.asc" "VirtualBox" "VirtualBox"
     adicionarChave "hkp://pgp.mit.edu:80" "379CE192D401AB61" "Etcher" "Bintray (by JFrog)"
+    adicionarChave "keyserver.ubuntu.com" "ACCAF35C" "Insync" "Insynchq"
 }
 
 function adicionarPPAs() {
@@ -58,11 +59,14 @@ function adicionarPPAs() {
     adicionarPPA "ppa:linrunner/tlp" "tlp"
     adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
-    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
+    adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
+    adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
     adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
+    adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
+    adicionarPPA "ppa:numix/ppa" "numix"
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
-    adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
+    adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint (mint está ruim)
 }
 
 function aceitarEulas() {
@@ -78,11 +82,14 @@ function instalarDebs() {
     instalarDeb "hamachi" "https://www.vpn.net/installers/logmein-hamachi_2.1.0.174-1_amd64.deb" # Verificar por updates
     instalarDeb "teamviewer" "http://download.teamviewer.com/download/teamviewer_i386.deb"
     instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
-    instalarDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-2_i386.deb" # O Steam do Debian não tem o bug que estraga a automatização das eulas
-    instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.1/discord-0.0.1.deb"
-    instalarDeb "insync" "https://d2t3ff60b2tol4.cloudfront.net/builds/insync_1.3.14.36131-trusty_amd64.deb" # Verificar por updates
-    instalarDeb "stremio" "http://dl.strem.io/stremio_3.6.5_amd64.deb"
-    instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.10/PlayOnLinux_4.2.10.deb"
+    instalarDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-2_i386.deb" # Esse consegue automatizar as EULAs
+    instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.2/discord-0.0.2.deb" # Verificar por updates
+    instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.12/PlayOnLinux_4.2.12.deb" # Verificar por updates
+}
+
+function requisitosTtyecho() { 
+    instalarApt "g++-multilib"
+    instalarApt "libc6-dev" "" "PATTERN"
 }
 
 function instalacoesApt() {
@@ -97,6 +104,7 @@ function instalacoesApt() {
     instalarApt "cifs-utils" # Para o Samba
     instalarApt "cheese"
     instalarApt "dropbox"
+    instalarApt "elementary-icon-theme"
     instalarApt "etcher-electron" "--allow-unauthenticated"
     instalarApt "filezilla"
     instalarApt "gcc-multilib"
@@ -113,6 +121,7 @@ function instalacoesApt() {
     instalarApt "hardinfo"
     instalarApt "hplip-gui"
     instalarApt "indicator-kdeconnect"
+    instalarApt "insync"
     instalarApt "jstest-gtk"
     instalarApt "k3b"
     instalarApt "kde-runtime" # Ícones para o Kdenlive 
@@ -122,6 +131,8 @@ function instalacoesApt() {
     instalarApt "libreoffice"
     instalarApt "mesa-utils"
     instalarApt "mono-complete"
+    instalarApt "numix-gtk-theme"
+    instalarApt "numix-icon-theme-circle"
     instalarApt "neofetch"
     instalarApt "openssh-server" # Para o XMouse
     instalarApt "oracle-java8-installer"
@@ -150,16 +161,12 @@ function instalacoesApt() {
     instalarApt "xterm"
 }
 
-function instalarCompactado() {
-    baixarEExtrair "Create_AP" "zip" "https://codeload.github.com/oblique/create_ap/zip/master"
+function instalarAvulso() {
+    baixarEPosicionar "Create_AP" "zip" "./Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master"
+    baixarEPosicionar "Stremio" "appimage" "./Stremio" "https://dl.strem.io/linux/v4.0.0-beta.29/Stremio+4.0.0-beta.29.appimage" # Verificar por updates
+    baixarEPosicionar "wine-mono-4.7.1" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi" # Verificar por updates
+    baixarEPosicionar "wine_gecko-2.47-x86" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
 }
-
-
-
-
-
-
-
 
 # -----------------------------------------------------------------------------------------------------------
 
@@ -172,8 +179,7 @@ function instalarCompactado() {
     xx
 
 # PPAS
-    adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
-    adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
+    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
     # ----------- # Gnome atualizado para o Ubuntu Gnome.
     adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
     adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
@@ -200,7 +206,6 @@ function instalarCompactado() {
     instalarApt "breeze-cursor-theme" # Bonito
     instalarApt "dolphin-emu-master" #Emulador
     instalarApt "dolphin-plugins" #Para o gerenciador de arquivos dolphin
-    instalarApt "elementary-icon-theme"
     instalarApt "fceux"
     instalarApt "furiusisomount"
     instalarApt "kdesudo"
@@ -216,11 +221,4 @@ function instalarCompactado() {
     instalarApt "winetricks"
     instalarApt "y-ppa-manager"
 '
-
-# Requisitos para compilação do ttyecho (caso seja necessária):
-function instalacoesAptTtyecho() { 
-    instalarApt "g++-multilib"
-    instalarApt "libc6-dev" "" "PATTERN"
-}
-
 

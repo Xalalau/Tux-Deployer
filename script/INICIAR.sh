@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.5.1 (24/09/17)"
+VERSAO="v1.6 (24/09/17)"
 # __________________________________________________________________________
 
 
@@ -21,8 +21,9 @@ VERSAO="v1.5.1 (24/09/17)"
 # Pasta atual
 DIR_BASE="$(cd "${0%/*}" && echo $PWD)"
 
-# Codinome do sistema
-CODENOME="$(lsb_release -c | awk '{print $2}')"
+# Nome e codinome do sistema
+DISTRIBUICAO=""
+CODENOME=""
 
 # Opções a serem preenchidas pelo usuário
 INSTALACAO_PADRAO=""
@@ -73,6 +74,7 @@ source "entrada.sh"
 # -------------------------------------------------------------
 
 clear
+pegarInformacoesDoSistema
 definirOpcoes
 echo
 ativarSudo
@@ -120,6 +122,8 @@ if [ "$ATUALIZAR_PACOTES" == "s" ] || [ "$ATUALIZAR_PACOTES" == "S" ]; then
     fi
 fi
 
+criarListasDePacotes
+
 echo
 
 # -------------------------------------------------------------
@@ -166,9 +170,9 @@ fi
 # -------------------------------------------------------------
 
 if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ]; then 
-    echo "❱ Baixando e extraindo programas compactados:"
+    echo "❱ Baixando e posicionando progamas:"
     echo
-    instalarCompactado
+    instalarAvulso
     echo
 fi
 

@@ -149,6 +149,13 @@ function ativarSudo() {
     sudo clear
 }
 
+function pegarInformacoesDoSistema() {
+    source /etc/os-release
+    CODENOME="$UBUNTU_CODENAME"
+    DISTRIBUICAO=$(grep "PRETTY_NAME" /etc/os-release | awk '{ print $2 }')
+    DISTRIBUICAO=${DISTRIBUICAO,,}
+}
+
 function echo2() {
     # Imprimir texto no terminal secundário
     echo "" &>$CONSOLE;
@@ -157,7 +164,7 @@ function echo2() {
 }
 
 function criarListasDePacotes() {
-    # Lista dinâmica onde serão procurados pacotes com exatidão
+    # Lista contendo o nome de todos os pacotes instalados no sistema
     LISTA=($(dpkg --get-selections | grep -v deinstall | awk '{print $1}'))
     # Contagem de resultados da lista 1
     while [ ${LISTA[$QUANTPACOTES]} ]; do 
@@ -166,8 +173,8 @@ function criarListasDePacotes() {
 }
 
 function checarPacotePorPattern() {
-    # Checa se o nome do pacote está em qualquer lugar na lista
-    # Nota: usar só em casos especiais, essa função é muito ruim!
+    # Busca por uma substring em LISTA (nome do pacote em qualquer posição)
+    # Nota: usar apenas em casos especiais! Essa função é muito ruim!
     # $1 = nome do pacote
     # Retorna: 1 [Achou] / 0 [Não achou]
     local i=0
@@ -253,7 +260,6 @@ function apt-get_autoremove() {
 }
 
 function gerarTerminalSecundario() {
-    # Criar terminal extra
     cd "../external/"
     if ! [ -f console.txt ]; then
         ./newterm.sh "tty" ">" "console.txt"
@@ -272,9 +278,9 @@ function gerarTerminalSecundario() {
 }
 
 function instalarTtyecho() {
-    # Instalar "ttyecho" - programa que executa comandos em outro terminal
+    # "ttyecho" permite que um terminal possa executar comandos em outro
     command -v ttyecho >/dev/null 2>&1 || {
-        echo -n "❱ Instalando \"ttyecho\" para gerir o terminal secundário..."
+        echo -n "❱ Instalando \"ttyecho\"..."
         cd "../external/"
         if ! [[ -f ttyecho ]]; then
             local requisitos=0
@@ -289,9 +295,9 @@ function instalarTtyecho() {
                 fi
             fi
             if [ "$requisitos" -eq "1" ]; then
-                echo "❱ Instalando requisitos:"
-                instalacoesAptTtyecho
-                echo -n "❱ Copiando programa para o \"/usr/bin\"..."
+                echo " Requisitos:"
+                requisitosTtyecho
+                echo -n "❱ Copiando ttyecho para \"/usr/bin\"..."
             fi
             echo2 "gcc ttyecho.c -o ttyecho"
             gcc ttyecho.c -o ttyecho >& $CONSOLE;
@@ -344,7 +350,7 @@ function adicionarChave() {
             AUX_PRINT=0
             LIB=1
         fi
-        echo2 "sudo apt-key adv --keyserver \"$1\" --recv-keys \"$2\""
+        echo2 "Chave de \"$3\": sudo apt-key adv --keyserver \"$1\" --recv-keys \"$2\""
         sudo apt-key adv --keyserver "$1" --recv-keys "$2" &>$CONSOLE;
     fi
 }
@@ -381,7 +387,7 @@ function aceitarEula() {
     # $3 = item de seção a ser configurado
     # $4 = valor do item de seção
     if [ "$(sudo debconf-show $1 | grep $2)" == "" ]; then
-        echo "❱ Aceitando EULA \"$2\"..."
+        echo "❱ Aceitando termos, \"$2\"..."
         echo2 "echo $1 $2 $3 $4 | sudo debconf-set-selections"
         echo $1 $2 $3 $4 | sudo debconf-set-selections
         LIB=1
@@ -440,7 +446,7 @@ function instalarDeb() {
         local nome="${1}.deb"
         echo2 "Instalando \"$1\"..."
         wget -O $nome $2 &>$CONSOLE;
-        sudo dpkg -i *.deb &>$CONSOLE;
+        sudo dpkg -i $nome &>$CONSOLE;
         sudo apt-get -f install -y &>$CONSOLE;
         if [ "$3" != "PATTERN" ]; then
             criarListasDePacotes
@@ -453,48 +459,61 @@ function instalarDeb() {
         else
             printf "$ATUALIZADO"
         fi
-        rm *.deb &>$CONSOLE;
+        rm $nome &>$CONSOLE;
     fi
 }
 
-function baixarEExtrair() {
-    # $1 = nome da pasta onde iremos extrair o pacote
-    # $1 = extensão do pacote (zip, rar ou tar.gz)
-    # $2 = link de download
+function baixarEPosicionar() {
+    # $1 = nome da pacote que iremos baixar
+    # $2 = extensão do pacote (zip, rar, tar.gz...)
+    # $3 = nome da pasta aonde iremos extrair o pacote
+    # $4 = link de download
+    cd ~/
     printf "❱ %-50s" "$1"
-    check=~/$1
-    if test -d "$check"
-    then
+    # Checo se já está tudo certo.
+    if test -f "$3/$1_instalado.txt"; then
         printf "$INSTALADO"
     else
-        echo2 "Baixando e extraindo \"$1\"..."
-        cd ~/
-        mkdir "$1" &>$CONSOLE;
-        cd "$1"
-        wget $3 -O "$1.$2" &>$CONSOLE;
+        echo2 "Baixando e posicionando \"$1\"..."
+        # Baixando:
+        sudo mkdir "$3" &>$CONSOLE;
+        sudo mkdir "$3/TEMP" &>$CONSOLE;
+        cd "$3/TEMP" &>$CONSOLE;
+        sudo wget $4 -O "$1.$2" &>$CONSOLE;
         if [ "$2" == "zip" ]; then
-            unzip ./*.zip &>$CONSOLE;
-            rm ./*.zip &>$CONSOLE;
+            sudo unzip ./*.zip &>$CONSOLE;
+            sudo rm ./*.zip &>$CONSOLE;
         elif [ "$2" == "rar" ]; then
-            unrar ./*.rar &>$CONSOLE;
-            rm ./*.rar &>$CONSOLE;
+            sudo unrar ./*.rar &>$CONSOLE;
+            sudo rm ./*.rar &>$CONSOLE;
         elif [ "$2" == "tar.gz" ]; then
-            tar -zxvf ./*.tar.gz &>$CONSOLE;
-            rm ./*.tar.gz &>$CONSOLE;
+            sudo tar -zxvf ./*.tar.gz &>$CONSOLE;
+            sudo rm ./*.tar.gz &>$CONSOLE;
         fi
-        quant=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l)
-        if [ $quant -eq 0 ]; then
+        # Verificando a extração (dentro de $3/TEMP para que não haja surpresas):
+        local quant1=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l) # Pastas
+        local quant2=$(find . -mindepth 1 -maxdepth 1 -type f | wc -l) # Arquivos
+        local total=$(( quant1 + quant2 )) # Pastas + Arquivos
+        if [ $total -eq 0 ]; then # Se eu não tiver nada na pasta o processo falhou.
             printf "$FALHOU"
             cd ~/
-            rm -r "$1"
+            sudo rm -r "$3" &>$CONSOLE;
             return
-        elif [ $quant -eq 1 ]; then
+        elif [ $quant1 -eq 1 ] && [ $quant2 -eq 0 ]; then # Se tiver apenas uma subpasta, movo o conteúdo para fora dela e é sucesso.
             dir=$(find . -mindepth 1 -maxdepth 1 -type d)
-            mv $dir/* ./ &>$CONSOLE;
-            rm -r $dir &>$CONSOLE;
-        fi
+            sudo mv $dir/* ./ &>$CONSOLE;
+            sudo rm -r $dir &>$CONSOLE;
+        fi # Se tiver um ou mais arquivos é sucesso.
+        # Mover arquivos de $3/TEMP para $3:
+        cd ../
+        sudo mv ./TEMP/* ./ &>$CONSOLE;
+        sudo rm -r ./TEMP &>$CONSOLE;
+        cd ~/
+        echo "" > $1_instalado.txt &>$CONSOLE;
+        sudo mv $1_instalado.txt "$3" &>$CONSOLE;
+        sudo chown $USER -R "$3" &>$CONSOLE;
         cd "$DIR_BASE"
-        printf "$ATUALIZADO"
+        printf "$ATUALIZADO"     
     fi
 }
 
@@ -515,6 +534,10 @@ function criarPrefixoWine32Bits() {
     checarExistenciaPacoteOuComando "wine"
     RES=$?
     if [ "$RES" -ne "0" ]; then
+        mkdir "~/.cache/wine" &>$CONSOLE;
+
+        
+
         if [ ! -d "$HOME/.wine" ]; then
             echo "❱ Criando prefixo padrão de 32bits para o Wine"
             echo2 "WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot'"
@@ -525,6 +548,7 @@ function criarPrefixoWine32Bits() {
 }
 
 function removerTerminalSecundario() {
+    cd "$DIR_BASE"
     echo "❱ Removendo terminal secundário..."
     if [ -f "../external/console.txt" ]; then
         rm ../external/console.txt
