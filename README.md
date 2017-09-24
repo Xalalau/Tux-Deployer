@@ -1,20 +1,22 @@
 # Instaleytor
 
-Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
+Um instalador de *pacotes para Ubuntu* supimpa! Automatize a sua vida, não perca tempo!
 
-![Screenshot 1](http://i.imgur.com/Hkx9Nso.png)
+![Screenshot 1](https://i.imgur.com/dpp70uF.png)
 
-![Screenshot 2](http://i.imgur.com/o4L8rez.png)
+![Screenshot 2](https://i.imgur.com/Y5HbGEf.png)
 
-![Screenshot 3](http://i.imgur.com/hTmsWPG.png)
+![Screenshot 3](https://i.imgur.com/LZb4CjC.png)
+
+![Screenshot 4](https://i.imgur.com/GzRc0XR.png)
 
 **As vantagens são:**
 
 - [x] Você configura uma instalação completa de forma objetiva, compacta e explicada! Tudo fica no arquivo "entrada.sh";
-- [x] As instalações realmente vão do começo ao final sozinhas! Você só executa o "INICIO.sh" e fica presente nesse começo para efetuar algumas escolhas;
-- [x] Caso você seja desconfiado, não se preocupe! Acompanhe o processo detalhadamente. Todos os outputs são claros graças a divisão em dois terminais;
-- [x] Rode o script várias vezes! As checagens feitas nele permitem que você o reexecute diversas vezes sem repetição de passos, perda de tempo ou danos;
-- [x] Velocidade! Todos as funções foram feitas vizando eficiência, portanto a execução do script em si é bem rápida.
+- [x] As instalações realmente vão do começo ao final sozinhas! Você só executa o "INICIO.sh", faz algumas escolhas e vai embora;
+- [x] Caso você seja desconfiado, não se preocupe! Acompanhe o processo detalhadamente graças a divisão de outputs em dois terminais;
+- [x] Rode o script várias vezes! As checagens feitas permitem que você o reexecute sem repetição de passos, perda de tempo ou danos;
+- [x] Velocidade!! Todas as funções foram feitas vizando eficiência, portanto a execução do script em si é bem rápida.
 
 **O script executa os seguintes passos:**
 
@@ -28,22 +30,21 @@ Um instalador de *pacotes DEB* supimpa! Automatize a sua vida, não perca tempo!
 - Automatiza aceitação de Eulas;
 - Baixa e instala arquivos .deb de links da internet;
 - Baixa e instala programas por apt-get;
-- Baixa e extrai arquivos compactados de links da internet;
-- Inicializa o TLP (programa para melhor gerenciamento de energia);
-- Cria um prefixo padrão de 32 bits no Wine (caso necessário);
-- Remove pacotes ultrapassados;
+- Baixa e posiciona programas avulsos baixados de links da internet;
+- Inicializa o TLP (programa para melhorar gerenciamento de energia);
+- Cria o prefixo padrão de 32 bits no Wine;
+- Remove pacotes desnecessários;
 - Finaliza o processo.
 
-**Legenda de outputs:**
+**Legenda para as instalações:**
 
-- "[Script] Algum texto" = Divisor de seções/passos. Aparece em ambos os terminais do Instaleytor para melhor compreensão dos processos;
-- [  OK  ] = Indica que o programa está instalado. Se estiver precedido de um "⟳", esse foi instalado pelo script, caso contrário já estava presente no sistema;
-- [ NOPE ] = Indica que o programa falhou em sua instalação.
-
+- [ ✔ ] = Indica que o programa já está presente e portanto não é necessária nenhuma instalação;
+- [ ⟳ ] = Indica que o programa foi instalado pelo script;
+- [×××] = Indica que a instalação do programa.
 
 **Notas:**
 
-- O Script foi feito para o Ubuntu e seus derivados;
+- O Script foi feito para o Ubuntu e seus derivados! Testado no Linux Mint, KDE Neon e Lubuntu;
 - O único arquivo que deve ser editado pelo usuário é o "entrada.sh".
 
 **Utilização:**
@@ -67,4 +68,4 @@ gedit entrada.sh
 
 **!!!ATENÇÃO!!!**
 
-Eu não me responsabilizo por danos inesperados que o Instaleytor possa vir a fazer no seu computador! Use por própria conta e risco! Se possível, dê uma olhada no código fonte antes de utilizá-lo!
+Eu não me responsabilizo por problemas inesperados que o Instaleytor possa vir a causar! Use por própria conta e risco! Dê uma olhada no código fonte para saber o que está acontecendo!
