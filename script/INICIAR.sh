@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.6 (24/09/17)"
+VERSAO="v1.6.1 (24/09/17)"
 # __________________________________________________________________________
 
 

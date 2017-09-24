@@ -172,7 +172,7 @@ function criarListasDePacotes() {
     done
 }
 
-function checarPacotePorPattern() {
+function checarPacotePorSubstring() {
     # Busca por uma substring em LISTA (nome do pacote em qualquer posição)
     # Nota: usar apenas em casos especiais! Essa função é muito ruim!
     # $1 = nome do pacote
@@ -289,7 +289,7 @@ function instalarTtyecho() {
                 requisitos=1
             else
                 criarListasDePacotes
-                checarPacotePorPattern "libc6-dev"
+                checarPacotePorSubstring "libc6-dev"
                 if [ "$?" -eq "0" ]; then
                    requisitos=1
                 fi
@@ -304,7 +304,7 @@ function instalarTtyecho() {
         fi
         echo2 "sudo cp ttyecho \"/usr/bin\""
         sudo cp ttyecho "/usr/bin" >& $CONSOLE;
-        echo " Pronto."
+        echo
         cd "$DIR_BASE"
     }
 }
@@ -396,16 +396,19 @@ function aceitarEula() {
 
 function instalarApt() {
     # $1 = pacote a ser instalado via apt-get
-    # $2 = algum parâmetro qualquer
-    # $3 = "PATTERN" = a busca pelo pacote será feita na função checarPacotePorPattern()
+    # $2 = algum parâmetro qualquer ou --SUBSTRING
+    # $3 = --SUBSTRING
+    # Nota: --SUBSTRING = a busca pelo pacote será feita na função checarPacotePorSubstring()
     local juntar=$1
     juntar+=" "
-    juntar+=$2
-    printf "❱ %-50s" "$juntar"
-    if [ "$3" != "PATTERN" ]; then
+    if [ "$2" != "--SUBSTRING" ]; then
+        juntar+=$2
+    fi
+    printf "❱ %-73s" "$juntar"
+    if [ "$3" != "--SUBSTRING" ] && [ "$2" != "--SUBSTRING" ]; then
         checarExistenciaPacoteOuComando $1
     else
-        checarPacotePorPattern $1
+        checarPacotePorSubstring $1
     fi
     local res=$?
     if [ "$res" -eq "1" ]; then
@@ -414,11 +417,11 @@ function instalarApt() {
         echo2 "Instalando \"$1\"..."
         sudo apt-get install $1 $2 -y &>$CONSOLE;
         dpkg -s "$1" &>$CONSOLE;
-        if [ "$3" != "PATTERN" ]; then
+        if [ "$3" != "--SUBSTRING" ] && [ "$2" != "--SUBSTRING" ]; then
             criarListasDePacotes
             checarExistenciaPacoteOuComando $1
         else
-            checarPacotePorPattern $1
+            checarPacotePorSubstring $1
         fi
         res=$?
         if [ "$res" -eq "0" ]; then
@@ -432,14 +435,14 @@ function instalarApt() {
 function instalarDeb() {
     # $1 = nome do pacote
     # $2 = link de download
-    # $3 = "PATTERN" = a busca pelo pacote será feita na função checarPacotePorPattern()
-    if [ "$3" != "PATTERN" ]; then
+    # $3 = --SUBSTRING = a busca pelo pacote será feita na função checarPacotePorSubstring()
+    if [ "$3" != "--SUBSTRING" ]; then
         checarExistenciaPacoteOuComando $1
     else
-        checarPacotePorPattern $1
+        checarPacotePorSubstring $1
     fi
     local res=$?
-    printf "❱ %-50s" $1
+    printf "❱ %-73s" $1
     if [ "$res" -eq "1" ]; then
         printf "$INSTALADO"
     else
@@ -448,11 +451,11 @@ function instalarDeb() {
         wget -O $nome $2 &>$CONSOLE;
         sudo dpkg -i $nome &>$CONSOLE;
         sudo apt-get -f install -y &>$CONSOLE;
-        if [ "$3" != "PATTERN" ]; then
+        if [ "$3" != "--SUBSTRING" ]; then
             criarListasDePacotes
             checarExistenciaPacoteOuComando $1
         else
-            checarPacotePorPattern $1
+            checarPacotePorSubstring $1
         fi
         if [ "$?" -eq "0" ]; then
             printf "$FALHOU"
@@ -467,28 +470,37 @@ function baixarEPosicionar() {
     # $1 = nome da pacote que iremos baixar
     # $2 = extensão do pacote (zip, rar, tar.gz...)
     # $3 = nome da pasta aonde iremos extrair o pacote
-    # $4 = link de download
+    # $5 = --ROOT = vai instalar como root
     cd ~/
-    printf "❱ %-50s" "$1"
+    printf "❱ %-73s" "$1"
     # Checo se já está tudo certo.
     if test -f "$3/$1_instalado.txt"; then
         printf "$INSTALADO"
     else
+        local Sudo=""        
+        local ponto=""
+
         echo2 "Baixando e posicionando \"$1\"..."
         # Baixando:
-        sudo mkdir "$3" &>$CONSOLE;
-        sudo mkdir "$3/TEMP" &>$CONSOLE;
+        if [ "$3" != "--ROOT" ]; then
+            Sudo+="sudo"
+        fi
+        $Sudo mkdir "$3" &>$CONSOLE;
+        $Sudo mkdir "$3/TEMP" &>$CONSOLE;
         cd "$3/TEMP" &>$CONSOLE;
-        sudo wget $4 -O "$1.$2" &>$CONSOLE;
+        if [ "$2" != "" ]; then
+            ponto+="."
+        fi
+        $Sudo wget $4 -O "$1$ponto$2" &>$CONSOLE;
         if [ "$2" == "zip" ]; then
-            sudo unzip ./*.zip &>$CONSOLE;
-            sudo rm ./*.zip &>$CONSOLE;
+            $Sudo unzip ./*.zip &>$CONSOLE;
+            $Sudo rm ./*.zip &>$CONSOLE;
         elif [ "$2" == "rar" ]; then
-            sudo unrar ./*.rar &>$CONSOLE;
-            sudo rm ./*.rar &>$CONSOLE;
+            $Sudo unrar ./*.rar &>$CONSOLE;
+            $Sudo rm ./*.rar &>$CONSOLE;
         elif [ "$2" == "tar.gz" ]; then
-            sudo tar -zxvf ./*.tar.gz &>$CONSOLE;
-            sudo rm ./*.tar.gz &>$CONSOLE;
+            $Sudo tar -zxvf ./*.tar.gz &>$CONSOLE;
+            $Sudo rm ./*.tar.gz &>$CONSOLE;
         fi
         # Verificando a extração (dentro de $3/TEMP para que não haja surpresas):
         local quant1=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l) # Pastas
@@ -497,21 +509,20 @@ function baixarEPosicionar() {
         if [ $total -eq 0 ]; then # Se eu não tiver nada na pasta o processo falhou.
             printf "$FALHOU"
             cd ~/
-            sudo rm -r "$3" &>$CONSOLE;
+            $Sudo rm -r "$3" &>$CONSOLE;
             return
         elif [ $quant1 -eq 1 ] && [ $quant2 -eq 0 ]; then # Se tiver apenas uma subpasta, movo o conteúdo para fora dela e é sucesso.
             dir=$(find . -mindepth 1 -maxdepth 1 -type d)
-            sudo mv $dir/* ./ &>$CONSOLE;
-            sudo rm -r $dir &>$CONSOLE;
+            $Sudo mv $dir/* ./ &>$CONSOLE;
+            $Sudo rm -r $dir &>$CONSOLE;
         fi # Se tiver um ou mais arquivos é sucesso.
         # Mover arquivos de $3/TEMP para $3:
         cd ../
-        sudo mv ./TEMP/* ./ &>$CONSOLE;
-        sudo rm -r ./TEMP &>$CONSOLE;
+        $Sudo mv ./TEMP/* ./ &>$CONSOLE;
+        $Sudo rm -r ./TEMP &>$CONSOLE;
         cd ~/
         echo "" > $1_instalado.txt &>$CONSOLE;
-        sudo mv $1_instalado.txt "$3" &>$CONSOLE;
-        sudo chown $USER -R "$3" &>$CONSOLE;
+        $Sudo mv $1_instalado.txt "$3" &>$CONSOLE;
         cd "$DIR_BASE"
         printf "$ATUALIZADO"     
     fi
@@ -557,7 +568,7 @@ function removerTerminalSecundario() {
 }
 
 function finalizar() {
-    echo "---------------------------------------------------------"
+    echo "--------------------------------------------------------------------------------"
     read -p "❱ Tudo pronto! Aperte \"Enter\" para finalizar."
     echo
     removerTerminalSecundario

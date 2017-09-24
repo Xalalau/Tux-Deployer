@@ -1,14 +1,16 @@
 # Funcionamento das chamadas de função
 
 # CHAVES:
-   # adicionarChave "SERVIDOR" "CHAVE" "RÓTULO QUALQUER" "TERMO DE BUSCA"
-   # EX: adicionarChave "pgp.mit.edu" "5044912E" "Dropbox"
-   # adicionarChave2 "LINK_DOWNLOAD_CHAVE" "RÓTULO QUALQUER" "TERMO DE BUSCA"
-   # EX: adicionarChave2 "https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key" "Insync"
+   # adicionarChave "SERVIDOR" "CHAVE" "RÓTULO QUALQUER" "TERMO DE BUSCA (atua em apt-key list)"
+   # EX: adicionarChave "hkp://pgp.mit.edu:80" "379CE192D401AB61" "Etcher" "Bintray (by JFrog)"
+
+   # adicionarChave2 "LINK_DOWNLOAD_CHAVE" "RÓTULO QUALQUER" "TERMO DE BUSCA (atua em apt-key list)"
+   # EX: adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome" "Google Inc."
 
 # PPAS:
-   # adicionarPPA "PPA" "TERMO QUE PODE IDENTIFICÁ-LO EM /etc/apt/sources.list.d"
+   # adicionarPPA "PPA" "TERMO DE BUSCA (atua em /etc/apt/sources.list.d)"
    # Ex: adicionarPPA "ppa:webupd8team/y-ppa-manager" "y-ppa-manager"
+
    # adicionarPPA2 "COMANDO DEB DE ADIÇÃO DE REPOSITÓRIOS" "NOME_DO_ARQUIVO.list" "RÓTULO QUALQUER"
    # Ex: adicionarPPA2 "deb http://linux.dropbox.com/ubuntu/ $CODENOME main" "dropbox.list" "dropbox"
 
@@ -17,20 +19,24 @@
    # EX: aceitarEula "steam" "steam/question" "select" "I AGREE"
 
 # DEBS POR DOWNLOAD:
-   # baixarDeb "NOME DO PACOTE" "LINK" "TERMO DE BUSCA"
+   # baixarDeb "NOME DO PACOTE" "LINK" --SUBSTRING
    # Ex: baixarDeb "steam-launcher" "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
-   # NOTA: "TERMO DE BUSCA" é opcional. Deve ser usado para encontrar a instalação de pacotes que não
-   #       estão sendo detectados normalmente.
+   # NOTA: --SUBSTRING é opcional. Quando usado força a busca pelo pacote a retornar verdadeira caso
+   #       qualquer substring igual a "NOME DO PACOTE" seja encontrada na nossa $LISTA.
 
 # DEBS POR APT-GET:
-   # instalarApt "NOME DO PACOTE" "ALGUM PARÂMETRO" "TERMO DE BUSCA"
-   # Ex: instalarApt "build-essential" "--install-recommends"
-   # NOTA: "TERMO DE BUSCA" é opcional. Deve ser usado para encontrar a instalação de pacotes que não
-   #       estão sendo detectados normalmente.
+   # instalarApt "NOME DO PACOTE" "PARÂMETROS" --SUBSTRING
+   # Ex: instalarApt "build-essential" "--install-recommends --allow-unauthenticated"
+   # Ex2: instalarApt "libc6-dev" --SUBSTRING
+   # NOTA: --SUBSTRING é opcional. Quando usado força a busca pelo pacote a retornar verdadeira caso
+   #       qualquer substring igual a "NOME DO PACOTE" seja encontrada na nossa $LISTA.
 
-# PROGRAMAS AVULSOS (EX: ZIP, RAR, TAR.GZ... APPIMAGE):
-   # baixarEExtrair "PASTA DESTINO" "EXTENSÃO" "LINK DE DOWNLOAD"
+# PROGRAMAS AVULSOS:
+   # baixarEExtrair "PASTA DESTINO" "EXTENSÃO" "LINK DE DOWNLOAD" --ROOT
    # Ex: baixarEExtrair "~/Create AP" "zip" "https://codeload.github.com/oblique/create_ap/zip/master"
+   # Nota: a função extrai o conteúdo de arquivos zip, rar e tar.gz
+   # NOTA: --ROOT é opcional. Faz os arquivos serem instalados pelo administrador.
+
 
 
 
@@ -41,6 +47,7 @@
 
 
 function adicionarChaves() {
+    adicionarChave2 "https://dl.winehq.org/wine-builds/Release.key" "Wine" "Wine" # Para o Wine-Builds
     adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome" "Google Inc."
     adicionarChave2 "https://www.virtualbox.org/download/oracle_vbox_2016.asc" "VirtualBox" "VirtualBox"
     adicionarChave "hkp://pgp.mit.edu:80" "379CE192D401AB61" "Etcher" "Bintray (by JFrog)"
@@ -59,11 +66,9 @@ function adicionarPPAs() {
     adicionarPPA "ppa:linrunner/tlp" "tlp"
     adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
-    adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
-    adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
-    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
     adicionarPPA "ppa:numix/ppa" "numix"
+    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine oficial. Não usar junto com o Wine do gallium-nine.
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
     adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint (mint está ruim)
@@ -89,7 +94,7 @@ function instalarDebs() {
 
 function requisitosTtyecho() { 
     instalarApt "g++-multilib"
-    instalarApt "libc6-dev" "" "PATTERN"
+    instalarApt "libc6-dev" --SUBSTRING
 }
 
 function instalacoesApt() {
@@ -155,8 +160,7 @@ function instalacoesApt() {
     instalarApt "virtualbox"
     instalarApt "vlc"
     instalarApt "winbind"
-    instalarApt "wine2.0"
-    instalarApt "winetricks"
+    instalarApt "winehq-staging" "--install-recommends --allow-unauthenticated"
     instalarApt "xdotool" # Para o XMouse
     instalarApt "xterm"
 }
@@ -166,8 +170,15 @@ function instalarAvulso() {
     baixarEPosicionar "Stremio" "appimage" "./Stremio" "https://dl.strem.io/linux/v4.0.0-beta.29/Stremio+4.0.0-beta.29.appimage" # Verificar por updates
     baixarEPosicionar "wine-mono-4.7.1" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi" # Verificar por updates
     baixarEPosicionar "wine_gecko-2.47-x86" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
+    baixarEPosicionar "winetricks" "" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
 }
 
+
+
+
+
+
+# Backup
 # -----------------------------------------------------------------------------------------------------------
 
 : ' #-------------------------------
@@ -179,14 +190,14 @@ function instalarAvulso() {
     xx
 
 # PPAS
+    # ----------- Gáficos open-source atualizados pelo Oibaf
+    adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
+    adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
+    # ----------- Gáficos open-source atualizados pelo Padoka
     adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
-    # ----------- # Gnome atualizado para o Ubuntu Gnome.
-    adicionarPPA "ppa:gnome3-team/gnome3-staging" "ubuntu-gnome3-staging"
-    adicionarPPA "ppa:gnome3-team/gnome3" "ubuntu-gnome3"
     # -----------
-    adicionarPPA "ppa:ubuntu-wine/ppa" "ubuntu-wine" # Wine atualizado versão estável. Não usar junto com o Wine do gallium-nine.
+    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
-    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine git. Não usar junto com o Wine do gallium-nine.
     adicionarPPA "ppa:webupd8team/y-ppa-manager" "y-ppa-manager"
     adicionarPPA "ppa:teejee2008/ppa" "teejee2008"
 
@@ -220,5 +231,9 @@ function instalarAvulso() {
     instalarApt "winehq-staging"
     instalarApt "winetricks"
     instalarApt "y-ppa-manager"
+
+# PROGRAMAS AVULSOS
+
+    xx
 '
 
