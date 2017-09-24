@@ -97,7 +97,6 @@ function instalacoesApt() {
     instalarApt "cifs-utils" # Para o Samba
     instalarApt "cheese"
     instalarApt "dropbox"
-    instalarApt "elementary-icon-theme"
     instalarApt "etcher-electron" "--allow-unauthenticated"
     instalarApt "filezilla"
     instalarApt "gcc-multilib"
@@ -141,7 +140,6 @@ function instalacoesApt() {
     instalarApt "telegram"
     instalarApt "tlp"
     instalarApt "tlp-rdw"
-    instalarApt "ukuu"
     instalarApt "unrar"
     instalarApt "virtualbox"
     instalarApt "vlc"
@@ -202,12 +200,14 @@ function instalarCompactado() {
     instalarApt "breeze-cursor-theme" # Bonito
     instalarApt "dolphin-emu-master" #Emulador
     instalarApt "dolphin-plugins" #Para o gerenciador de arquivos dolphin
+    instalarApt "elementary-icon-theme"
     instalarApt "fceux"
     instalarApt "furiusisomount"
     instalarApt "kdesudo"
     instalarApt "mupen64plus-qt"
     instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus
     instalarApt "okular"
+    instalarApt "ukuu"
     instalarApt "xscreensaver"
     instalarApt "xscreensaver-gl-extra"
     instalarApt "xscreensaver-data-extra"

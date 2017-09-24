@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.5 (23/09/17)"
+VERSAO="v1.5.1 (24/09/17)"
 # __________________________________________________________________________
 
 
@@ -88,7 +88,6 @@ echo
 
 if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "S" ]; then 
     liberarRepositorioParceirosCanonical
-    
 fi
 
 if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "S" ]; then
@@ -181,7 +180,7 @@ iniciarTlp # Só roda se o TLP estiver instalado
 if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "S" ]; then 
     criarPrefixoWine32Bits
 fi
-echo "❱ limpando pacotes inutilizados..."
+echo "❱ Limpando pacotes inutilizados..."
 apt-get_autoremove
 echo
 finalizar

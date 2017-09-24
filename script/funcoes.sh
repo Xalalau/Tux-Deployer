@@ -233,22 +233,22 @@ function checarExistenciaPacoteOuComando() {
 }
 
 function apt-get_update() {
-    echo2 "apt-get update"
+    echo2 "sudo apt-get update"
     sudo apt-get update &>$CONSOLE;
 }
 
 function apt-get_dist-upgrade() {
-    echo2 "apt-get dist-upgrade"
+    echo2 "sudo apt-get dist-upgrade"
     sudo apt-get dist-upgrade -y &>$CONSOLE;
 }
 
 function apt-get_upgrade() {
-    echo2 "apt-get upgrade"
+    echo2 "sudo apt-get upgrade"
     sudo apt-get upgrade -y &>$CONSOLE;
 }
 
 function apt-get_autoremove() {
-    echo2 "apt-get autoremove"
+    echo2 "sudo apt-get autoremove"
     sudo apt-get autoremove -y &>$CONSOLE;
 }
 
@@ -271,35 +271,30 @@ function gerarTerminalSecundario() {
     echo "" >& $CONSOLE
 }
 
-function compilarTtyecho() {
-    # Compilar "ttyecho" - programa que executa comandos em outro terminal
-    local requisitos=0
-    checarComando "gcc"
-    if [ "$?" -eq "0" ]; then
-        requisitos=1
-    else
-        criarListasDePacotes
-        checarPacotePorPattern "libc6-dev"
-        if [ "$?" -eq "0" ]; then
-           requisitos=1
-        fi
-    fi
-    if [ "$requisitos" -eq "1" ]; then
-        echo "\n❱ Instalando requisitos:"
-        instalacoesAptTtyecho
-        echo -n "❱ Copiando programa para o \"/usr/bin\"..."
-    fi
-    echo2 "gcc ttyecho.c -o ttyecho"
-    gcc ttyecho.c -o ttyecho >& $CONSOLE;
-}
-
 function instalarTtyecho() {
     # Instalar "ttyecho" - programa que executa comandos em outro terminal
     command -v ttyecho >/dev/null 2>&1 || {
         echo -n "❱ Instalando \"ttyecho\" para gerir o terminal secundário..."
         cd "../external/"
         if ! [[ -f ttyecho ]]; then
-            compilarTtyecho
+            local requisitos=0
+            checarComando "gcc"
+            if [ "$?" -eq "0" ]; then
+                requisitos=1
+            else
+                criarListasDePacotes
+                checarPacotePorPattern "libc6-dev"
+                if [ "$?" -eq "0" ]; then
+                   requisitos=1
+                fi
+            fi
+            if [ "$requisitos" -eq "1" ]; then
+                echo "❱ Instalando requisitos:"
+                instalacoesAptTtyecho
+                echo -n "❱ Copiando programa para o \"/usr/bin\"..."
+            fi
+            echo2 "gcc ttyecho.c -o ttyecho"
+            gcc ttyecho.c -o ttyecho >& $CONSOLE;
         fi
         echo2 "sudo cp ttyecho \"/usr/bin\""
         sudo cp ttyecho "/usr/bin" >& $CONSOLE;
@@ -371,8 +366,11 @@ function adicionarChave2() {
 
 function liberarRepositorioParceirosCanonical() {
     if [ "$(find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src | grep partner)" == "" ]; then
-        echo2 "sudo sed -i \"/^# deb .*partner/ s/^# //\" /etc/apt/sources.list"
-        sudo sed -i "/^# deb .*partner/ s/^# //" /etc/apt/sources.list &>$CONSOLE;
+        local arquivo=$(grep -rwl '/etc/apt' -e 'partner')        
+        
+        echo "❱ Ativando repositório de parceiros da Canonical..."
+        echo2 "sudo sed -i \"/^# deb .*partner/ s/^# //\" \"$arquivo\""        
+        sudo sed -i "/^# deb .*partner/ s/^# //" "$arquivo" &>$CONSOLE;
         LIB=1
     fi
 }
@@ -383,7 +381,7 @@ function aceitarEula() {
     # $3 = item de seção a ser configurado
     # $4 = valor do item de seção
     if [ "$(sudo debconf-show $1 | grep $2)" == "" ]; then
-        echo "❱ Automatizando instalação de \"$1\"..."
+        echo "❱ Aceitando EULA \"$2\"..."
         echo2 "echo $1 $2 $3 $4 | sudo debconf-set-selections"
         echo $1 $2 $3 $4 | sudo debconf-set-selections
         LIB=1
@@ -535,6 +533,7 @@ function removerTerminalSecundario() {
 }
 
 function finalizar() {
+    echo "---------------------------------------------------------"
     read -p "❱ Tudo pronto! Aperte \"Enter\" para finalizar."
     echo
     removerTerminalSecundario
