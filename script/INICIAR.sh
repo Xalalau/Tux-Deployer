@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.4 (03/02/17)"
+VERSAO="v1.5 (23/09/17)"
 # __________________________________________________________________________
 
 
@@ -49,6 +49,8 @@ QUANTPACOTES=0
 # Variável auxiliar para imprimirmos alguns espaços corretamente
 LIB=0
 
+# Variável auxiliar para imprimirmos algumas frases corretamente
+AUX_PRINT=1
 
 # -------------------------------------------------------------
 # DIRETÓRIO BASE
@@ -74,6 +76,7 @@ clear
 definirOpcoes
 echo
 ativarSudo
+echo "❱ Criando e conectando um terminal secundário..."
 gerarTerminalSecundario
 instalarTtyecho
 echo
@@ -81,22 +84,21 @@ echo
 # -------------------------------------------------------------
 # CHAVES E REPOSITÓRIOS
 # -------------------------------------------------------------
+# A variável LIB é alterado ou não para 1 dentro das funções chamadas nessa seção
 
 if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "S" ]; then 
     liberarRepositorioParceirosCanonical
-    LIB=1
+    
 fi
 
 if [ "$ADICIONAR_CHAVES" == "s" ] || [ "$ADICIONAR_CHAVES" == "S" ]; then
-    echo "[SCRIPT] Adicionando chaves..."
     adicionarChaves
-    LIB=1
+    AUX_PRINT=1
 fi
 
 if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ]; then 
-    echo "[SCRIPT] Adicionando repositórios..."
     adicionarPPAs
-    LIB=1
+    AUX_PRINT=1
 fi
 
 if [ $LIB -eq 1 ]; then
@@ -108,15 +110,16 @@ fi
 # -------------------------------------------------------------
 
 if [ "$ATUALIZAR_PACOTES" == "s" ] || [ "$ATUALIZAR_PACOTES" == "S" ]; then
+    echo "❱ Atualizando banco de dados de pacotes..."
     apt-get_update
     if [ "$USAR_DIST_UPGRADE" == "s" ] || [ "$USAR_DIST_UPGRADE" == "S" ]; then
+        echo "❱ Atualizando pacotes (com \"sudo apt dist-upgrade\")..."
         apt-get_dist-upgrade
     else
+        echo "❱ Atualizando pacotes..."
         apt-get_upgrade
     fi
 fi
-
-criarListasDePacotes 1
 
 echo
 
@@ -128,7 +131,7 @@ LIB=0
 
 if [ "$ACEITAR_EULAS" == "s" ] || [ "$ACEITAR_EULAS" == "S" ]; then 
     aceitarEulas
-    # LIB pode ser alterado para 1 dentro dessa chamada
+    # LIB pode ser alterado para 1 dentro de aceitarEulas
 
     if [ $LIB -eq 1 ]; then
         echo
@@ -136,11 +139,22 @@ if [ "$ACEITAR_EULAS" == "s" ] || [ "$ACEITAR_EULAS" == "S" ]; then
 fi
 
 # -------------------------------------------------------------
+# INSTALAÇÕES VIA APT-GET
+# -------------------------------------------------------------
+
+if [ "$PROCESSAR_APT" == "s" ] || [ "$PROCESSAR_APT" == "S" ]; then 
+    echo "❱ Instalando programas por apt-get:"
+    echo
+    instalacoesApt
+    echo
+fi
+
+# -------------------------------------------------------------
 # INSTALAÇÕES VIA DEB
 # -------------------------------------------------------------
 
 if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "S" ]; then 
-    echo "[SCRIPT] Instalando debs:"
+    echo "❱ Instalando debs:"
     echo
     cd ~/Downloads
     instalarDebs
@@ -149,22 +163,11 @@ if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "S" ]; then
 fi
 
 # -------------------------------------------------------------
-# INSTALAÇÕES VIA APT-GET
-# -------------------------------------------------------------
-
-if [ "$PROCESSAR_APT" == "s" ] || [ "$PROCESSAR_APT" == "S" ]; then 
-    echo "[SCRIPT] Instalando programas por apt-get:"
-    echo
-    instalacoesApt
-    echo
-fi
-
-# -------------------------------------------------------------
 # INSTALAÇÕES DE PROGRAMAS COMPACTADOS
 # -------------------------------------------------------------
 
 if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ]; then 
-    echo "[SCRIPT] Baixando e extraindo programas compactados:"
+    echo "❱ Baixando e extraindo programas compactados:"
     echo
     instalarCompactado
     echo
@@ -178,6 +181,7 @@ iniciarTlp # Só roda se o TLP estiver instalado
 if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "S" ]; then 
     criarPrefixoWine32Bits
 fi
+echo "❱ limpando pacotes inutilizados..."
 apt-get_autoremove
 echo
 finalizar

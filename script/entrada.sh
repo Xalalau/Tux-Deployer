@@ -1,9 +1,9 @@
 # Funcionamento das chamadas de função
 
 # CHAVES:
-   # adicionarChave "SERVIDOR" "CHAVE" "RÓTULO QUALQUER"
+   # adicionarChave "SERVIDOR" "CHAVE" "RÓTULO QUALQUER" "TERMO DE BUSCA"
    # EX: adicionarChave "pgp.mit.edu" "5044912E" "Dropbox"
-   # adicionarChave2 "LINK_DOWNLOAD_CHAVE" "RÓTULO QUALQUER"
+   # adicionarChave2 "LINK_DOWNLOAD_CHAVE" "RÓTULO QUALQUER" "TERMO DE BUSCA"
    # EX: adicionarChave2 "https://d2t3ff60b2tol4.cloudfront.net/services@insynchq.com.gpg.key" "Insync"
 
 # PPAS:
@@ -17,12 +17,16 @@
    # EX: aceitarEula "steam" "steam/question" "select" "I AGREE"
 
 # DEBS POR DOWNLOAD:
-   # baixarDeb "NOME DO PACOTE" "LINK"
+   # baixarDeb "NOME DO PACOTE" "LINK" "TERMO DE BUSCA"
    # Ex: baixarDeb "steam-launcher" "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
+   # NOTA: "TERMO DE BUSCA" é opcional. Deve ser usado para encontrar a instalação de pacotes que não
+   #       estão sendo detectados normalmente.
 
 # DEBS POR APT-GET:
-   # instalarApt "NOME DO PACOTE" "ALGUM PARÂMETRO"
+   # instalarApt "NOME DO PACOTE" "ALGUM PARÂMETRO" "TERMO DE BUSCA"
    # Ex: instalarApt "build-essential" "--install-recommends"
+   # NOTA: "TERMO DE BUSCA" é opcional. Deve ser usado para encontrar a instalação de pacotes que não
+   #       estão sendo detectados normalmente.
 
 # PROGRAMAS COMPACTADOS (EX: ZIP, RAR, TAR.GZ):
    # baixarEExtrair "NOME DA PASTA DESTINO" "EXTENSÃO" "LINK DE DOWNLOAD"
@@ -32,15 +36,14 @@
 
 
 # --------------------
-# Pacotes de: 10/02/17
+# Pacotes de: 23/09/17
 # --------------------
 
 
-
-
 function adicionarChaves() {
-    adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome"
-    adicionarChave2 "https://www.virtualbox.org/download/oracle_vbox_2016.asc" "VirtualBox"
+    adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome" "Google Inc."
+    adicionarChave2 "https://www.virtualbox.org/download/oracle_vbox_2016.asc" "VirtualBox" "VirtualBox"
+    adicionarChave "hkp://pgp.mit.edu:80" "379CE192D401AB61" "Etcher" "Bintray (by JFrog)"
 }
 
 function adicionarPPAs() {
@@ -55,8 +58,10 @@ function adicionarPPAs() {
     adicionarPPA "ppa:linrunner/tlp" "tlp"
     adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
-    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine git
+    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
+    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
+    adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
     adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
 }
 
@@ -77,21 +82,23 @@ function instalarDebs() {
     instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.1/discord-0.0.1.deb"
     instalarDeb "insync" "https://d2t3ff60b2tol4.cloudfront.net/builds/insync_1.3.14.36131-trusty_amd64.deb" # Verificar por updates
     instalarDeb "stremio" "http://dl.strem.io/stremio_3.6.5_amd64.deb"
+    instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.10/PlayOnLinux_4.2.10.deb"
 }
 
 function instalacoesApt() {
     instalarApt "axel"
     instalarApt "android-tools-adb"
     instalarApt "android-tools-fastboot"
-    instalarApt "aptitude"
     instalarApt "audacity"
     instalarApt "blender"
     instalarApt "bleachbit"
-    instalarApt "breeze-cursor-theme" # Bonito
     instalarApt "browser-plugin-freshplayer-pepperflash"
     instalarApt "build-essential"
     instalarApt "cifs-utils" # Para o Samba
     instalarApt "cheese"
+    instalarApt "dropbox"
+    instalarApt "elementary-icon-theme"
+    instalarApt "etcher-electron" "--allow-unauthenticated"
     instalarApt "filezilla"
     instalarApt "gcc-multilib"
     instalarApt "geany"
@@ -116,9 +123,7 @@ function instalacoesApt() {
     instalarApt "libreoffice"
     instalarApt "mesa-utils"
     instalarApt "mono-complete"
-    instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus
     instalarApt "neofetch"
-    instalarApt "okular"
     instalarApt "openssh-server" # Para o XMouse
     instalarApt "oracle-java8-installer"
     instalarApt "oracle-java8-set-default"
@@ -136,15 +141,15 @@ function instalacoesApt() {
     instalarApt "telegram"
     instalarApt "tlp"
     instalarApt "tlp-rdw"
-    instalarApt "unity-tweak-tool"
+    instalarApt "ukuu"
     instalarApt "unrar"
-    instalarApt "virtualbox-5.1"
+    instalarApt "virtualbox"
     instalarApt "vlc"
     instalarApt "winbind"
     instalarApt "wine2.0"
     instalarApt "winetricks"
-    instalarApt "playonlinux" # Deve ser instalado depois do Wine para não cagar um Wine 1.6 no sistema
     instalarApt "xdotool" # Para o XMouse
+    instalarApt "xterm"
 }
 
 function instalarCompactado() {
@@ -158,6 +163,8 @@ function instalarCompactado() {
 
 
 
+# -----------------------------------------------------------------------------------------------------------
+
 : ' #-------------------------------
     #Depósito de adições desativadas
     #-------------------------------
@@ -167,8 +174,6 @@ function instalarCompactado() {
     xx
 
 # PPAS
-    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
-    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
     adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
     # ----------- # Gnome atualizado para o Ubuntu Gnome.
@@ -177,6 +182,9 @@ function instalarCompactado() {
     # -----------
     adicionarPPA "ppa:ubuntu-wine/ppa" "ubuntu-wine" # Wine atualizado versão estável. Não usar junto com o Wine do gallium-nine.
     adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
+    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine git. Não usar junto com o Wine do gallium-nine.
+    adicionarPPA "ppa:webupd8team/y-ppa-manager" "y-ppa-manager"
+    adicionarPPA "ppa:teejee2008/ppa" "teejee2008"
 
 #EULAS
     
@@ -190,16 +198,29 @@ function instalarCompactado() {
 
 # DEBS POR APT-GET
 
+    instalarApt "aptitude"
+    instalarApt "breeze-cursor-theme" # Bonito
     instalarApt "dolphin-emu-master" #Emulador
     instalarApt "dolphin-plugins" #Para o gerenciador de arquivos dolphin
     instalarApt "fceux"
     instalarApt "furiusisomount"
     instalarApt "kdesudo"
     instalarApt "mupen64plus-qt"
+    instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus
+    instalarApt "okular"
     instalarApt "xscreensaver"
     instalarApt "xscreensaver-gl-extra"
     instalarApt "xscreensaver-data-extra"
     instalarApt "wine-staging" "--install-recommends"
     instalarApt "winehq-staging"
     instalarApt "winetricks"
+    instalarApt "y-ppa-manager"
 '
+
+# Requisitos para compilação do ttyecho (caso seja necessária):
+function instalacoesAptTtyecho() { 
+    instalarApt "g++-multilib"
+    instalarApt "libc6-dev" "" "PATTERN"
+}
+
+
