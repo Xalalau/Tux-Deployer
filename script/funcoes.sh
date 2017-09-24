@@ -415,7 +415,7 @@ function instalarApt() {
         printf "$INSTALADO"
     else
         echo2 "Instalando \"$1\"..."
-        sudo apt-get install $1 $2 -y &>$CONSOLE;
+        sudo apt-get install $juntar -y &>$CONSOLE;
         dpkg -s "$1" &>$CONSOLE;
         if [ "$3" != "--SUBSTRING" ] && [ "$2" != "--SUBSTRING" ]; then
             criarListasDePacotes
@@ -470,6 +470,7 @@ function baixarEPosicionar() {
     # $1 = nome da pacote que iremos baixar
     # $2 = extensão do pacote (zip, rar, tar.gz...)
     # $3 = nome da pasta aonde iremos extrair o pacote
+    # $4 = link de download
     # $5 = --ROOT = vai instalar como root
     cd ~/
     printf "❱ %-73s" "$1"
@@ -482,11 +483,10 @@ function baixarEPosicionar() {
 
         echo2 "Baixando e posicionando \"$1\"..."
         # Baixando:
-        if [ "$3" != "--ROOT" ]; then
+        if [ "$5" == "--ROOT" ]; then
             Sudo+="sudo"
         fi
-        $Sudo mkdir "$3" &>$CONSOLE;
-        $Sudo mkdir "$3/TEMP" &>$CONSOLE;
+        $Sudo mkdir -p "$3/TEMP" &>$CONSOLE;
         cd "$3/TEMP" &>$CONSOLE;
         if [ "$2" != "" ]; then
             ponto+="."
@@ -545,11 +545,7 @@ function criarPrefixoWine32Bits() {
     checarExistenciaPacoteOuComando "wine"
     RES=$?
     if [ "$RES" -ne "0" ]; then
-        mkdir "~/.cache/wine" &>$CONSOLE;
-
-        
-
-        if [ ! -d "$HOME/.wine" ]; then
+        if [ ! -d "$HOME/.wine/drive_c" ]; then
             echo "❱ Criando prefixo padrão de 32bits para o Wine"
             echo2 "WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot'"
             WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;

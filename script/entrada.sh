@@ -68,7 +68,7 @@ function adicionarPPAs() {
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
     adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
     adicionarPPA "ppa:numix/ppa" "numix"
-    adicionarPPA "ppa:wine/wine-builds" "wine-builds" # Wine oficial. Não usar junto com o Wine do gallium-nine.
+    adicionarPPA2 "deb https://dl.winehq.org/wine-builds/ubuntu/ $CODENOME main" "wine-builds.list" "wine" # Wine oficial. Não usar junto com o Wine do gallium-nine.
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
     adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint (mint está ruim)
