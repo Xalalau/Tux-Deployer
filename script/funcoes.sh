@@ -152,8 +152,8 @@ function ativarSudo() {
 function pegarInformacoesDoSistema() {
     source /etc/os-release
     CODENOME="$UBUNTU_CODENAME"
-    DISTRIBUICAO=$(grep "PRETTY_NAME" /etc/os-release | awk '{ print $2 }')
-    DISTRIBUICAO=${DISTRIBUICAO,,}
+    DISTRIBUICAO="$(grep "PRETTY_NAME" /etc/os-release | awk '{ print $2 }')"
+    DISTRIBUICAO="${DISTRIBUICAO,,}"
 }
 
 function echo2() {
@@ -316,7 +316,7 @@ function adicionarPPA() {
         if [ "$AUX_PRINT" -eq "1" ];then
             echo "❱ Adicionando repositórios..."
             AUX_PRINT=0
-            LIB=1
+            AUX_LIB=1
         fi
         echo2 "sudo add-apt-repository "$1" -y"
         sudo add-apt-repository "$1" -y &>$CONSOLE;
@@ -331,7 +331,7 @@ function adicionarPPA2() {
         if [ "$AUX_PRINT" -eq "1" ];then
             echo "❱ Adicionando repositórios..."
             AUX_PRINT=0
-            LIB=1
+            AUX_LIB=1
         fi
         echo2 "\"$1\" >> \"$2\" && sudo mv \"$2\" \"/etc/apt/sources.list.d/\""
         echo "$1" >> "$2"
@@ -348,7 +348,7 @@ function adicionarChave() {
         if [ "$AUX_PRINT" -eq "1" ];then
             echo "❱ Adicionando chaves..."
             AUX_PRINT=0
-            LIB=1
+            AUX_LIB=1
         fi
         echo2 "Chave de \"$3\": sudo apt-key adv --keyserver \"$1\" --recv-keys \"$2\""
         sudo apt-key adv --keyserver "$1" --recv-keys "$2" &>$CONSOLE;
@@ -363,7 +363,7 @@ function adicionarChave2() {
         if [ "$AUX_PRINT" -eq "1" ];then
             echo "❱ Adicionando chaves..."
             AUX_PRINT=0
-            LIB=1
+            AUX_LIB=1
         fi
         echo2 "wget -qO - $1 | sudo apt-key add -"
         wget -qO - $1 | sudo apt-key add - &>$CONSOLE;
@@ -377,7 +377,7 @@ function liberarRepositorioParceirosCanonical() {
         echo "❱ Ativando repositório de parceiros da Canonical..."
         echo2 "sudo sed -i \"/^# deb .*partner/ s/^# //\" \"$arquivo\""        
         sudo sed -i "/^# deb .*partner/ s/^# //" "$arquivo" &>$CONSOLE;
-        LIB=1
+        AUX_LIB=1
     fi
 }
 
@@ -390,7 +390,7 @@ function aceitarEula() {
         echo "❱ Aceitando termos, \"$2\"..."
         echo2 "echo $1 $2 $3 $4 | sudo debconf-set-selections"
         echo $1 $2 $3 $4 | sudo debconf-set-selections
-        LIB=1
+        AUX_LIB=1
     fi
 }
 
@@ -472,7 +472,7 @@ function baixarEPosicionar() {
     # $3 = nome da pasta aonde iremos extrair o pacote
     # $4 = link de download
     # $5 = --ROOT = vai instalar como root
-    cd ~/
+    cd "$DIR_DOWNLOADS"
     printf "❱ %-73s" "$1"
     # Checo se já está tudo certo.
     if test -f "$3/$1_instalado.txt"; then
@@ -508,19 +508,19 @@ function baixarEPosicionar() {
         local total=$(( quant1 + quant2 )) # Pastas + Arquivos
         if [ $total -eq 0 ]; then # Se eu não tiver nada na pasta o processo falhou.
             printf "$FALHOU"
-            cd ~/
+            cd "$DIR_DOWNLOADS"
             $Sudo rm -r "$3" &>$CONSOLE;
             return
         elif [ $quant1 -eq 1 ] && [ $quant2 -eq 0 ]; then # Se tiver apenas uma subpasta, movo o conteúdo para fora dela e é sucesso.
             dir=$(find . -mindepth 1 -maxdepth 1 -type d)
-            $Sudo mv $dir/* ./ &>$CONSOLE;
-            $Sudo rm -r $dir &>$CONSOLE;
+            $Sudo mv "$dir/*" ./ &>$CONSOLE;
+            $Sudo rm -r "$dir" &>$CONSOLE;
         fi # Se tiver um ou mais arquivos é sucesso.
         # Mover arquivos de $3/TEMP para $3:
         cd ../
         $Sudo mv ./TEMP/* ./ &>$CONSOLE;
         $Sudo rm -r ./TEMP &>$CONSOLE;
-        cd ~/
+        cd "$DIR_DOWNLOADS"
         echo "" > $1_instalado.txt &>$CONSOLE;
         $Sudo mv $1_instalado.txt "$3" &>$CONSOLE;
         cd "$DIR_BASE"
@@ -558,7 +558,7 @@ function removerTerminalSecundario() {
     cd "$DIR_BASE"
     echo "❱ Removendo terminal secundário..."
     if [ -f "../external/console.txt" ]; then
-        rm ../external/console.txt
+        rm "../external/console.txt"
     fi
     sudo ttyecho -n $CONSOLE exit
 }

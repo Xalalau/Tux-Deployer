@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.6.2 (24/09/17)"
+VERSAO="v1.6.3 (26/09/17)"
 # __________________________________________________________________________
 
 
@@ -20,6 +20,9 @@ VERSAO="v1.6.2 (24/09/17)"
 
 # Pasta atual
 DIR_BASE="$(cd "${0%/*}" && echo $PWD)"
+
+# Pasta de downloads
+DIR_DOWNLOADS="$(xdg-user-dir DOWNLOAD)"
 
 # Nome e codinome do sistema
 DISTRIBUICAO=""
@@ -86,7 +89,7 @@ echo
 # -------------------------------------------------------------
 # CHAVES E REPOSITÓRIOS
 # -------------------------------------------------------------
-# A variável LIB é alterado ou não para 1 dentro das funções chamadas nessa seção
+# A variável AUX_LIB é alterado ou não para 1 dentro das funções chamadas nessa seção
 
 if [ "$LIBERAR_PARCEIROS" == "s" ] || [ "$LIBERAR_PARCEIROS" == "S" ]; then 
     liberarRepositorioParceirosCanonical
@@ -102,7 +105,7 @@ if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ];
     AUX_PRINT=1
 fi
 
-if [ $LIB -eq 1 ]; then
+if [ $AUX_LIB -eq 1 ]; then
     echo
 fi
 
@@ -130,13 +133,13 @@ echo
 # ACEITAÇÃO DE EULAS
 # -------------------------------------------------------------
 
-LIB=0
+AUX_LIB=0
 
 if [ "$ACEITAR_EULAS" == "s" ] || [ "$ACEITAR_EULAS" == "S" ]; then 
     aceitarEulas
-    # LIB pode ser alterado para 1 dentro de aceitarEulas
+    # AUX_LIB pode ser alterado para 1 dentro de aceitarEulas
 
-    if [ $LIB -eq 1 ]; then
+    if [ $AUX_LIB -eq 1 ]; then
         echo
     fi
 fi
@@ -159,7 +162,7 @@ fi
 if [ "$PROCESSAR_DEBS" == "s" ] || [ "$PROCESSAR_DEBS" == "S" ]; then 
     echo "❱ Instalando debs:"
     echo
-    cd ~/Downloads
+    cd "$DIR_DOWNLOADS"
     instalarDebs
     cd "$DIR_BASE"
     echo

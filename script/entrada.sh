@@ -47,7 +47,6 @@
 
 
 function adicionarChaves() {
-    adicionarChave2 "https://dl.winehq.org/wine-builds/Release.key" "Wine" "Wine" # Para o Wine-Builds
     adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome" "Google Inc."
     adicionarChave2 "https://www.virtualbox.org/download/oracle_vbox_2016.asc" "VirtualBox" "VirtualBox"
     adicionarChave "hkp://pgp.mit.edu:80" "379CE192D401AB61" "Etcher" "Bintray (by JFrog)"
@@ -68,7 +67,9 @@ function adicionarPPAs() {
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
     adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
     adicionarPPA "ppa:numix/ppa" "numix"
-    adicionarPPA2 "deb https://dl.winehq.org/wine-builds/ubuntu/ $CODENOME main" "wine-builds.list" "wine" # Wine oficial. Não usar junto com o Wine do gallium-nine.
+    adicionarPPA "ppa:paulo-miguel-dias/pkppa" "paulo-miguel"
+    adicionarPPA "ppa:teejee2008/ppa" "teejee2008" # Kernels atualizados para o Ubuntu
+    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
     adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint (mint está ruim)
@@ -156,11 +157,12 @@ function instalacoesApt() {
     instalarApt "telegram"
     instalarApt "tlp"
     instalarApt "tlp-rdw"
+    instalarApt "ukuu"
     instalarApt "unrar"
     instalarApt "virtualbox"
     instalarApt "vlc"
     instalarApt "winbind"
-    instalarApt "winehq-staging" "--install-recommends --allow-unauthenticated"
+	instalarApt "wine2.0"
     instalarApt "xdotool" # Para o XMouse
     instalarApt "xterm"
 }
@@ -187,7 +189,7 @@ function instalarAvulso() {
 
 # CHAVES
 
-    xx
+    adicionarChave2 "https://dl.winehq.org/wine-builds/Release.key" "Wine" "Wine"
 
 # PPAS
     # ----------- Gáficos open-source atualizados pelo Oibaf
@@ -196,10 +198,9 @@ function instalarAvulso() {
     # ----------- Gáficos open-source atualizados pelo Padoka
     adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
     # -----------
-    adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
+    adicionarPPA2 "deb https://dl.winehq.org/wine-builds/ubuntu/ $CODENOME main" "wine-builds.list" "wine" # Wine oficial. Não usar junto com o Wine do gallium-nine.
     adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
     adicionarPPA "ppa:webupd8team/y-ppa-manager" "y-ppa-manager"
-    adicionarPPA "ppa:teejee2008/ppa" "teejee2008"
 
 #EULAS
     
@@ -207,7 +208,7 @@ function instalarAvulso() {
 
 # DEBS POR DOWNLOAD NORMAL
 
-    instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão tem o 
+    instalarDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # Essa versão tem os menus da parte superior funcionais
     instalarDeb "spotifywebplayer" "https://github.com/Quacky2200/Spotify-Web-Player-for-Linux/releases/download/0.9.5-1/spotifywebplayerv0.9.5-1-alpha-x64.deb"
     instalarDeb "dropbox" "https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb"
 
@@ -223,12 +224,10 @@ function instalarAvulso() {
     instalarApt "mupen64plus-qt"
     instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus
     instalarApt "okular"
-    instalarApt "ukuu"
     instalarApt "xscreensaver"
     instalarApt "xscreensaver-gl-extra"
     instalarApt "xscreensaver-data-extra"
-    instalarApt "wine-staging" "--install-recommends"
-    instalarApt "winehq-staging"
+    instalarApt "winehq-staging" "--install-recommends --allow-unauthenticated"
     instalarApt "winetricks"
     instalarApt "y-ppa-manager"
 

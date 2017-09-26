@@ -40,7 +40,7 @@ Um instalador de *pacotes para Ubuntu* supimpa! Automatize a sua vida, não perc
 
 - [ ✔ ] = Indica que o programa já está presente e portanto não é necessária nenhuma instalação;
 - [ ⟳ ] = Indica que o programa foi instalado pelo script;
-- [×××] = Indica que a instalação do programa.
+- [×××] = Indica que a instalação do programa falhou.
 
 **Notas:**
 
