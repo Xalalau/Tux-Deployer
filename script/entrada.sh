@@ -162,7 +162,7 @@ function instalacoesApt() {
     instalarApt "virtualbox"
     instalarApt "vlc"
     instalarApt "winbind"
-	instalarApt "wine2.0"
+    instalarApt "wine2.0"
     instalarApt "xdotool" # Para o XMouse
     instalarApt "xterm"
 }
