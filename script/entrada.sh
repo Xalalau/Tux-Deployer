@@ -42,7 +42,7 @@
 
 
 # --------------------
-# Pacotes de: 24/09/17
+# Pacotes de: 05/10/17
 # --------------------
 
 
@@ -65,9 +65,10 @@ function adicionarPPAs() {
     adicionarPPA "ppa:linrunner/tlp" "tlp"
     adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
-    adicionarPPA "ppa:varlesh-l/indicator-kdeconnect" "kdeconnect"
+    adicionarPPA "ppa:webupd8team/indicator-kdeconnect" "kdeconnect"
     adicionarPPA "ppa:numix/ppa" "numix"
     adicionarPPA "ppa:paulo-miguel-dias/pkppa" "paulo-miguel"
+    adicionarPPA "ppa:stebbins/handbrake-releases" "handbrake"
     adicionarPPA "ppa:teejee2008/ppa" "teejee2008" # Kernels atualizados para o Ubuntu
     adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
@@ -125,6 +126,7 @@ function instalacoesApt() {
     instalarApt "grub-customizer"
     instalarApt "haguichi"
     instalarApt "hardinfo"
+    instalarApt "handbrake-gtk"
     instalarApt "hplip-gui"
     instalarApt "indicator-kdeconnect"
     instalarApt "insync"
@@ -147,6 +149,7 @@ function instalacoesApt() {
     instalarApt "p7zip-rar"
     instalarApt "ppa-purge"
     instalarApt "qbittorrent"
+    instalarApt "qdirstat"
     instalarApt "qjoypad"
     instalarApt "rar"
     instalarApt "samba"
@@ -174,6 +177,7 @@ function instalarAvulso() {
     baixarEPosicionar "wine_gecko-2.47-x86" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
     baixarEPosicionar "winetricks" "" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
 }
+
 
 
 
