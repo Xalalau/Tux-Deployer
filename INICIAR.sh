@@ -10,19 +10,44 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.6.3 (26/09/17)"
+VERSAO="v1.7 (17/03/18)"
 # __________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Ver o que fazer com as perguntas  na nova parte de scripts
+
+
+
+
+
+
+
+
+
 
 
 # -------------------------------------------------------------
 # Variáveis globais
 # -------------------------------------------------------------
 
-# Pasta atual
+# Pastas
 DIR_BASE="$(cd "${0%/*}" && echo $PWD)"
-
-# Pasta de downloads
 DIR_DOWNLOADS="$(xdg-user-dir DOWNLOAD)"
+DIR_INCLUDE="$DIR_BASE/include"
+DIR_SCRIPTS="$DIR_INCLUDE/scripts"
+DIR_EXTERNAL="$DIR_INCLUDE/external"
 
 # Nome e codinome do sistema
 DISTRIBUICAO=""
@@ -56,6 +81,9 @@ LIB=0
 # Variável auxiliar para imprimirmos algumas frases corretamente
 AUX_PRINT=1
 
+# Espaco para impressao da coluna de estados
+ESPACO_PRINTF="%-73s"
+
 # -------------------------------------------------------------
 # DIRETÓRIO BASE
 # -------------------------------------------------------------
@@ -67,10 +95,10 @@ cd "$DIR_BASE"
 # -------------------------------------------------------------
 
 # Funções gerais
-source "funcoes.sh"
+source $DIR_INCLUDE/"funcoes.sh"
 
 # Função com os entradas
-source "entrada.sh"
+source $DIR_INCLUDE/"entrada.sh"
 
 # -------------------------------------------------------------
 # INÍCIO
@@ -105,7 +133,7 @@ if [ "$ADICIONAR_REPOSITORIOS" == "s" ] || [ "$ADICIONAR_REPOSITORIOS" == "S" ];
     AUX_PRINT=1
 fi
 
-if [ $AUX_LIB -eq 1 ]; then
+if [ "$AUX_LIB" == "1" ]; then
     echo
 fi
 
@@ -139,7 +167,7 @@ if [ "$ACEITAR_EULAS" == "s" ] || [ "$ACEITAR_EULAS" == "S" ]; then
     aceitarEulas
     # AUX_LIB pode ser alterado para 1 dentro de aceitarEulas
 
-    if [ $AUX_LIB -eq 1 ]; then
+    if [ "$AUX_LIB" == "1" ]; then
         echo
     fi
 fi
@@ -175,7 +203,17 @@ fi
 if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ]; then 
     echo "❱ Baixando e posicionando progamas:"
     echo
-    instalarAvulso
+    instalarAvulsos
+    echo
+fi
+
+# -------------------------------------------------------------
+# RODAR SCRIPTS
+# -------------------------------------------------------------
+if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ]; then 
+    echo "❱ Rodando scripts:"
+    echo
+    rodarScripts
     echo
 fi
 
@@ -183,10 +221,6 @@ fi
 # AJUSTES FINAIS
 # -------------------------------------------------------------
 
-iniciarTlp # Só roda se o TLP estiver instalado
-if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "S" ]; then 
-    criarPrefixoWine32Bits
-fi
 echo "❱ Limpando pacotes inutilizados..."
 apt-get_autoremove
 echo

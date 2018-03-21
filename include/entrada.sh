@@ -37,12 +37,14 @@
    # Nota: a função extrai o conteúdo de arquivos zip, rar e tar.gz
    # NOTA: --ROOT é opcional. Faz os arquivos serem instalados pelo administrador.
 
-
+# SCRIPTS:
+    # rodarScript "NOME DO SCRIPT"
+    # Ex: rodarScript "configurarWine"
 
 
 
 # --------------------
-# Pacotes de: 05/10/17
+# Pacotes de: 17/03/18
 # --------------------
 
 
@@ -54,6 +56,7 @@ function adicionarChaves() {
 }
 
 function adicionarPPAs() {
+    adicionarPPA "ppa:ubuntu-toolchain-r/test" "toolchain" #GCC-7
     adicionarPPA "ppa:atareao/telegram" "telegram"
     adicionarPPA "ppa:qbittorrent-team/qbittorrent-stable" "qbittorrent"
     adicionarPPA "ppa:webupd8team/haguichi" "haguichi"
@@ -63,21 +66,21 @@ function adicionarPPAs() {
     adicionarPPA "ppa:danielrichter2007/grub-customizer" "grub-customizer"
     adicionarPPA "ppa:ermshiperete/monodevelop" "mono"
     adicionarPPA "ppa:linrunner/tlp" "tlp"
-    adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
     adicionarPPA "ppa:dawidd0811/neofetch" "neofetch"
     adicionarPPA "ppa:webupd8team/indicator-kdeconnect" "kdeconnect"
+    adicionarPPA "ppa:nathan-renniewaldock/qdirstat" "qdirstat"
     adicionarPPA "ppa:numix/ppa" "numix"
-    adicionarPPA "ppa:paulo-miguel-dias/pkppa" "paulo-miguel"
+    adicionarPPA "ppa:paulo-miguel-dias/pkppa" "paulo-miguel" # Gáficos open-source estáveis atualizados pelo Padoka
     adicionarPPA "ppa:stebbins/handbrake-releases" "handbrake"
     adicionarPPA "ppa:teejee2008/ppa" "teejee2008" # Kernels atualizados para o Ubuntu
     adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
-    adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint (mint está ruim)
+    adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint
 }
 
 function aceitarEulas() {
-    aceitarEula "oracle-java8-installer" "shared/accepted-oracle-license-v1-1" "select" "true"
+    aceitarEula "oracle-java9-installer" "shared/accepted-oracle-license-v1-1" "select" "true"
     aceitarEula "ttf-mscorefonts-installer" "msttcorefonts/accepted-mscorefonts-eula" "select" "true"
     aceitarEula "steam" "steam/purge" "note" " "
     aceitarEula "steam" "steam/license" "note" " "
@@ -87,15 +90,15 @@ function aceitarEulas() {
 function instalarDebs() {
     instalarDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
     instalarDeb "hamachi" "https://www.vpn.net/installers/logmein-hamachi_2.1.0.174-1_amd64.deb" # Verificar por updates
-    instalarDeb "teamviewer" "http://download.teamviewer.com/download/teamviewer_i386.deb"
+    instalarDeb "teamviewer" "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
     instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
     instalarDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-2_i386.deb" # Esse consegue automatizar as EULAs
-    instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.2/discord-0.0.2.deb" # Verificar por updates
+    instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.4/discord-0.0.4.deb" # Verificar por updates
     instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.12/PlayOnLinux_4.2.12.deb" # Verificar por updates
+    instalarDeb "code" "https://go.microsoft.com/fwlink/?LinkID=760868" # Visual Studio Code
 }
 
 function requisitosTtyecho() { 
-    instalarApt "g++-multilib"
     instalarApt "libc6-dev" --SUBSTRING
 }
 
@@ -114,19 +117,21 @@ function instalacoesApt() {
     instalarApt "elementary-icon-theme"
     instalarApt "etcher-electron" "--allow-unauthenticated"
     instalarApt "filezilla"
-    instalarApt "gcc-multilib"
     instalarApt "geany"
     instalarApt "geogebra"
-    instalarApt "hostapd"
+    instalarApt "g++-7"
+    instalarApt "g++-7-multilib"
+    instalarApt "gcc-7"
+    instalarApt "gcc-7-multilib"
     instalarApt "gimp"
     instalarApt "git"
     instalarApt "git-cola"
-    instalarApt "g++-multilib"
     instalarApt "gparted"
     instalarApt "grub-customizer"
     instalarApt "haguichi"
     instalarApt "hardinfo"
     instalarApt "handbrake-gtk"
+    instalarApt "hostapd"
     instalarApt "hplip-gui"
     instalarApt "indicator-kdeconnect"
     instalarApt "insync"
@@ -134,17 +139,17 @@ function instalacoesApt() {
     instalarApt "k3b"
     instalarApt "kde-runtime" # Ícones para o Kdenlive 
     instalarApt "kdeconnect"
-    instalarApt "kdenlive"
     instalarApt "libavcodec-extra"
     instalarApt "libreoffice"
     instalarApt "mesa-utils"
     instalarApt "mono-complete"
+    instalarApt "nemo-dropbox"
     instalarApt "numix-gtk-theme"
     instalarApt "numix-icon-theme-circle"
     instalarApt "neofetch"
     instalarApt "openssh-server" # Para o XMouse
-    instalarApt "oracle-java8-installer"
-    instalarApt "oracle-java8-set-default"
+    instalarApt "oracle-java9-installer"
+    instalarApt "oracle-java9-set-default"
     instalarApt "p7zip-full"
     instalarApt "p7zip-rar"
     instalarApt "ppa-purge"
@@ -162,24 +167,28 @@ function instalacoesApt() {
     instalarApt "tlp-rdw"
     instalarApt "ukuu"
     instalarApt "unrar"
-    instalarApt "virtualbox"
+    instalarApt "virtualbox-5.2"
     instalarApt "vlc"
     instalarApt "winbind"
-    instalarApt "wine2.0"
+    instalarApt "wine3.0"
     instalarApt "xdotool" # Para o XMouse
     instalarApt "xterm"
 }
 
-function instalarAvulso() {
-    baixarEPosicionar "Create_AP" "zip" "./Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master"
-    baixarEPosicionar "Stremio" "appimage" "./Stremio" "https://dl.strem.io/linux/v4.0.0-beta.29/Stremio+4.0.0-beta.29.appimage" # Verificar por updates
-    baixarEPosicionar "wine-mono-4.7.1" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi" # Verificar por updates
-    baixarEPosicionar "wine_gecko-2.47-x86" "msi" "./.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
+function instalarAvulsos() {
+    baixarEPosicionar "Create_AP" "zip" "~/Trecos/Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master"
+    baixarEPosicionar "Stremio" "appimage" "~/bin" "https://dl.strem.io/linux/v4.0.2/Stremio+4.0.2.appimage" # Verificar por updates
+    baixarEPosicionar "wine-mono-4.7.1" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.7.1/wine-mono-4.7.1.msi" # Verificar por updates
+    baixarEPosicionar "wine_gecko-2.47-x86" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
     baixarEPosicionar "winetricks" "" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
+    baixarEPosicionar "Kdenlive-17.12.0d-x86_64" "appimage" "~/bin" "http://kde-applicationdata.c3sl.ufpr.br/kdenlive/release/Kdenlive-17.12.0d-x86_64.AppImage" # Verificar por updates
 }
 
-
-
+function rodarScripts() {
+    rodarScript "configurarTLP"
+    rodarScript "configurarWine"
+    #rodarScript "configurarGCC7"
+}
 
 
 
@@ -196,15 +205,13 @@ function instalarAvulso() {
     adicionarChave2 "https://dl.winehq.org/wine-builds/Release.key" "Wine" "Wine"
 
 # PPAS
-    # ----------- Gáficos open-source atualizados pelo Oibaf
-    adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers"
-    adicionarPPA "ppa:oibaf/gallium-nine" "gallium-nine" # gallium-nine atualizado para o Oibaf
-    # ----------- Gáficos open-source atualizados pelo Padoka
-    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias"
-    # -----------
+    adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers" # Gáficos open-source instáveis atualizados pelo Oibaf
+    adicionarPPA "ppa:paulo-miguel-dias/mesa" "paulo-miguel-dias" # Gáficos open-source instáveis atualizados pelo Padoka
     adicionarPPA2 "deb https://dl.winehq.org/wine-builds/ubuntu/ $CODENOME main" "wine-builds.list" "wine" # Wine oficial. Não usar junto com o Wine do gallium-nine.
     adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
     adicionarPPA "ppa:webupd8team/y-ppa-manager" "y-ppa-manager"
+    adicionarPPA "ppa:kdenlive/kdenlive-stable" "kdenlive"
+    
 
 #EULAS
     
@@ -224,6 +231,7 @@ function instalarAvulso() {
     instalarApt "dolphin-plugins" #Para o gerenciador de arquivos dolphin
     instalarApt "fceux"
     instalarApt "furiusisomount"
+    instalarApt "kdenlive"
     instalarApt "kdesudo"
     instalarApt "mupen64plus-qt"
     instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus

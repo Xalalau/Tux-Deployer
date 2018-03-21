@@ -28,7 +28,7 @@ function definirOpcoes() {
     echo "- Baixar e instalar arquivos .deb;"
     echo "- Instalar programas via \"apt install\";"
     echo "- Baixar e extrair programas compactados;"
-    echo "- Criar um prefixo 32 bits no Wine (caso necessário)."
+    echo "- Rodar scripts únicos de configuração e instalação."
     echo ""
     echo "Selecionar \"N\" (Não) implicará na escolha dos passos."
     echo
@@ -260,7 +260,7 @@ function apt-get_autoremove() {
 }
 
 function gerarTerminalSecundario() {
-    cd "../external/"
+    cd "$DIR_EXTERNAL"
     if ! [ -f console.txt ]; then
         ./newterm.sh "tty" ">" "console.txt"
         sleep 1.2
@@ -281,7 +281,7 @@ function instalarTtyecho() {
     # "ttyecho" permite que um terminal possa executar comandos em outro
     command -v ttyecho >/dev/null 2>&1 || {
         echo -n "❱ Instalando \"ttyecho\"..."
-        cd "../external/"
+        cd "$DIR_EXTERNAL"
         if ! [[ -f ttyecho ]]; then
             local requisitos=0
             checarComando "gcc"
@@ -404,7 +404,7 @@ function instalarApt() {
     if [ "$2" != "--SUBSTRING" ]; then
         juntar+=$2
     fi
-    printf "❱ %-73s" "$juntar"
+    printf "❱ $ESPACO_PRINTF" "$juntar"
     if [ "$3" != "--SUBSTRING" ] && [ "$2" != "--SUBSTRING" ]; then
         checarExistenciaPacoteOuComando $1
     else
@@ -442,7 +442,7 @@ function instalarDeb() {
         checarPacotePorSubstring $1
     fi
     local res=$?
-    printf "❱ %-73s" $1
+    printf "❱ $ESPACO_PRINTF" "$1"
     if [ "$res" -eq "1" ]; then
         printf "$INSTALADO"
     else
@@ -472,10 +472,16 @@ function baixarEPosicionar() {
     # $3 = nome da pasta aonde iremos extrair o pacote
     # $4 = link de download
     # $5 = --ROOT = vai instalar como root
-    cd "$DIR_DOWNLOADS"
-    printf "❱ %-73s" "$1"
+    pasta=$3
+    if [ "${3:0:1}" == "~" ]; then
+		cd ~
+		pasta=".${3:1}"
+    else
+		cd "$DIR_DOWNLOADS"
+	fi
+    printf "❱ $ESPACO_PRINTF" "$1"
     # Checo se já está tudo certo.
-    if test -f "$3/$1_instalado.txt"; then
+    if test -f "$pasta/$1_instalado.txt"; then
         printf "$INSTALADO"
     else
         local Sudo=""        
@@ -486,8 +492,8 @@ function baixarEPosicionar() {
         if [ "$5" == "--ROOT" ]; then
             Sudo+="sudo"
         fi
-        $Sudo mkdir -p "$3/TEMP" &>$CONSOLE;
-        cd "$3/TEMP" &>$CONSOLE;
+        $Sudo mkdir -p "$pasta/TEMP" &>$CONSOLE;
+        cd "$pasta/TEMP" &>$CONSOLE;
         if [ "$2" != "" ]; then
             ponto+="."
         fi
@@ -502,63 +508,44 @@ function baixarEPosicionar() {
             $Sudo tar -zxvf ./*.tar.gz &>$CONSOLE;
             $Sudo rm ./*.tar.gz &>$CONSOLE;
         fi
-        # Verificando a extração (dentro de $3/TEMP para que não haja surpresas):
+        # Verificando a extração (dentro de $pasta/TEMP para que não haja surpresas):
         local quant1=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l) # Pastas
         local quant2=$(find . -mindepth 1 -maxdepth 1 -type f | wc -l) # Arquivos
         local total=$(( quant1 + quant2 )) # Pastas + Arquivos
         if [ $total -eq 0 ]; then # Se eu não tiver nada na pasta o processo falhou.
             printf "$FALHOU"
             cd "$DIR_DOWNLOADS"
-            $Sudo rm -r "$3" &>$CONSOLE;
+            $Sudo rm -r "$pasta" &>$CONSOLE;
             return
         elif [ $quant1 -eq 1 ] && [ $quant2 -eq 0 ]; then # Se tiver apenas uma subpasta, movo o conteúdo para fora dela e é sucesso.
             dir=$(find . -mindepth 1 -maxdepth 1 -type d)
-            $Sudo mv "$dir/*" ./ &>$CONSOLE;
+            cd "$dir"
+            $Sudo mv * ../ &>$CONSOLE;
+            cd ..
             $Sudo rm -r "$dir" &>$CONSOLE;
         fi # Se tiver um ou mais arquivos é sucesso.
-        # Mover arquivos de $3/TEMP para $3:
+        # Mover arquivos de $pasta/TEMP para $pasta:
         cd ../
         $Sudo mv ./TEMP/* ./ &>$CONSOLE;
         $Sudo rm -r ./TEMP &>$CONSOLE;
-        cd "$DIR_DOWNLOADS"
         echo "" > $1_instalado.txt &>$CONSOLE;
-        $Sudo mv $1_instalado.txt "$3" &>$CONSOLE;
         cd "$DIR_BASE"
-        printf "$ATUALIZADO"     
+        printf "$ATUALIZADO"
     fi
 }
 
-function iniciarTlp() {
-    checarExistenciaPacoteOuComando "tlp"
-    RES=$?
-    if [ "$RES" -ne "0" ]; then
-        if [[ $(sudo service tlp status) != *"active (exited)"* ]]; then
-            echo "❱ Iniciando TLP..."
-            echo2 "sudo tlp start && service tlp start"
-            sudo tlp start &>$CONSOLE;
-            sudo service tlp start &>$CONSOLE;
-        fi
-    fi
-}
-
-function criarPrefixoWine32Bits() {
-    checarExistenciaPacoteOuComando "wine"
-    RES=$?
-    if [ "$RES" -ne "0" ]; then
-        if [ ! -d "$HOME/.wine/drive_c" ]; then
-            echo "❱ Criando prefixo padrão de 32bits para o Wine"
-            echo2 "WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot'"
-            WINEPREFIX=$HOME/.wine WINEARCH='win32' wine 'wineboot' &>$CONSOLE;
-            echo
-        fi
-    fi
+function rodarScript() {
+    # $1 = nome do script a ser iniciado
+    
+    printf "❱ $ESPACO_PRINTF" "$1.sh"
+    source "$DIR_SCRIPTS/$1.sh"
 }
 
 function removerTerminalSecundario() {
     cd "$DIR_BASE"
-    echo "❱ Removendo terminal secundário..."
-    if [ -f "../external/console.txt" ]; then
-        rm "../external/console.txt"
+    if [ -f "$DIR_EXTERNAL/console.txt" ]; then
+        echo "❱ Removendo terminal secundário..."
+        rm "$DIR_EXTERNAL/console.txt"
     fi
     sudo ttyecho -n $CONSOLE exit
 }
@@ -569,4 +556,3 @@ function finalizar() {
     echo
     removerTerminalSecundario
 }
-
