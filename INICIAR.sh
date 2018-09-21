@@ -10,8 +10,15 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.7.1 (20/09/18)"
+VERSAO="v1.7.2 (20/09/18)"
 # __________________________________________________________________________
+
+# -------------------------------------------------------------
+# Variáveis de ambiente
+# -------------------------------------------------------------
+
+# Isso esconde um aviso que começou a aparecer no Ubuntu 18.04+
+export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 # -------------------------------------------------------------
 # Variáveis globais
