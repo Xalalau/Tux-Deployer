@@ -43,10 +43,6 @@
 
 
 
-# --------------------
-# Pacotes de: 26/08/18
-# --------------------
-
 
 function adicionarChaves() {
     adicionarChave2 "https://dl.winehq.org/wine-builds/Release.key" "Wine" "Wine"
