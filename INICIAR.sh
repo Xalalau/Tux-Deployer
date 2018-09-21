@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.7 (17/03/18)"
+VERSAO="v1.7.1 (20/09/18)"
 # __________________________________________________________________________
 
 # -------------------------------------------------------------
@@ -185,7 +185,7 @@ fi
 # -------------------------------------------------------------
 # RODAR SCRIPTS
 # -------------------------------------------------------------
-if [ "$PROCESSAR_COMPACTADOS" == "s" ] || [ "$PROCESSAR_COMPACTADOS" == "S" ]; then 
+if [ "$RODAR_SCRIPTS" == "s" ] || [ "$RODAR_SCRIPTS" == "S" ]; then 
     echo "❱ Rodando scripts:"
     echo
     rodarScripts

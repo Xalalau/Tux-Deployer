@@ -52,7 +52,7 @@ function definirOpcoes() {
         ATUALIZAR_PACOTES="s"
         USAR_DIST_UPGRADE="n"
         ACEITAR_EULAS="s"
-        PREFIXO_WINE32="s"
+        RODAR_SCRIPTS="s"
     else
         imprimirCabecalho
     
@@ -134,10 +134,10 @@ function definirOpcoes() {
             done
         fi
 
-        echo -n "❱ Criar um prefixo 32 bits para o Wine (caso seja necessário)? [S/N] "
+        echo -n "❱ Rodar os scripts embutidos em \"./include/scripts\"? [S/N] "
         while true; do
-            read -r PREFIXO_WINE32
-            if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "n" ] || [ "$PREFIXO_WINE32" == "S" ] || [ "$PREFIXO_WINE32" == "N" ]; then
+            read -r RODAR_SCRIPTS
+            if [ "$RODAR_SCRIPTS" == "s" ] || [ "$RODAR_SCRIPTS" == "n" ] || [ "$RODAR_SCRIPTS" == "S" ] || [ "$RODAR_SCRIPTS" == "N" ]; then
                 break
             fi
         done
