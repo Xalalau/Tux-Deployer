@@ -8,7 +8,7 @@ NOME="INSTALEYTOR"
 # evita problemas e perda de tempo.
 #
 LICENCA="MIT"
-LINK="https://github.com/xalalau/Instalator"
+LINK="https://github.com/Xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
 VERSAO="v1.7.2 (20/09/18)"
 # __________________________________________________________________________
