@@ -12,7 +12,7 @@ Um instalador de *pacotes para Ubuntu 18.04* supimpa! Automatize a sua vida, nã
 
 ## Detalhes
 
-### Vantagens
+### As vantagens são
 
 - [x] Você configura uma instalação completa de forma objetiva, compacta e explicada! Tudo fica no arquivo "entrada.sh";
 - [x] As instalações realmente vão do começo ao final sozinhas! Você só executa o "INICIO.sh", faz algumas escolhas e vai embora;
@@ -37,9 +37,9 @@ Um instalador de *pacotes para Ubuntu 18.04* supimpa! Automatize a sua vida, nã
 - Remove pacotes desnecessários;
 - Finaliza o processo.
 
-##Utilização
+## Utilização
 
-Para executar o Instaleytor:
+### Para executar o Instaleytor
 
 1. clone esse repositório;
 2. dê direito de executável ao "INICIAR.sh";
@@ -56,7 +56,7 @@ gedit include/entrada.sh
 ./INICIAR.sh
 ```
 
-**Notas:**
+### Notas
 
 - O Script foi feito para o Ubuntu e seus derivados! Ele já foi testado no Linux Mint, KDE Neon e Lubuntu;
 - O único arquivo que deve ser editado pelo usuário é o "entrada.sh".
