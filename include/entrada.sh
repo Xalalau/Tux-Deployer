@@ -185,7 +185,6 @@ function instalarAvulsos() {
 function rodarScripts() {
     rodarScript "configurarTLP"
     rodarScript "configurarWine"
-    #rodarScript "configurarGCC7"
 }
 
 
