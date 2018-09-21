@@ -9,9 +9,6 @@ if [ "$PREFIXO_WINE32" == "s" ] || [ "$PREFIXO_WINE32" == "S" ]; then
 		else
 			printf "$INSTALADO"
 		fi
-		
-		# ADICIONAR WINETRICKS AQUI
-		
 	else
 		printf "$FALHOU"
 	fi
