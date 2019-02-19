@@ -48,7 +48,6 @@ function adicionarChaves() {
     adicionarChave2 "https://dl.winehq.org/wine-builds/Release.key" "Wine" "Wine"
     adicionarChave2 "https://dl.google.com/linux/linux_signing_key.pub" "Google Chrome" "Google Inc."
     adicionarChave2 "https://www.virtualbox.org/download/oracle_vbox_2016.asc" "VirtualBox" "VirtualBox"
-    adicionarChave "hkp://pgp.mit.edu:80" "379CE192D401AB61" "Etcher" "Bintray (by JFrog)"
     adicionarChave "keyserver.ubuntu.com" "ACCAF35C" "Insync" "Insynchq"
 }
 
@@ -69,7 +68,6 @@ function adicionarPPAs() {
     adicionarPPA "ppa:stebbins/handbrake-releases" "handbrake"
     adicionarPPA "ppa:teejee2008/ppa" "teejee2008" # Kernels atualizados para o Ubuntu
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
-    adicionarPPA2 "deb https://dl.bintray.com/resin-io/debian stable etcher" "etcher.list" "etcher"
     adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint
 }
 
@@ -87,10 +85,10 @@ function instalarDebs() {
     instalarDeb "teamviewer" "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
     instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
     instalarDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-2_i386.deb" # Esse consegue automatizar as EULAs
-    instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.5/discord-0.0.5.deb" # Verificar por updates
     instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.12/PlayOnLinux_4.2.12.deb" # Verificar por updates
     instalarDeb "code" "https://go.microsoft.com/fwlink/?LinkID=760868" # Visual Studio Code
-    instalarDeb "appimagelauncherd" "https://github.com/TheAssassin/AppImageLauncher/releases/download/continuous/appimagelauncher_1-alpha-travis287.git20180830.ba45feb.bionic_amd64.deb" # Integrar appimages em bin, downloads etc.
+    instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.6/discord-0.0.6.deb" # Verificar por updates
+    instalarDeb "appimagelauncherd" "https://github.com/TheAssassin/AppImageLauncher/releases/download/continuous/appimagelauncher_1.0.3-travis505.git20190211.5791c72.bionic_amd64.deb" # Integrar appimages em bin, downloads etc.
 }
 
 function requisitosTtyecho() { 
@@ -110,7 +108,6 @@ function instalacoesApt() {
     instalarApt "cheese"
     instalarApt "dropbox"
     instalarApt "elementary-icon-theme"
-    instalarApt "etcher-electron" "--allow-unauthenticated"
     instalarApt "filezilla"
     instalarApt "geany"
     instalarApt "geogebra"
@@ -141,6 +138,7 @@ function instalacoesApt() {
     instalarApt "nemo-dropbox"
     instalarApt "numix-gtk-theme"
     instalarApt "neofetch"
+    instalarApt "okular"
     instalarApt "openssh-server" # Para o XMouse
     instalarApt "oracle-java10-installer"
     instalarApt "oracle-java10-set-default"
@@ -171,12 +169,15 @@ function instalacoesApt() {
 
 function instalarAvulsos() {
     baixarEPosicionar "Create_AP" "zip" "~/Trecos/Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master"
-    baixarEPosicionar "Stremio" "appimage" "~/bin" "https://dl.strem.io/linux/v4.0.17/Stremio+4.0.17.appimage" # Verificar por updates
-    baixarEPosicionar "wine-mono-4.7.1" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.7.3/wine-mono-4.7.3.msi" # Verificar por updates
+    baixarEPosicionar "Etcher" "appimage" "~/bin" "https://github.com/balena-io/etcher/releases/download/v1.4.9/balena-etcher-electron-1.4.9-linux-x64.zip"
+    baixarEPosicionar "Stremio" "appimage" "~/bin" "https://dl.strem.io/linux/v4.4.25/stremio_4.4.25-1_amd64.deb" # Verificar por updates
+    baixarEPosicionar "wine-mono-4.7.1" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.8.0/wine-mono-4.8.0.msi" # Verificar por updates
     baixarEPosicionar "wine_gecko-2.47-x86" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
     baixarEPosicionar "winetricks" "" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
-    baixarEPosicionar "kdenlive-18.04.1-x86_64" "appimage" "~/bin" "http://ftp.icm.edu.pl/packages/kde-applicationdata/kdenlive/release/kdenlive-18.04.1-x86_64.AppImage" # Verificar por updates
+    baixarEPosicionar "kdenlive-18.04.1-x86_64" "appimage" "~/bin" "https://files.kde.org/kdenlive/release/kdenlive-18.12.1b-x86_64.appimage" # Verificar por updates
 }
+
+
 
 function rodarScripts() {
     rodarScript "configurarTLP"
@@ -233,7 +234,6 @@ function rodarScripts() {
     instalarApt "mupen64plus-qt"
     instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus
     instalarApt "numix-icon-theme-circle"
-    instalarApt "okular"
     instalarApt "pdfshuffler"
     instalarApt "xscreensaver"
     instalarApt "xscreensaver-gl-extra"

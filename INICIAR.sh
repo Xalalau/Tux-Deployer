@@ -10,7 +10,7 @@ NOME="INSTALEYTOR"
 LICENCA="MIT"
 LINK="https://github.com/Xalalau/Instalator"
 POR="Por Xalalau Xubilozo"
-VERSAO="v1.7.2 (20/09/18)"
+VERSAO="v1.7.3 (19/02/19)"
 # __________________________________________________________________________
 
 # -------------------------------------------------------------
@@ -63,7 +63,7 @@ LIB=0
 # Variável auxiliar para imprimirmos algumas frases corretamente
 AUX_PRINT=1
 
-# Espaco para impressao da coluna de estados
+# Espaço para impressão da coluna de estados
 ESPACO_PRINTF="%-73s"
 
 # -------------------------------------------------------------
@@ -77,10 +77,10 @@ cd "$DIR_BASE"
 # -------------------------------------------------------------
 
 # Funções gerais
-source $DIR_INCLUDE/"funcoes.sh"
+source "$DIR_INCLUDE/funcoes.sh"
 
-# Função com os entradas
-source $DIR_INCLUDE/"entrada.sh"
+# Função com as entradas
+source "$DIR_INCLUDE/entrada.sh"
 
 # -------------------------------------------------------------
 # INÍCIO
