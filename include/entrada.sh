@@ -69,10 +69,11 @@ function adicionarPPAs() {
     adicionarPPA "ppa:teejee2008/ppa" "teejee2008" # Kernels atualizados para o Ubuntu
     adicionarPPA2 "deb http://download.virtualbox.org/virtualbox/debian $CODENOME contrib" "virtualbox.list" "virtualbox"
     adicionarPPA2 "deb http://apt.insynchq.com/ubuntu $CODENOME non-free contrib" "insync.list" "insync" #DISTRIBUICAO só ubuntu, debian e mint
+    adicionarPPA2 "deb https://dl.winehq.org/wine-builds/ubuntu/ $CODENOME main" "wine-builds.list" "wine" # Wine oficial. Não usar junto com o Wine do gallium-nine.
 }
 
 function aceitarEulas() {
-    aceitarEula "oracle-java10-installer" "shared/accepted-oracle-license-v1-1" "select" "true"
+    aceitarEula "oracle-java11-installer" "shared/accepted-oracle-license-v1-1" "select" "true"
     aceitarEula "ttf-mscorefonts-installer" "msttcorefonts/accepted-mscorefonts-eula" "select" "true"
     aceitarEula "steam" "steam/purge" "note" " "
     aceitarEula "steam" "steam/license" "note" " "
@@ -140,8 +141,8 @@ function instalacoesApt() {
     instalarApt "neofetch"
     instalarApt "okular"
     instalarApt "openssh-server" # Para o XMouse
-    instalarApt "oracle-java10-installer"
-    instalarApt "oracle-java10-set-default"
+    instalarApt "oracle-java11-installer"
+    instalarApt "oracle-java11-set-default"
     instalarApt "p7zip-full"
     instalarApt "p7zip-rar"
     instalarApt "ppa-purge"
@@ -157,12 +158,11 @@ function instalacoesApt() {
     instalarApt "telegram-desktop"
     instalarApt "tlp"
     instalarApt "tlp-rdw"
-    instalarApt "ukuu"
     instalarApt "unrar"
     instalarApt "virtualbox-5.2"
     instalarApt "vlc"
     instalarApt "winbind"
-    instalarApt "wine-stable"
+	instalarApt "winehq-stable" "--install-recommends"
     instalarApt "xdotool" # Para o XMouse
     instalarApt "xterm"
 }
@@ -176,8 +176,6 @@ function instalarAvulsos() {
     baixarEPosicionar "winetricks" "" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
     baixarEPosicionar "kdenlive-18.04.1-x86_64" "appimage" "~/bin" "https://files.kde.org/kdenlive/release/kdenlive-18.12.1b-x86_64.appimage" # Verificar por updates
 }
-
-
 
 function rodarScripts() {
     rodarScript "configurarTLP"
@@ -202,7 +200,6 @@ function rodarScripts() {
     adicionarPPA "ppa:ubuntu-toolchain-r/test" "toolchain" #GCC-7
     adicionarPPA "ppa:oibaf/graphics-drivers" "graphics-drivers" # Gáficos open-source instáveis atualizados pelo Oibaf
     adicionarPPA "ppa:paulo-miguel-dias/pkppa" "paulo-miguel" # Gáficos open-source estáveis atualizados pelo Padoka
-    adicionarPPA2 "deb https://dl.winehq.org/wine-builds/ubuntu/ $CODENOME main" "wine-builds.list" "wine" # Wine oficial. Não usar junto com o Wine do gallium-nine.
     adicionarPPA "ppa:commendsarnex/winedri3" "winedri3" # Wine atualizado com gallium-nine para o Padoka e Oibaf
     adicionarPPA "ppa:webupd8team/java" "java"
     adicionarPPA "ppa:dolphin-emu/ppa" "dolphin-emu"
@@ -235,6 +232,7 @@ function rodarScripts() {
     instalarApt "nautilus-dropbox" # Esse download do Dropbox funciona muito bem no Nautilus
     instalarApt "numix-icon-theme-circle"
     instalarApt "pdfshuffler"
+    instalarApt "ukuu"
     instalarApt "xscreensaver"
     instalarApt "xscreensaver-gl-extra"
     instalarApt "xscreensaver-data-extra"
