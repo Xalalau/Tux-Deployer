@@ -81,15 +81,16 @@ function aceitarEulas() {
 }
 
 function instalarDebs() {
-	instalarDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-	instalarDeb "hamachi" "https://www.vpn.net/installers/logmein-hamachi_2.1.0.198-1_amd64.deb" # Verificar por updates
-	instalarDeb "teamviewer" "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
-	instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
-	instalarDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-2_i386.deb" # Esse consegue automatizar as EULAs
-	instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.12/PlayOnLinux_4.2.12.deb" # Verificar por updates
+	instalarDeb "appimagelauncherd" "https://github.com/TheAssassin/AppImageLauncher/releases/download/continuous/appimagelauncher_1.0.3-travis505.git20190211.5791c72.bionic_amd64.deb" # Integrar appimages em bin, downloads etc.
 	instalarDeb "code" "https://go.microsoft.com/fwlink/?LinkID=760868" # Visual Studio Code
 	instalarDeb "discord" "https://dl.discordapp.net/apps/linux/0.0.6/discord-0.0.6.deb" # Verificar por updates
-	instalarDeb "appimagelauncherd" "https://github.com/TheAssassin/AppImageLauncher/releases/download/continuous/appimagelauncher_1.0.3-travis505.git20190211.5791c72.bionic_amd64.deb" # Integrar appimages em bin, downloads etc.
+	instalarDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+	instalarDeb "hamachi" "https://www.vpn.net/installers/logmein-hamachi_2.1.0.198-1_amd64.deb" # Verificar por updates
+	instalarDeb "playonlinux" "https://www.playonlinux.com/script_files/PlayOnLinux/4.2.12/PlayOnLinux_4.2.12.deb" # Verificar por updates
+	instalarDeb "skypeforlinux" "https://repo.skype.com/latest/skypeforlinux-64-alpha.deb"
+	instalarDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.54-2_i386.deb" # Esse consegue automatizar as EULAs
+	instalarDeb "stremio" "https://dl.strem.io/linux/v4.4.25/stremio_4.4.25-1_amd64.deb" # Verificar por updates
+	instalarDeb "teamviewer" "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
 }
 
 function requisitosTtyecho() { 
@@ -168,13 +169,12 @@ function instalacoesApt() {
 }
 
 function instalarAvulsos() {
-	baixarEPosicionar "Create_AP" "zip" "~/Trecos/Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master"
-	baixarEPosicionar "Etcher" "appimage" "~/bin" "https://github.com/balena-io/etcher/releases/download/v1.4.9/balena-etcher-electron-1.4.9-linux-x64.zip"
-	baixarEPosicionar "Stremio" "appimage" "~/bin" "https://dl.strem.io/linux/v4.4.25/stremio_4.4.25-1_amd64.deb" # Verificar por updates
+	baixarEPosicionar "Create_AP" "zip" "~/Applications/Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master"
+	baixarEPosicionar "Etcher" "zip" "~/Applications/Etcher" "https://github.com/balena-io/etcher/releases/download/v1.5.5/balena-etcher-electron-1.5.5-linux-x64.zip" # Verificar por updates
+	baixarEPosicionar "kdenlive-18.04.1-x86_64" "appimage" "~/Applications" "https://files.kde.org/kdenlive/release/kdenlive-18.12.1b-x86_64.appimage" # Verificar por updates
 	baixarEPosicionar "wine-mono-4.7.1" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-mono/4.8.0/wine-mono-4.8.0.msi" # Verificar por updates
 	baixarEPosicionar "wine_gecko-2.47-x86" "msi" "~/.cache/wine" "http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi" # Verificar por updates
 	baixarEPosicionar "winetricks" "" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
-	baixarEPosicionar "kdenlive-18.04.1-x86_64" "appimage" "~/bin" "https://files.kde.org/kdenlive/release/kdenlive-18.12.1b-x86_64.appimage" # Verificar por updates
 }
 
 function rodarScripts() {
