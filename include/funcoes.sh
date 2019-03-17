@@ -528,7 +528,11 @@ function baixarEPosicionar() {
         cd ../
         $Sudo mv ./TEMP/* ./ &>$CONSOLE;
         $Sudo rm -r ./TEMP &>$CONSOLE;
-        echo "" > $1_instalado.txt &>$CONSOLE;
+		if [ "$Sudo" == "sudo" ]; then
+			echo "" | sudo tee -a ./$1_instalado.txt &>$CONSOLE;
+		else
+			echo "" > $1_instalado.txt &>$CONSOLE;	
+		fi
         cd "$DIR_BASE"
         printf "$ATUALIZADO"
     fi
