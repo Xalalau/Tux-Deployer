@@ -2,7 +2,7 @@
 SCRIPT_NAME="Tux Deployer"
 SCRIPT_LICENSE="""
     MIT License - Xalalau Xubilozo
-    Version 2.0.0 - 09/03/22 (mm/dd/yy)
+    Version 2.+.+ - 09/03/22 (mm/dd/yy)
     https://github.com/Xalalau/Tux-Deployer
 """
 
@@ -100,7 +100,7 @@ COLOR_HR="\e[1;32m" # Green
     fi
 
     commandExists "snap"
-    if [ "$?" -ne 0 ]; then
+    if [ "$?" -ne 1 ]; then
         if [ -f "/etc/apt/preferences.d/nosnap.pref" ]; then # Hi, Linux Mint
             sudo rm "/etc/apt/preferences.d/nosnap.pref"
             sudo apt update &>>"$FILE_LOG";
