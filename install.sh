@@ -64,7 +64,6 @@ installApt "grub-customizer"
 installApt "gscan2pdf"
 installApt "insync"
 installApt "jstest-gtk"
-installApt "libreoffice"
 installApt "lutris"
 #installApt "mainline" # Ukuu
 installApt "mesa-utils"
@@ -95,5 +94,6 @@ download "winetricks" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/w
 
 installFlatpak "flathub fr.handbrake.ghb"
 
+runScript "libreoffice"
 runScript "tlp"
 runScript "wine"
