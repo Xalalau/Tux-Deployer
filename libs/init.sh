@@ -94,17 +94,22 @@ COLOR_HR="\e[1;32m" # Green
         installApt "unrar"
     fi
 
-    commandExists "flatpak"
-    if [ "$?" -ne 1 ]; then
-        installApt "flatpak"
+    if [ $ENABLE_FLATPAK -eq 1 ]; then
+        commandExists "flatpak"
+        if [ "$?" -ne 1 ]; then
+            installApt "flatpak"
+        fi
     fi
 
-    commandExists "snap"
-    if [ "$?" -ne 1 ]; then
-        if [ -f "/etc/apt/preferences.d/nosnap.pref" ]; then # Hi, Linux Mint
-            sudo rm "/etc/apt/preferences.d/nosnap.pref"
-            sudo apt update &>>"$FILE_LOG";
+    if [ $ENABLE_SNAP -eq 1 ]; then
+        commandExists "snap"
+
+        if [ "$?" -ne 1 ]; then
+            if [ -f "/etc/apt/preferences.d/nosnap.pref" ]; then # Hi, Linux Mint
+                sudo rm "/etc/apt/preferences.d/nosnap.pref"
+                sudo apt update &>>"$FILE_LOG";
+            fi
+            installApt "snapd"
         fi
-        installApt "snapd"
     fi
 }

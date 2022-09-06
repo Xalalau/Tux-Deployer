@@ -10,6 +10,11 @@ function isFlatpakInstalled() {
 }
 
 function installFlatpak() {
+    if [ $ENABLE_FLATPAK -eq 0 ]; then
+        printfDebug "Flatpak support is disabled"
+        return
+    fi
+
     # ... = Packages
     for package in "$@"; do
         isFlatpakInstalled "$package"
