@@ -7,9 +7,10 @@ function upgradeApt() {
 function isDebInstalled() {
     # $1 = Package
     # Returns: 1 [Found] / 0 [Not found]
-    local is_installed=$(dpkg -l | grep $1)
+    local is_installed_check1=$(dpkg -l "$1" 2>/dev/null | grep 'ii  ')
+    local is_installed_check2=$(dpkg -l "$1" 2>/dev/null | grep 'hi  ')
 
-    if [ ! -z "$is_installed" ]; then
+    if [ ! -z "$is_installed_check1" ] || [ ! -z "$is_installed_check2" ]; then
         return 1
     fi
 
