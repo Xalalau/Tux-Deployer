@@ -29,7 +29,7 @@ function installApt() {
 
             isDebInstalled $package
             if [ "$?" -eq 1 ]; then
-                printfInfo "Installed APT: \"$package\""
+                printfDebug "Installed APT: \"$package\""
             else
                 printfError "Failed to install APT: \"$package\""
             fi
@@ -63,7 +63,7 @@ function installDeb() {
 
         isDebInstalled $package
         if [ "$?" -eq 1 ]; then
-            printfInfo "Installed deb: \"$package\""
+            printfDebug "Installed deb: \"$package\""
         else
             commandExists $package
             if [ "$?" -eq 1 ]; then
@@ -87,7 +87,7 @@ function addPPALaunchpad() {
         printfInfo "Adding PPA: \"$repository\""
         sudo add-apt-repository "$repository" -y &>>"$FILE_LOG";
         if grep -q "$term" /etc/apt/sources.list /etc/apt/sources.list.d/* >/dev/null 2>&1; then
-            printfInfo "Added PPA: \"$repository\""
+            printfDebug "Added PPA: \"$repository\""
         else
             printfError "Failed to add PPA: \"$repository\""
         fi
@@ -107,7 +107,7 @@ function addPPA() {
             printfInfo "Adding PPA: \"$key_name.list\""
             echo "$repository" >> "$key_name.list"
             sudo mv "$key_name.list" "/etc/apt/sources.list.d/"
-            printfInfo "Added PPA: \"$key_name.list\""
+            printfDebug "Added PPA: \"$key_name.list\""
         else
             printfDebug "Skipping PPA: \"$key_name.list\""
         fi
@@ -120,7 +120,7 @@ function addPPA() {
         if [ ! -f "/etc/apt/sources.list.d/$key_name.list" ]; then
             local repository_part="$(echo $repository | sed 's/deb //g')"
             echo "deb [arch=$ARCH signed-by=$key_path] $repository_part" | sudo tee "/etc/apt/sources.list.d/$key_name.list" > /dev/null
-            printfInfo "Added PPA: \"$key_name\""
+            printfDebug "Added PPA: \"$key_name\""
         else
             printfDebug "Skipping PPA: \"$key_name\""
         fi
@@ -140,7 +140,7 @@ function addPPAKeyFromKeyServer() {
             printfInfo "Adding key: \"$key_name\""
             sudo apt-key adv --keyserver $key_server --recv-keys $key_id &>>"$FILE_LOG";
             if apt-key list | grep -q "$key_name"; then
-                printfInfo "Added key: \"$key_name\""
+                printfDebug "Added key: \"$key_name\""
             else
                 printfError "Failed to add key: \"$key_name\""
             fi
@@ -150,9 +150,10 @@ function addPPAKeyFromKeyServer() {
     else
         local key_path="/usr/share/keyrings/$key_name.gpg"
         if [ ! -f "$key_path" ]; then
+            printfInfo "Adding key: \"$key_name\""
             sudo gpg --homedir /tmp --no-default-keyring --keyring "$key_path" --keyserver $key_server --recv-keys $key_id &>>"$FILE_LOG";
             if [ -f "$key_path" ]; then
-                printfInfo "Added key: \"$key_name.gpg\""
+                printfDebug "Added key: \"$key_name.gpg\""
             else
                 printfError "Failed to add key: \"$key_name.gpg\""
             fi
@@ -174,6 +175,7 @@ function addPPAKey() {
         if apt-key list | grep -q "$key_name"; then
             printfInfo "Adding key: \"$key_name\""
             wget -qO - $key_url | sudo apt-key add &>>"$FILE_LOG";
+            printfDebug "Added key: \"$key_name\""
         else
             printfDebug "Skipping key: \"$key_name\""
         fi
@@ -194,7 +196,7 @@ function addPPAKey() {
                 sudo wget -nc -O "$key_path" $key_url &>>"$FILE_LOG";
             fi
 
-            printfInfo "Added key: \"$key_name.$extension\""
+            printfDebug "Added key: \"$key_name.$extension\""
         else
             printfDebug "Skipping key: \"$key_name.$extension\""
         fi
@@ -214,7 +216,7 @@ function acceptDebEULA() {
 	if [ "$(sudo debconf-show $package_name | grep $eula_section)" == "" ]; then
 		printfInfo "Accepting EULA: \"$package_name\" \"$eula_section $eula_section_key\""
 		echo $package_name $eula_section $eula_section_key $eula_section_value | sudo debconf-set-selections &>>"$FILE_LOG";
-		printfInfo "Accepted EULA: \"$package_name\" \"$eula_section $eula_section_key\""
+		printfDebug "Accepted EULA: \"$package_name\" \"$eula_section $eula_section_key\""
     else
         printfDebug "Skipping EULA: \"$package_name\" \"$eula_section $eula_section_key\""
     fi

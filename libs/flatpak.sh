@@ -26,7 +26,7 @@ function installFlatpak() {
 
             isFlatpakInstalled "$package"
             if [ "$?" -eq 1 ]; then
-                printfInfo "Installed flatpak: \"$package\""
+                printfDebug "Installed flatpak: \"$package\""
             else
                 printfError "Failed to install flatpak: \"$package\""
             fi

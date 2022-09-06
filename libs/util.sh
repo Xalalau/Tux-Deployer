@@ -130,9 +130,9 @@ function download() {
 		cd "$DIR_BASE"
 
 		if [ $extracted -eq 1 ]; then
-			printfInfo "Downloaded and extracted: \"$fullfile\""
+			printfDebug "Downloaded and extracted: \"$fullfile\""
 		else
-			printfInfo "Downloaded: \"$fullfile\""
+			printfDebug "Downloaded: \"$fullfile\""
 		fi
 	fi
 }
