@@ -6,7 +6,7 @@
 			sudo tlp start &>>"$FILE_LOG";
 			sudo service tlp start &>>"$FILE_LOG";
 		else
-			printfInfo "tlp is already running"
+			printfDebug "tlp is already running"
 		fi
 	else
 		printfWarning "tlp isn't installed"
