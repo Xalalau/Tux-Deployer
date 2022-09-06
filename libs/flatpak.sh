@@ -2,7 +2,7 @@ function isFlatpakInstalled() {
     # $1 = "package" or "remote package"
     local package="$(echo "$1" | awk '{print $NF}')"
 
-    if [ "$(flatpak list | grep "$package")" != "" ]; then
+    if [ "$(flatpak info $package | grep "Commit:")" != "" ]; then
         return 1
     fi
 
