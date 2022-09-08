@@ -66,7 +66,7 @@ COLOR_HR="\e[1;32m" # Green
 	NETWORK_INTERFACE="$(ip route | awk '/default/ {print $5; exit}')"
 	NETWORK_RENDERER="$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
     GATEWAY="$(ip route | awk '/default/ {print $3; exit}')"
-	INTERNAL_IP="$(hostname -I | cut -d' ' -f1)"
+	IP_INTERNAL="$(hostname -I | cut -d' ' -f1)"
 	SUBNET=$(ip route | awk '/proto/ && !/default/ {print $1}' | cut -d '/' -f2)
 
 	read MAC </sys/class/net/$NETWORK_INTERFACE/address
