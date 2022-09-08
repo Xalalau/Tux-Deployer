@@ -9,16 +9,6 @@ function runCheckingForError() {
     fi
 }
 
-function createDir() {
-    # $1 = Full path
-    if [ ! -d "$1" ]; then
-        sudo mkdir -p "$1"
-        return 1
-    fi
-
-    return 0
-}
-
 function commandExists() {
     # $1 = Command
     # Returns: 1 [Found] / 0 [Not found]
