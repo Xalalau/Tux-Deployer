@@ -52,6 +52,7 @@ COLOR_HR="\e[1;32m" # Green
         printfWarning "Warning! This script was tested on Ubuntu 20.04 (focal) and Ubuntu 22.04 (jammy), so tweaks may be needed in your version ($DISTRIB_CODENAME)."
     fi
 
+    mkdir -p "$DIR_LOGS"
     echo "" > "$FILE_LOG"
 
     cd "$DIR_BASE"
