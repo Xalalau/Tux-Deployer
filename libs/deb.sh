@@ -1,5 +1,5 @@
 function upgradeApt() {
-    printfInfo "Updating system"
+    printfInfo "Updating repositories and upgrading packages"
     sudo apt-get update &>>"$FILE_LOG";
     sudo apt-get upgrade -y &>>"$FILE_LOG";
 }
