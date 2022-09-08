@@ -6,7 +6,13 @@ SCRIPT_LICENSE="""
     https://github.com/Xalalau/Tux-Deployer
 """
 
-source /etc/upstream-release/lsb-release #DISTRIB_ID, DISTRIB_RELEASE, DISTRIB_CODENAME, DISTRIB_DESCRIPTION
+#DISTRIB_ID, DISTRIB_RELEASE, DISTRIB_CODENAME, DISTRIB_DESCRIPTION
+if [ -f "/etc/upstream-release/lsb-release" ]; then # Linux Mint
+    source "/etc/upstream-release/lsb-release"
+else
+    source "/etc/lsb-release"
+fi
+
 source "$DIR_BASE/config.sh"
 
 NOW="$(date)"
@@ -105,7 +111,7 @@ COLOR_HR="\e[1;32m" # Green
         commandExists "snap"
 
         if [ "$?" -ne 1 ]; then
-            if [ -f "/etc/apt/preferences.d/nosnap.pref" ]; then # Hi, Linux Mint
+            if [ -f "/etc/apt/preferences.d/nosnap.pref" ]; then # Linux Mint
                 sudo rm "/etc/apt/preferences.d/nosnap.pref"
                 sudo apt update &>>"$FILE_LOG";
             fi
