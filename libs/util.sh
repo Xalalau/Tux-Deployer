@@ -1,3 +1,14 @@
+function runCheckingForError() {
+	# $1 = Bash command
+	# $2 = Error message
+	local error=$((($1) 1>>"$FILE_LOG";) 2>&1)
+
+    if [ "$error" != "" ]; then
+        echo $error &>>"$FILE_LOG";
+        printfError "$2"
+    fi
+}
+
 function createDir() {
     # $1 = Full path
     if [ ! -d "$1" ]; then
