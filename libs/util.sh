@@ -1,12 +1,14 @@
-function runCheckingForError() {
+function run() {
 	# $1 = Bash command
-	# $2 = Error message
+    # Returns: 1 [No errors] / 0 [Errors occurred]
 	local error=$((($1) 1>>"$FILE_LOG";) 2>&1)
 
     if [ "$error" != "" ]; then
         echo $error &>>"$FILE_LOG";
-        printfError "$2"
-    fi
+		return 0
+	else
+		return 1
+	fi
 }
 
 function commandExists() {
