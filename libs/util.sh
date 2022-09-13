@@ -11,6 +11,26 @@ function run() {
 	fi
 }
 
+function createDir() {
+	# $1 = Directory
+	if [ -d "$1" ]; then
+		printfDebug "\"$1\" already exists"
+	else
+		mkdir -p "$1"
+		printfDebug "\"$1\" created"
+	fi
+}
+
+function createDirSudo() {
+	# $1 = Directory
+	if [ -d "$1" ]; then
+		printfDebug "\"$1\" already exists"
+	else
+		sudo mkdir -p "$1"
+		printfDebug "\"$1\" created"
+	fi
+}
+
 function commandExists() {
     # $1 = Command
     # Returns: 1 [Found] / 0 [Not found]
