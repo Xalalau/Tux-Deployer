@@ -90,6 +90,11 @@ printfHr """$SCRIPT_LICENSE"""
 printfInfo "    Log: $NOW_FORMATED.txt"
 echo
 
+commandExists "curl"
+if [ "$?" -ne 1 ]; then
+    installApt "curl"
+fi
+
 commandExists "unzip"
 if [ "$?" -ne 1 ]; then
     installApt "unzip"
