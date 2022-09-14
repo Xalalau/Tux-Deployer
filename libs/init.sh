@@ -35,7 +35,7 @@ COLOR_HR="\e[1;32m" # Green
 
 ARCH="$(dpkg --print-architecture)"
 
-USER="$(whoami)"
+USER_CURRENT="$(whoami)"
 
 FILE_NETPLAN="$(cd "$DIR_NETWORK"; for dir in *; do echo "$DIR_NETWORK/$dir"; done;)"
 
