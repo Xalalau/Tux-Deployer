@@ -14,7 +14,7 @@ function run() {
 function createDir() {
 	# $1 = Directory
 	if [ -d "$1" ]; then
-		printfDebug "\"$1\" already exists"
+		printfDebug "Already created \"$1\""
 	else
 		mkdir -p "$1"
 		printfDebug "\"$1\" created"
@@ -24,7 +24,7 @@ function createDir() {
 function createDirSudo() {
 	# $1 = Directory
 	if [ -d "$1" ]; then
-		printfDebug "\"$1\" already exists"
+		printfDebug "Already created \"$1\""
 	else
 		sudo mkdir -p "$1"
 		printfDebug "\"$1\" created"
