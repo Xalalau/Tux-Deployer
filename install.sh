@@ -40,7 +40,7 @@ installDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_
 installDeb "teamviewer" "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
 
 # Install stremio and its dependencies
-installApt "nodejs" "qml-module-qtwebchannel" "libfdk-aac1"
+installApt "nodejs" "qml-module-qtwebchannel"
 installDeb "libfdk-aac1" "http://ftp.osuosl.org/pub/ubuntu/pool/multiverse/f/fdk-aac/libfdk-aac1_0.1.6-1_amd64.deb"
 installDeb "stremio" "https://dl.strem.io/shell-linux/v4.4.159/stremio_4.4.159-1_amd64.deb" # Check for updates
 
