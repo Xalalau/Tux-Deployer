@@ -83,6 +83,7 @@ printfWarning "Press any key to start."
 read -r TEMP
 
 sudo clear
+sleep 0.2
 
 printfHr "$SCRIPT_NAME"
 printfHr """$SCRIPT_LICENSE"""
