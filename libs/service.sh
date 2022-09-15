@@ -1,7 +1,7 @@
 function isServiceRegistered() {
     # $1 = Service name
     # Returns: 1 [Found] / 0 [Not found]
-    local service_exists="$(systemctl list-units --full -all | grep -F "janus.service")"
+    local service_exists="$(systemctl list-units --full -all | grep -F "$1.service")"
 
     if [ "$service_exists" != "" ]; then
         return 1
