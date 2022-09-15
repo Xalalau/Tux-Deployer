@@ -1,5 +1,6 @@
 # Usefull global variables
 <<comment
+    $DIR_BASE                 Tux-Deployer directory
     $DISTRIB_ID               Distribution name
     $DISTRIB_RELEASE          Distribution code
     $DISTRIB_CODENAME         Distribution codename

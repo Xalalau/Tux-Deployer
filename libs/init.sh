@@ -19,7 +19,6 @@ NOW_FORMATED="$(echo $NOW | tr -s '[:blank:]' '_')"
 DIR_LIBS="$DIR_BASE/libs"
 DIR_LOGS="$DIR_BASE/logs"
 DIR_SCRIPTS="$DIR_BASE/scripts"
-DIR_DOWNLOADS="$(xdg-user-dir DOWNLOAD)"
 DIR_NETWORK="/etc/netplan"
 
 FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"

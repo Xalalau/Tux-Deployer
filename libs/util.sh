@@ -141,7 +141,7 @@ function download() {
         if [ $total -eq 0 ]; then
             # Empty = failed
             printfError "Failed to extract: \"$fullfile\""
-            cd "$DIR_DOWNLOADS"
+            cd "$DIR_BASE"
             $sudo rm -r "$path" &>>"$FILE_LOG";
             return 0
         elif [ $quant1 -eq 1 ] && [ $quant2 -eq 0 ]; then
