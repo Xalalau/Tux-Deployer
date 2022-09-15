@@ -55,6 +55,12 @@ function download() {
         dot+="."
     fi
 
+    # Fix google drive links
+    if echo $url | grep -q 'drive.google.com'; then
+        parts=($(echo $url | tr "/" "\n"))
+        url="https://drive.google.com/uc?export=download&id=${parts[4]}"
+    fi
+
     # Download and uncompress inside a temporary path
     $sudo mkdir -p "$path/TEMP" &>>"$FILE_LOG";
 
