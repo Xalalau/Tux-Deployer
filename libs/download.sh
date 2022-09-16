@@ -37,7 +37,7 @@ function download() {
 
     if [ -f "$path/."$filename"_installed.txt" ]; then
         if [ $override -eq 1 ]; then
-            printfInfo "An older installation will be overwritten"
+            printfWarning "An older installation will be overwritten"
         else
             if [ $extract -eq 1 ]; then
                 printfDebug "Skipping download and extraction: \"$fullfile\""
