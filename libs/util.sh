@@ -54,3 +54,15 @@ function appendTextAfterMatch() {
     sudo mv "tempStrAppend2.txt" "$target"
     sudo rm "tempStrAppend.txt"
 }
+
+function isStringEmpty() {
+    # $1 = String
+    # Returns: 1 [Empty] / 0 [Not empty]
+    local trimmed=`echo $1`
+
+    if [ -z "$trimmed" ]; then
+        return 1
+    else
+        return 0
+    fi
+}
