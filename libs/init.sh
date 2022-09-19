@@ -22,6 +22,7 @@ DIR_SCRIPTS="$DIR_BASE/scripts"
 DIR_NETWORK="/etc/netplan"
 
 FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"
+FILE_CONFIG="$DIR_BASE/config.sh"
 
 COLOR_BACKGROUND="\033[40m" # Magenta
 
@@ -55,7 +56,7 @@ else
     IS_APT_KEY_DEPRECATED=0
 fi
 
-source "$DIR_BASE/config.sh"
+source "$FILE_CONFIG"
 
 cd "$DIR_LIBS"
 for file in *; do
