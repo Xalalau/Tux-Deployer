@@ -79,7 +79,7 @@ echo "" > "$FILE_LOG"
 cd "$DIR_BASE"
 
 sudo clear
-sleep 0.2
+sleep 0.3
 
 printfHr "$SCRIPT_NAME"
 printfHr """$SCRIPT_LICENSE"""
