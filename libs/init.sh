@@ -78,16 +78,14 @@ echo "" > "$FILE_LOG"
 
 cd "$DIR_BASE"
 
-printfWarning "To stop the installation at any time, press CTRL+C."
-printfWarning "Press any key to start."
-read -r TEMP
-
 sudo clear
 sleep 0.2
 
 printfHr "$SCRIPT_NAME"
 printfHr """$SCRIPT_LICENSE"""
 printfInfo "    Log: $NOW_FORMATED.txt"
+echo
+printfWarning "    To stop the installation at any time, press CTRL+C."
 echo
 
 commandExists "curl"
