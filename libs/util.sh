@@ -41,13 +41,13 @@ function commandExists() {
     }
 }
 
-function appendTextAfterMatch() {
-    # $1 = Term to be search
-    # $2 = String to be inserted
-    # $3 = Target file
-	local search_term=$1
-	local insert=$2
-	local target=$3
+function addStringToFile() {
+    # $1 = Target file
+    # $2 = Term to be searched
+    # $3 = String to be inserted
+    local target="$1"
+    local search_term="$(echo "$2" | sed -e 's/\//\\\//g')"
+    local insert="$3"
 
     echo "$insert" | sudo tee -a "tempStrAppend.txt" > /dev/null
     sudo sed -E "/$search_term/r tempStrAppend.txt" "$target" | sudo tee -a "tempStrAppend2.txt" > /dev/null
