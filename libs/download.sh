@@ -111,8 +111,9 @@ function download() {
         local dir=$(find . -mindepth 1 -maxdepth 1 -type d)
         cd "$dir"
         $sudo mv * ../ &>>"$FILE_LOG";
-        cd ../../
+        cd ..
         $sudo rm -r "$dir" &>>"$FILE_LOG";
+        cd ..
     else
         # At least 1 file = Success
         cd ..
