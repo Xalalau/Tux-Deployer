@@ -122,3 +122,17 @@ if [ $ENABLE_SNAP -eq 1 ]; then
         installApt "snapd"
     fi
 fi
+
+if [ $ENABLE_GDRIVE_DOWNLOAD_URLS -eq 1 ]; then
+    commandExists "pip3"
+    if [ "$?" -ne 1 ]; then
+        installApt "python3-pip"
+    fi
+
+    commandExists "gdown"
+    if [ "$?" -ne 1 ]; then
+        printfInfo "Installing: gdown"
+        sudo pip3 install gdown &>>"$FILE_LOG";
+        printfDebug "Installed: gdown"
+    fi
+fi

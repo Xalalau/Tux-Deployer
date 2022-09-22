@@ -55,12 +55,6 @@ function download() {
         dot+="."
     fi
 
-    # Fix google drive links
-    if echo $url | grep -q 'drive.google.com'; then
-        parts=($(echo $url | tr "/" "\n"))
-        url="https://drive.google.com/uc?export=download&id=${parts[4]}"
-    fi
-
     # Download and uncompress inside a temporary path
     $sudo mkdir -p "$path/TEMP" &>>"$FILE_LOG";
 
@@ -68,11 +62,23 @@ function download() {
 
     printfInfo "Downloading: \"$fullfile\""
 
-    local result=$((($sudo wget $url -O "$path/TEMP/$filename$dot$extension") 1>>"$FILE_LOG";) 2>&1)
+    # Google drive urls
+    local result
+    if echo $url | grep -q 'drive.google.com'; then
+        if [ $ENABLE_GDRIVE_DOWNLOAD_URLS -eq 0 ]; then
+            printfError "Failed to download: \"$fullfile\". Google Drive support is disabled"
+            return 0
+        else
+            parts=($(echo $url | tr "/" "\n"))
+            result=$($sudo gdown ${parts[4]} -O "$path/TEMP/$filename$dot$extension" &>>"$FILE_LOG";)
+        fi
+    else
+        result=$($sudo wget $url -O "$path/TEMP/$filename$dot$extension" &>>"$FILE_LOG";)
+    fi
 
     if echo $result | grep -q " ERROR "; then
         sudo rm "$filename$dot$extension"
-        printfError "Failed to donwload: \"$fullfile\""
+        printfError "Failed to download: \"$fullfile\""
         return 0
     fi
 
