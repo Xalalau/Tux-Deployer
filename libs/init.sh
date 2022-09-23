@@ -43,7 +43,7 @@ NETWORK_INTERFACE="$(ip route | awk '/default/ {print $5; exit}')"
 NETWORK_RENDERER="$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
 GATEWAY="$(ip route | awk '/default/ {print $3; exit}')"
 IP_INTERNAL="$(hostname -I | cut -d' ' -f1)"
-SUBNET=$(ip route | awk '/proto/ && !/default/ {print $1}' | cut -d '/' -f2)
+SUBNET=$(ip -o -f inet addr show | awk '/scope global/ {print $2,$4}' | grep enp0s3  | cut -d '/' -f2)
 
 read MAC </sys/class/net/$NETWORK_INTERFACE/address
 MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"
@@ -88,6 +88,11 @@ printfInfo "    Log: $NOW_FORMATED.txt"
 echo
 printfWarning "    To stop the installation at any time, press CTRL+C."
 echo
+
+commandExists "awk"
+if [ "$?" -ne 1 ]; then
+    installApt "awk"
+fi
 
 commandExists "curl"
 if [ "$?" -ne 1 ]; then
