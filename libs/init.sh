@@ -43,7 +43,7 @@ NETWORK_INTERFACE="$(ip route | awk '/default/ {print $5; exit}')"
 NETWORK_RENDERER="$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
 GATEWAY="$(ip route | awk '/default/ {print $3; exit}')"
 IP_INTERNAL="$(hostname -I | cut -d' ' -f1)"
-SUBNET=$(ip -o -f inet addr show | awk '/scope global/ {print $2,$4}' | grep enp0s3  | cut -d '/' -f2)
+SUBMASK=$(ip -o -f inet addr show | awk '/scope global/ {print $2,$4}' | grep enp0s3  | cut -d '/' -f2)
 
 read MAC </sys/class/net/$NETWORK_INTERFACE/address
 MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"

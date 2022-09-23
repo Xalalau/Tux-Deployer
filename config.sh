@@ -12,7 +12,7 @@
 	$NETWORK_RENDERER         Network daemon
     $GATEWAY                  Network gateway
 	$IP_INTERNAL              Current internal IP
-	$SUBNET                   Network mask
+	$SUBMASK                   Network mask
 	$MAC                      Network MAC
 	$MAC_FORMATTED_LOWERCASE  Network MAC without : and lowercase
 	$MAC_FORMATTED_UPPERCASE  Network MAC without : and uppercase
