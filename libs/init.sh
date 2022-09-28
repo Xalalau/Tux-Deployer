@@ -79,15 +79,7 @@ echo "" > "$FILE_LOG"
 
 cd "$DIR_BASE"
 
-sudo clear
-sleep 0.3
-
-printfHr "$SCRIPT_NAME"
-printfHr """$SCRIPT_LICENSE"""
-printfInfo "    Log: $NOW_FORMATED.txt"
-echo
-printfWarning "    To stop the installation at any time, press CTRL+C."
-echo
+printfInfo "Checking script dependencies"
 
 commandExists "awk"
 if [ "$?" -ne 1 ]; then
@@ -141,3 +133,15 @@ if [ $ENABLE_GDRIVE_DOWNLOAD_URLS -eq 1 ]; then
         printfDebug "Installed: gdown"
     fi
 fi
+
+printfDebug "All done"
+
+sudo clear
+sleep 0.3
+
+printfHr "$SCRIPT_NAME"
+printfHr """$SCRIPT_LICENSE"""
+printfInfo "    Log: $NOW_FORMATED.txt"
+echo
+printfWarning "    To stop the installation at any time, press CTRL+C."
+echo
