@@ -109,6 +109,8 @@ function checkDependencies() {
         sleep 0.3
         clear
     fi
+
+    sleep 0.3
 }
 
 #DISTRIB_ID, DISTRIB_RELEASE, DISTRIB_CODENAME, DISTRIB_DESCRIPTION
