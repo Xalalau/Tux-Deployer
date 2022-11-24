@@ -1,7 +1,7 @@
 {
 	isDebInstalled "libreoffice-core"
 	if [ "$?" -eq 0 ]; then
-		installApt "audacity"
+		installApt "libreoffice"
 	else
 		printfDebug "Skipping APT: libreoffice"
 	fi
