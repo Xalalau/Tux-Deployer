@@ -53,12 +53,7 @@ function getSubmaskIP() {
         if [ $bits -lt 0 ]; then
             return
         else
-            if [ $bits -eq 0 ]; then
-                octets="${octets}255"
-                break
-            else
-                octets="${octets}255."
-            fi
+            octets="${octets}255."
 
             if [ $bits -ge 8 ]; then
                 continue
