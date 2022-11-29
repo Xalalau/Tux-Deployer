@@ -166,7 +166,7 @@ NETWORK_INTERFACE="$(getActiveNetworkInterface)"
 NETWORK_RENDERER="$(getNetworkRenderer)"
 GATEWAY="$(getGateway)"
 IP_INTERNAL="$(getInternalIP)"
-SUBMASK="$(getNetworkInterfaceSubmask $NETWORK_INTERFACE)"
+SUBMASK="$(getCurrentSubmaskBits $NETWORK_INTERFACE)"
 
 MAC="$(getNetworkInterfaceMAC $NETWORK_INTERFACE)"
 MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"
