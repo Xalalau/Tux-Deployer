@@ -34,7 +34,9 @@ function getNetworkInterfaceMAC() {
     # $1 = Network interface
     # Returns: network MAC
     local network_interface=$1
-    echo read MAC </sys/class/net/$network_interface/address
+    local mac
+    read mac </sys/class/net/$network_interface/address
+    echo $mac
 }
 
 function getCurrentSubmaskBits() {
