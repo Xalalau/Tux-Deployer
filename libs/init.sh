@@ -2,7 +2,7 @@
 SCRIPT_NAME="Tux Deployer"
 SCRIPT_LICENSE="""
     MIT License - Xalalau Xubilozo
-    Version 2.+.+ - 29/11/22 (mm/dd/yy)
+    Version 2.+.+ - 11/29/22 (mm/dd/yy)
     https://github.com/Xalalau/Tux-Deployer
 """
 
