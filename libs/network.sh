@@ -18,6 +18,18 @@ function getInternalIP() {
     echo "$(hostname -I | cut -d' ' -f1)"
 }
 
+function isInternalIPDynamic() {
+    # Returns: 1 [dynamic] / 0 [static]
+    local internal_ip="$(getInternalIP)"
+    local is_dynamic=$(ip route | grep "$internal_ip" | grep dhcp)
+
+    if [ "$is_dynamic" = "" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 function getNetworkInterfaceMAC() {
     # $1 = Network interface
     # Returns: network MAC
