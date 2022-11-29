@@ -1,3 +1,37 @@
+function getActiveNetworkInterface() {
+    # Returns: active network interface
+    echo "$(ip route | awk '/default/ {print $5; exit}')"
+}
+
+function getNetworkRenderer() {
+    # Returns: network renderer
+    echo "$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
+}
+
+function getGateway() {
+    # Returns: network gateway
+    echo "$(ip route | awk '/default/ {print $3; exit}')"
+}
+
+function getInternalIP() {
+    # Returns: private IP
+    echo "$(hostname -I | cut -d' ' -f1)"
+}
+
+function getNetworkInterfaceMAC() {
+    # $1 = Network interface
+    # Returns: network MAC
+    local network_interface=$1
+    echo read MAC </sys/class/net/$network_interface/address
+}
+
+function getNetworkInterfaceSubmask() {
+    # $1 = Network interface
+    # Returns: network submask
+    local network_interface=$1
+    echo "$(ip -o -f inet addr show | awk '/scope global/ {print $2,$4}' | grep $network_interface  | cut -d '/' -f2)"
+}
+
 function getSubmaskBits() {
     # $1 = Network submask IP
     # Returns: submask bits [Success] / -1 [Failed]

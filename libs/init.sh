@@ -2,7 +2,7 @@
 SCRIPT_NAME="Tux Deployer"
 SCRIPT_LICENSE="""
     MIT License - Xalalau Xubilozo
-    Version 2.+.+ - 09/03/22 (mm/dd/yy)
+    Version 2.+.+ - 29/11/22 (mm/dd/yy)
     https://github.com/Xalalau/Tux-Deployer
 """
 
@@ -129,6 +129,8 @@ DIR_SCRIPTS="$DIR_BASE/scripts"
 DIR_NETWORK="/etc/netplan"
 
 FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"
+FILE_NETPLAN="$(cd "$DIR_NETWORK"; for file in *; do echo "$DIR_NETWORK/$file"; done;)"
+
 FILE_CONFIG="$DIR_BASE/config.sh"
 
 COLOR_BACKGROUND="\033[40m" # Magenta
@@ -143,18 +145,6 @@ COLOR_HR="\e[1;32m" # Green
 ARCH="$(dpkg --print-architecture)"
 
 USER_CURRENT="$(whoami)"
-
-FILE_NETPLAN="$(cd "$DIR_NETWORK"; for dir in *; do echo "$DIR_NETWORK/$dir"; done;)"
-
-NETWORK_INTERFACE="$(ip route | awk '/default/ {print $5; exit}')"
-NETWORK_RENDERER="$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
-GATEWAY="$(ip route | awk '/default/ {print $3; exit}')"
-IP_INTERNAL="$(hostname -I | cut -d' ' -f1)"
-SUBMASK=$(ip -o -f inet addr show | awk '/scope global/ {print $2,$4}' | grep $NETWORK_INTERFACE  | cut -d '/' -f2)
-
-read MAC </sys/class/net/$NETWORK_INTERFACE/address
-MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"
-MAC_FORMATTED_UPPERCASE="${MAC_FORMATTED_LOWERCASE^^}"
 
 if [ ${DISTRIB_RELEASE:0:2} -ge 22 ]; then
     IS_APT_KEY_DEPRECATED=1
@@ -171,6 +161,16 @@ for file in *; do
         source "$file"
     fi
 done
+
+NETWORK_INTERFACE="$(getActiveNetworkInterface)"
+NETWORK_RENDERER="$(getNetworkRenderer)"
+GATEWAY="$(getGateway)"
+IP_INTERNAL="$(getInternalIP)"
+SUBMASK="$(getNetworkInterfaceSubmask $NETWORK_INTERFACE)"
+
+MAC="$(getNetworkInterfaceMAC $NETWORK_INTERFACE)"
+MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"
+MAC_FORMATTED_UPPERCASE="${MAC_FORMATTED_LOWERCASE^^}"
 
 if [ $DISTRIB_ID != "Ubuntu" ]; then
     printfCritical "Tux Deployer only supports Ubuntu."
