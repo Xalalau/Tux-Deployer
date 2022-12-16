@@ -133,12 +133,13 @@ FILE_CONFIG="$DIR_BASE/config.sh"
 
 COLOR_BACKGROUND="\033[40m" # Magenta
 
-COLOR_DEBUG="\e[1;37m" # White
-COLOR_INFO="\e[1;36m" # Cyan
-COLOR_WARNING="\e[1;33m" # Yellow
-COLOR_FAILED="\e[1;31m" # Red
-COLOR_CRITICAL="\e[1;31m" # Red
-COLOR_HR="\e[1;32m" # Green
+STYLE_DEBUG="\e[1;37m" # White
+STYLE_INFO="\e[1;36m" # Cyan
+STYLE_WARNING="\e[1;33m" # Yellow
+STYLE_FAILED="\e[1;31m" # Red
+STYLE_CRITICAL="\e[1;31m" # Red
+STYLE_HR="\e[1;32m" # Green
+STYLE_TITLE="\e[4;1;32m" # Green + underline
 
 ARCH="$(dpkg --print-architecture)"
 
