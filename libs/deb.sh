@@ -204,19 +204,19 @@ function addPPAKey() {
 }
 
 function acceptDebEULA() {
-	# $1 = Package name
-	# $2 = EULA section
-	# $3 = EULA section key
-	# $4 = Value of the EULA section key
+    # $1 = Package name
+    # $2 = EULA section
+    # $3 = EULA section key
+    # $4 = Value of the EULA section key
     local package_name="$1"
     local eula_section="$2"
     local eula_section_key="$3"
     local eula_section_value="$4"
 
-	if [ "$(sudo debconf-show $package_name | grep $eula_section)" == "" ]; then
-		printfInfo "Accepting EULA: \"$package_name\" \"$eula_section $eula_section_key\""
-		echo $package_name $eula_section $eula_section_key $eula_section_value | sudo debconf-set-selections &>>"$FILE_LOG";
-		printfDebug "Accepted EULA: \"$package_name\" \"$eula_section $eula_section_key\""
+    if [ "$(sudo debconf-show $package_name | grep $eula_section)" == "" ]; then
+        printfInfo "Accepting EULA: \"$package_name\" \"$eula_section $eula_section_key\""
+        echo $package_name $eula_section $eula_section_key $eula_section_value | sudo debconf-set-selections &>>"$FILE_LOG";
+        printfDebug "Accepted EULA: \"$package_name\" \"$eula_section $eula_section_key\""
     else
         printfDebug "Skipping EULA: \"$package_name\" \"$eula_section $eula_section_key\""
     fi

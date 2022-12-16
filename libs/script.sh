@@ -1,6 +1,14 @@
 function runScript() {
     # $1 = script filename
-    printfHr "Starting '$1.sh'"
-    source "$DIR_SCRIPTS/$1.sh"
-    printfHr "Finished '$1.sh'"
+    # $2 = 0/1 silent include. Default 0
+    local filename="$1"
+    local silent="$2"
+
+    if [ "$silent" = "" ] || [ $silent -eq 0 ]; then
+        printfHr "Starting '$filename.sh'"
+        source "$DIR_SCRIPTS/$filename.sh"
+        printfHr "Finished '$filename.sh'"
+    else
+        source "$DIR_SCRIPTS/$filename.sh"
+    fi
 }
