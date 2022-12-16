@@ -35,7 +35,7 @@ function getNetworkInterfaceMAC() {
     # Returns: network MAC
     local network_interface=$1
     local mac
-    read mac </sys/class/net/$network_interface/address
+    read mac < /sys/class/net/$network_interface/address &> /dev/null
     echo $mac
 }
 
@@ -51,6 +51,10 @@ function getSubmaskBits() {
     # Returns: submask bits [Success] / -1 [Failed]
     local octets=$1
     local bits=0
+
+    if [ "$octets" = "" ]; then
+        return
+    fi
 
     local octets_size="${#octets}"
 
@@ -88,6 +92,10 @@ function getSubmaskIP() {
     # Returns: submask IP [Success] / "" [Failed]
     local bits=$1
     local octets=""
+
+    if [ "$bits" = "" ]; then
+        return
+    fi
 
     local bits_size="${#bits}"
 
