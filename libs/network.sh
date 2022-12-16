@@ -30,6 +30,12 @@ function isInternalIPDynamic() {
     fi
 }
 
+function showPhysicalNetworkInterfaceNames() {
+    # Returns: network interface names excluding the virtual ones
+    local interfaces="$(find /sys/class/net -mindepth 1 -maxdepth 1 -lname '*virtual*' -prune -o -printf '%f\n')"
+    echo "$interfaces"
+}
+
 function getNetworkInterfaceMAC() {
     # $1 = Network interface
     # Returns: network MAC
