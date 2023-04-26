@@ -5,7 +5,8 @@ function download() {
     # ... = Options:
     #           --ROOT to install as root
     #           --EXTRACT to uncompress files
-    #           --OVERRIDE to download and extract over existing files
+    #           --EXTRACT-OVERRIDE to uncompress files over existing ones
+    #           --EXTRACT-CLEAR to clear the target dir before uncompressing files
     # Returns: 1 [Success] / 0 [Error]
     local fullfile=$1
     local basename=$(basename -- "$fullfile")
@@ -25,8 +26,12 @@ function download() {
             extract=1
         elif [ "$arg" == "--ROOT" ]; then
             sudo+="sudo"
-        elif [ "$arg" == "--OVERRIDE" ]; then
+        elif [ "$arg" == "--EXTRACT-OVERRIDE" ]; then
             override=1
+            extract=1
+        elif [ "$arg" == "--EXTRACT-CLEAR" ]; then
+            clear=1
+            extract=1
         fi
     done
 
@@ -37,7 +42,10 @@ function download() {
 
     if [ -f "$path/."$filename"_installed.txt" ]; then
         if [ $override -eq 1 ]; then
-            printfWarning "An older installation will be overwritten"
+            printfWarning "An older extraction will be overwritten"
+        elif [ $clear -eq 1 ]; then
+            printfWarning "An older extraction will be removed"
+            sudo rm -r "$path"
         else
             if [ $extract -eq 1 ]; then
                 printfDebug "Skipping download and extraction: \"$fullfile\""
