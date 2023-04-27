@@ -1,7 +1,7 @@
 function run() {
     # $1 = Bash command
     # Returns: 1 [No errors] / 0 [Errors occurred]
-    local error=$((($1) 1>>"$FILE_LOG";) 2>&1)
+    local error=$( ( ($1) 1 >> "$FILE_LOG" ) 2>&1 )
 
     if [ "$error" != "" ]; then
         echo $error &>>"$FILE_LOG";
