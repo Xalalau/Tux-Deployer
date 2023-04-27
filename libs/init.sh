@@ -126,12 +126,13 @@ NOW_FORMATED="$(echo $NOW | tr -s '[:blank:]' '_')"
 DIR_LIBS="$DIR_BASE/libs"
 DIR_LOGS="$DIR_BASE/logs"
 DIR_SCRIPTS="$DIR_BASE/scripts"
+DIR_CONFIGS="$DIR_BASE/configs"
 DIR_NETWORK="/etc/netplan"
 
 FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"
 FILE_NETPLAN="$(cd "$DIR_NETWORK"; for file in *; do echo "$DIR_NETWORK/$file"; done;)"
 
-FILE_CONFIG="$DIR_BASE/config.sh"
+FILE_CONFIG="$DIR_CONFIGS/config.sh"
 
 COLOR_BACKGROUND="\033[40m" # Magenta
 

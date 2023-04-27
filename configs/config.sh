@@ -37,4 +37,4 @@ DEBUG=1
 
 
 # Add your global variables/settings here
-
+# You can also add more configuration files with the "source" command
