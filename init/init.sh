@@ -30,16 +30,6 @@ FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"
 FILE_NETPLAN="$(cd "$DIR_NETWORK"; for file in *; do echo "$DIR_NETWORK/$file"; done;)"
 FILE_CONFIG="$DIR_CONFIGS/config.sh"
 
-COLOR_BACKGROUND="\033[40m" # Magenta
-
-STYLE_DEBUG="\e[1;37m" # White
-STYLE_INFO="\e[1;36m" # Cyan
-STYLE_WARNING="\e[1;33m" # Yellow
-STYLE_FAILED="\e[1;31m" # Red
-STYLE_CRITICAL="\e[1;31m" # Red
-STYLE_HR="\e[1;32m" # Green
-STYLE_TITLE="\e[4;1;32m" # Green + underline
-
 ARCH="$(dpkg --print-architecture)"
 
 USER_CURRENT="$(whoami)"
