@@ -6,6 +6,8 @@ SCRIPT_LICENSE="""
     https://github.com/Xalalau/Tux-Deployer
 """
 
+cd "$DIR_BASE"
+
 #DISTRIB_ID, DISTRIB_RELEASE, DISTRIB_CODENAME, DISTRIB_DESCRIPTION
 if [ -f "/etc/upstream-release/lsb-release" ]; then # Linux Mint
     source "/etc/upstream-release/lsb-release"
@@ -52,8 +54,7 @@ fi
 source "$FILE_DEPENDENCIES"
 source "$FILE_CONFIG"
 
-cd "$DIR_LIBS"
-for file in *; do
+for file in $DIR_LIBS/*; do
     source "$file"
 done
 
@@ -78,8 +79,6 @@ fi
 
 mkdir -p "$DIR_LOGS"
 echo "" > "$FILE_LOG"
-
-cd "$DIR_BASE"
 
 sudo clear
 
