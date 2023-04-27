@@ -1,6 +1,6 @@
 ### Initialization !!! Do not touch ### ----------------------
 DIR_BASE="$(cd "${0%/*}" && echo $PWD)"
-source "$DIR_BASE/libs/init.sh"
+source "$DIR_BASE/init/init.sh"
 ### Initialization !!! Do not touch ### ----------------------
 
 
