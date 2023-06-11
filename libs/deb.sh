@@ -123,6 +123,7 @@ function addPPA() {
 
         if [ ! -f "/etc/apt/sources.list.d/$key_name.list" ]; then
             local repository_part="$(echo $repository | sed 's/deb //g')"
+            printfInfo "Adding PPA: \"$key_name.list\""
             echo "deb [arch=$ARCH signed-by=$key_path] $repository_part" | sudo tee "/etc/apt/sources.list.d/$key_name.list" > /dev/null
             printfDebug "Added PPA: \"$key_name\""
         else
