@@ -68,9 +68,9 @@ function installDeb() {
             commandExists $package
             if [ "$?" -eq 1 ]; then
                 printfDebug "Installed deb: \"$package\""
+            else
+                printfError "Failed to install deb: \"$package\""
             fi
-
-            printfError "Failed to install deb: \"$package\""
         fi
 
         rm $deb_name;
