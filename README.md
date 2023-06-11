@@ -16,7 +16,7 @@ Currently tested on Ubuntu 20.04 and 22.04.
 3. Edit ``install.sh`` with your keys, repositories, instalations and script calls (the functions are documented in each lib); and
 4. Run ``install.sh`` on the terminal.
 
-The script can be run over and over again without any problems in case you need to make any adjustments.
+The install.sh script can be executed multiple times without any issues.
 
 
 ```sh
