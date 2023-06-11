@@ -27,8 +27,12 @@ DIR_NETWORK="/etc/netplan"
 
 FILE_DEPENDENCIES="$DIR_INIT/dependencies.sh"
 FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"
-FILE_NETPLAN="$(cd "$DIR_NETWORK"; for file in *; do echo "$DIR_NETWORK/$file"; done;)"
 FILE_CONFIG="$DIR_CONFIGS/config.sh"
+FILE_NETPLAN=""
+
+if [ -f "$DIR_NETWORK" ] && [ "$(ls -p $DIR_NETWORK | grep -v /)" ]; then
+    FILE_NETPLAN="$(cd "$DIR_NETWORK"; for file in *; do echo "$DIR_NETWORK/$file"; done;)"
+fi
 
 ARCH="$(dpkg --print-architecture)"
 

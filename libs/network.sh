@@ -5,7 +5,19 @@ function getActiveNetworkInterface() {
 
 function getNetworkRenderer() {
     # Returns: network renderer
-    echo "$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
+
+    commandExists "nmcli"
+    nmcli_exists="$?"
+    commandExists "networkctl"
+    networkctl_exists="$?"
+
+    if [ "$nmcli_exists" -eq 1 ] && [ "$(nmcli d | grep -E 'unavailable|connected')" ]; then
+        echo 'NetworkManager'
+    elif [ "$networkctl_exists" -eq 1 ] && [ "$(networkctl -a | grep -E 'routable|degraded|off')" ]; then
+        echo 'networkd'
+    elif [ "$FILE_NETPLAN" != "" ]; then
+        echo "$(cat "$FILE_NETPLAN" | awk '/renderer/ {print $2; exit}')"
+    fi
 }
 
 function getGateway() {
