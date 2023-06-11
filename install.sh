@@ -43,7 +43,8 @@ installDeb "steam-devices" "http://ftp.br.debian.org/debian/pool/non-free/s/stea
 installDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.68-1_i386.deb" # This version accepts EULAs automation
 
 # Install Stremio and its dependencies
-installApt "nodejs" "qml-module-qtwebchannel" "libfdk-aac1"
+installApt "nodejs" "qml-module-qtwebchannel"
+installDeb "libfdk-aac1" "http://ftp.osuosl.org/pub/ubuntu/pool/multiverse/f/fdk-aac/libfdk-aac1_0.1.6-1_amd64.deb"
 installDeb "stremio" "https://dl.strem.io/shell-linux/v4.4.160/stremio_4.4.160-1_amd64.deb" # Check for updates
 
 # Install MultiMC and its dependencies
