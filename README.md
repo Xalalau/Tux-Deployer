@@ -11,13 +11,10 @@ Currently tested on Ubuntu 20.04 and 22.04.
 
 # Usage
 
-1. Put your specialized scripts inside the ``scripts/`` folder (e.g. create a Wine prefix);
-2. ``config.sh`` holds your custom global variables (e.g. toggle debug messages, set paths);
-3. Edit ``install.sh`` with your keys, repositories, instalations and script calls (the functions are documented in each lib); and
-4. Run ``install.sh`` on the terminal.
-
-The install.sh script can be executed multiple times without any issues.
-
+1. ``config.sh`` holds your custom global variables (e.g. toggle debug messages, set paths);
+2. You can put scripts for custom operations inside the ``scripts/`` folder (e.g. create a Wine prefix, compile a program);
+3. Edit ``install.sh`` with your keys, repositories, instalations and script calls (the functions are documented in each lib);
+4. Start the script by calling ``install.sh`` on your terminal. It can be executed multiple times without any issues.
 
 ```sh
 git clone https://github.com/Xalalau/Tux-Deployer.git
