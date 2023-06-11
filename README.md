@@ -11,7 +11,7 @@ Currently tested on Ubuntu 20.04 and 22.04.
 
 # Usage
 
-1. ``config.sh`` holds your custom global variables (e.g. toggle debug messages, set paths);
+1. ``configs/config.sh`` holds your custom global variables (e.g. toggle debug messages, set paths);
 2. You can put scripts for custom operations inside the ``scripts/`` folder (e.g. create a Wine prefix, compile a program);
 3. Edit ``install.sh`` with your keys, repositories, instalations and script calls (the functions are documented in each lib);
 4. Start the script by calling ``install.sh`` on your terminal. It can be executed multiple times without any issues.
