@@ -24,6 +24,8 @@ addPPA "VirtualBox" "deb http://download.virtualbox.org/virtualbox/debian $DISTR
 addPPA "Insynchq" "deb http://apt.insync.io/ubuntu $DISTRIB_CODENAME non-free contrib"
 download "winehq-$DISTRIB_CODENAME.sources" "/etc/apt/sources.list.d" "https://dl.winehq.org/wine-builds/ubuntu/dists/$DISTRIB_CODENAME/winehq-$DISTRIB_CODENAME.sources" --ROOT
 
+addFlatpakRemote "flathub" "https://flathub.org/repo/flathub.flatpakrepo"
+
 upgradeApt
 
 installDeb "appimagelauncherd" "https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb" # Check for updates
