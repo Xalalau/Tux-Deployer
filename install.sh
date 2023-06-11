@@ -71,6 +71,7 @@ installApt "gparted"
 installApt "gscan2pdf"
 installApt "insync"
 installApt "jstest-gtk"
+installApt "kdenlive"
 installApt "lutris"
 #installApt "mainline" # Ukuu
 installApt "mesa-utils"
