@@ -2,6 +2,11 @@ function isFlatpakInstalled() {
     # $1 = "package" or "remote package"
     local package="$(echo "$1" | awk '{print $NF}')"
 
+    if [ $ENABLE_FLATPAK -eq 0 ]; then
+        printfDebug "Flatpak support is disabled"
+        return
+    fi
+
     if [ "$(flatpak info $package | grep "Commit:")" != "" ]; then
         return 1
     fi

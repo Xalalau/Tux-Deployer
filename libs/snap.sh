@@ -2,6 +2,11 @@ function isSnapInstalled() {
     # $1 = "package" or "remote package"
     local package="$(echo "$1" | awk '{print $NF}')"
 
+    if [ $ENABLE_SNAP -eq 0 ]; then
+        printfDebug "Snap support is disabled"
+        return
+    fi
+
     if [ "$(snap list $package 2>/dev/null | grep $package)" != "" ]; then
         return 1
     fi
