@@ -14,6 +14,25 @@ function isFlatpakInstalled() {
     return 0
 }
 
+function addFlatpakRemote() {
+    # $1 = Remote name
+    # $2 = Remote url
+    local remote_name="$1"
+    local remote_url=$2
+
+    if [ $ENABLE_FLATPAK -eq 0 ]; then
+        printfDebug "Flatpak support is disabled"
+        return
+    fi
+
+    if [ "$(flatpak remotes | grep "$remote_name	")" = "" ]; then
+        printfInfo "Adding Flatpak remote: \"$remote_name\""
+        sudo flatpak remote-add --if-not-exists "$remote_name" $remote_url
+    else
+        printfDebug "Skipping Flatpak remote: \"$remote_name\""
+    fi
+}
+
 function installFlatpak() {
     if [ $ENABLE_FLATPAK -eq 0 ]; then
         printfDebug "Flatpak support is disabled"
