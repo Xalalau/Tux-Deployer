@@ -1,4 +1,4 @@
-# Usefull global variables
+# Useful global variables
 <<comment
     $DIR_BASE                 Tux-Deployer directory
     $DISTRIB_ID               Distribution name
@@ -8,6 +8,7 @@
     $NOW                      Current time
     $ARCH                     System architecture
     $USER_CURRENT             Current logged user
+    $FILE_NETPLAN             Path for the netplan config file (can be empty "")
 	$NETWORK_INTERFACE        Main network interface name
 	$NETWORK_RENDERER         Network daemon
     $GATEWAY                  Network gateway
