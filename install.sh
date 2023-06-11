@@ -97,8 +97,8 @@ installApt "vlc"
 installApt "winbind"
 installApt "winehq-staging"
 
-#download "Create_AP.zip" "/home/$USER_CURRENT/Applications/Create_AP" "https://codeload.github.com/oblique/create_ap/zip/master" --EXTRACT
-download "Etcher.zip" "/home/$USER_CURRENT/Applications/Etcher" "https://github.com/balena-io/etcher/releases/download/v1.7.9/balena-etcher-electron-1.7.9-linux-x64.zip?d_id=b53962a5-eb91-4f24-8931-0d6cfe5e071fR" --EXTRACT # Check for updates
+#download "Create_AP.zip" "/home/$USER_CURRENT/Applications" "https://codeload.github.com/oblique/create_ap/zip/master" --EXTRACT
+download "Etcher.zip" "/home/$USER_CURRENT/Applications" "https://github.com/balena-io/etcher/releases/download/v1.7.9/balena-etcher-electron-1.7.9-linux-x64.zip?d_id=b53962a5-eb91-4f24-8931-0d6cfe5e071fR" --EXTRACT # Check for updates
 download "winetricks" "/usr/bin" "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" --ROOT
 
 installFlatpak "flathub fr.handbrake.ghb"
