@@ -2,12 +2,11 @@
 
 Automate the installation of your main packages.
 
-Currently tested on Ubuntu 20.04 and 22.04.
+Currently tested on Ubuntu 20.04 and 22.04, including flavors like Kubuntu and distros like Linux Mint and Pop OS.
 
-![Captura de tela de 2022-09-04 04-06-58](https://user-images.githubusercontent.com/5098527/188301817-44c6accc-3a98-4a84-99ae-562576401601.png)
-
-![Captura de tela de 2022-09-04 04-21-07](https://user-images.githubusercontent.com/5098527/188302254-ce356059-173c-477b-8e62-ad9eacaba90c.png)
-
+![1](https://github.com/Xalalau/Tux-Deployer/assets/5098527/a5fcaaae-cf62-4cd4-ab31-821fce1a6df9)
+![2](https://github.com/Xalalau/Tux-Deployer/assets/5098527/a8dae270-5b1f-4ac1-ae81-ed7b9a13b05c)
+![3](https://github.com/Xalalau/Tux-Deployer/assets/5098527/8438a3e8-7e24-4d61-8e56-401dfa9f9cfb)
 
 # Usage
 
