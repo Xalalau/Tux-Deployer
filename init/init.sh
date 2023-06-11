@@ -62,8 +62,8 @@ MAC="$(getNetworkInterfaceMAC $NETWORK_INTERFACE)"
 MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"
 MAC_FORMATTED_UPPERCASE="${MAC_FORMATTED_LOWERCASE^^}"
 
-if [ $DISTRIB_ID != "Ubuntu" ]; then
-    printfCritical "Tux Deployer only supports Ubuntu."
+if [ $DISTRIB_ID != "Ubuntu" ] && [ $DISTRIB_ID != "Pop" ]; then
+    printfCritical "Tux Deployer only supports Ubuntu and Pop."
     exit
 fi
 
