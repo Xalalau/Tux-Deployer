@@ -41,8 +41,6 @@ function download() {
         path=".${3:1}"
     fi
 
-    printfInfo "Downloading: \"$fullfile\""
-
     if [ -f "$path/."$filename"_installed.txt" ]; then
         if [ $override -eq 1 ]; then
             printfWarning "An older extraction will be overwritten"
@@ -70,6 +68,8 @@ function download() {
     $sudo mkdir -p "$path/TEMP" &>>"$FILE_LOG";
 
     cd "$path/TEMP" &>>"$FILE_LOG";
+
+    printfInfo "Downloading: \"$fullfile\""
 
     # Google drive urls
     local result
