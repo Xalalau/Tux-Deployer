@@ -112,11 +112,15 @@ function addPPA() {
             printfDebug "Skipping PPA: \"$key_name.list\""
         fi
     else
-        local key_path="/usr/share/keyrings/$key_name.gpg"
-        if [ ! -f "$key_path" ]; then
-            printfError "Failed to add PPA: \"$key_name\""
-            return
+        local key_path="$(find /usr/share/keyrings -name "$key_name.*" | grep -v '~')"
+        if [ "$key_path" = "" ]; then
+            key_path="$(find /etc/apt/keyrings -name "$key_name.*" | grep -v '~')"
+            if [ "$key_path" = "" ]; then
+                printfError "Failed to add PPA: \"$key_name\""
+                return
+            fi
         fi
+
         if [ ! -f "/etc/apt/sources.list.d/$key_name.list" ]; then
             local repository_part="$(echo $repository | sed 's/deb //g')"
             echo "deb [arch=$ARCH signed-by=$key_path] $repository_part" | sudo tee "/etc/apt/sources.list.d/$key_name.list" > /dev/null
@@ -129,11 +133,17 @@ function addPPA() {
 
 function addPPAKeyFromKeyServer() {
     # $1 = Key name
-    # $2 = Key server
-    # $3 = Key id
+    # $2 = Key location
+    # $3 = Key server
+    # $4 = Key id
     local key_name="$1"
-    local key_server=$2
-    local key_id=$3
+    local key_location="$2"
+    local key_server=$3
+    local key_id=$4
+
+    if [ ! -d "$key_location" ]; then
+        createDirSudo "$key_location"
+    fi
 
     if [ $IS_APT_KEY_DEPRECATED -eq 0 ]; then
         if ! apt-key list | grep -q "$key_name"; then
@@ -148,7 +158,7 @@ function addPPAKeyFromKeyServer() {
             printfDebug "Skipping key: \"$key_name\""
         fi
     else
-        local key_path="/usr/share/keyrings/$key_name.gpg"
+        local key_path="$key_location/$key_name.gpg"
         if [ ! -f "$key_path" ]; then
             printfInfo "Adding key: \"$key_name\""
             sudo gpg --homedir /tmp --no-default-keyring --keyring "$key_path" --keyserver $key_server --recv-keys $key_id &>>"$FILE_LOG";
@@ -165,11 +175,17 @@ function addPPAKeyFromKeyServer() {
 
 function addPPAKey() {
     # $1 = Key name
-    # $2 = Key URL
-    # $3 = (Opcional) Custom key extension (in case some source list doesn't search for a .gpg)
+    # $2 = Key location
+    # $3 = Key URL
+    # $4 = (Optional) Custom key extension (in case some source list doesn't search for a .gpg)
     local key_name="$1"
-    local key_url=$2
-    local key_extension=$3
+    local key_location="$2"
+    local key_url=$3
+    local key_extension=$4
+
+    if [ ! -d "$key_location" ]; then
+        createDirSudo "$key_location"
+    fi
 
     if [ $IS_APT_KEY_DEPRECATED -eq 0 ]; then
         if apt-key list | grep -q "$key_name"; then
@@ -184,7 +200,7 @@ function addPPAKey() {
         if [ ! -z "$key_extension" ]; then
             extension="$key_extension"
         fi
-        local key_path="/usr/share/keyrings/$key_name.$extension"
+        local key_path="$key_location/$key_name.$extension"
         if [ ! -f "$key_path" ]; then
             printfInfo "Adding key: \"$key_name.$extension\""
 

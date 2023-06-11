@@ -4,10 +4,10 @@ source "$DIR_BASE/init/init.sh"
 ### Initialization !!! Do not touch ### ----------------------
 
 
-addPPAKey "winehq-archive" "https://dl.winehq.org/wine-builds/winehq.key" "key"
-addPPAKey "Google Inc." "https://dl.google.com/linux/linux_signing_key.pub"
-addPPAKey "VirtualBox" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
-addPPAKeyFromKeyServer "Insynchq" "keyserver.ubuntu.com" "ACCAF35C"
+addPPAKey "winehq-archive" "/etc/apt/keyrings" "https://dl.winehq.org/wine-builds/winehq.key" "key"
+addPPAKey "Google Inc." "/usr/share/keyrings" "https://dl.google.com/linux/linux_signing_key.pub"
+addPPAKey "VirtualBox" "/usr/share/keyrings" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+addPPAKeyFromKeyServer "Insynchq" "/usr/share/keyrings" "keyserver.ubuntu.com" "ACCAF35C"
 
 #addPPALaunchpad "grub-customizer" "ppa:danielrichter2007/grub-customizer"
 #addPPALaunchpad "oibaf" "ppa:oibaf/graphics-drivers"
