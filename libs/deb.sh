@@ -147,28 +147,28 @@ function addPPAKeyFromKeyServer() {
 
     if [ $IS_APT_KEY_DEPRECATED -eq 0 ]; then
         if ! apt-key list | grep -q "$key_name"; then
-            printfInfo "Adding key: \"$key_name\""
+            printfInfo "Adding PPA key: \"$key_name\""
             sudo apt-key adv --keyserver $key_server --recv-keys $key_id &>>"$FILE_LOG";
             if apt-key list | grep -q "$key_name"; then
-                printfDebug "Added key: \"$key_name\""
+                printfDebug "Added PPA key: \"$key_name\""
             else
-                printfError "Failed to add key: \"$key_name\""
+                printfError "Failed to add PPA key: \"$key_name\""
             fi
         else
-            printfDebug "Skipping key: \"$key_name\""
+            printfDebug "Skipping PPA key: \"$key_name\""
         fi
     else
         local key_path="$key_location/$key_name.gpg"
         if [ ! -f "$key_path" ]; then
-            printfInfo "Adding key: \"$key_name\""
+            printfInfo "Adding PPA key: \"$key_name\""
             sudo gpg --homedir /tmp --no-default-keyring --keyring "$key_path" --keyserver $key_server --recv-keys $key_id &>>"$FILE_LOG";
             if [ -f "$key_path" ]; then
-                printfDebug "Added key: \"$key_name.gpg\""
+                printfDebug "Added PPA key: \"$key_name.gpg\""
             else
-                printfError "Failed to add key: \"$key_name.gpg\""
+                printfError "Failed to add PPA key: \"$key_name.gpg\""
             fi
         else
-            printfDebug "Skipping key: \"$key_name.gpg\""
+            printfDebug "Skipping PPA key: \"$key_name.gpg\""
         fi
     fi
 }
@@ -189,11 +189,11 @@ function addPPAKey() {
 
     if [ $IS_APT_KEY_DEPRECATED -eq 0 ]; then
         if apt-key list | grep -q "$key_name"; then
-            printfInfo "Adding key: \"$key_name\""
+            printfInfo "Adding PPA key: \"$key_name\""
             wget -qO - $key_url | sudo apt-key add &>>"$FILE_LOG";
-            printfDebug "Added key: \"$key_name\""
+            printfDebug "Added PPA key: \"$key_name\""
         else
-            printfDebug "Skipping key: \"$key_name\""
+            printfDebug "Skipping PPA key: \"$key_name\""
         fi
     else
         local extension="gpg"
@@ -202,7 +202,7 @@ function addPPAKey() {
         fi
         local key_path="$key_location/$key_name.$extension"
         if [ ! -f "$key_path" ]; then
-            printfInfo "Adding key: \"$key_name.$extension\""
+            printfInfo "Adding PPA key: \"$key_name.$extension\""
 
             local key="$(curl -fsSL $key_url)"
 
@@ -212,9 +212,9 @@ function addPPAKey() {
                 sudo wget -nc -O "$key_path" $key_url &>>"$FILE_LOG";
             fi
 
-            printfDebug "Added key: \"$key_name.$extension\""
+            printfDebug "Added PPA key: \"$key_name.$extension\""
         else
-            printfDebug "Skipping key: \"$key_name.$extension\""
+            printfDebug "Skipping PPA key: \"$key_name.$extension\""
         fi
     fi
 }
@@ -230,10 +230,10 @@ function acceptDebEULA() {
     local eula_section_value="$4"
 
     if [ "$(sudo debconf-show $package_name | grep $eula_section)" == "" ]; then
-        printfInfo "Accepting EULA: \"$package_name\" \"$eula_section $eula_section_key\""
+        printfInfo "Accepting deb EULA: \"$package_name\" \"$eula_section $eula_section_key\""
         echo $package_name $eula_section $eula_section_key $eula_section_value | sudo debconf-set-selections &>>"$FILE_LOG";
-        printfDebug "Accepted EULA: \"$package_name\" \"$eula_section $eula_section_key\""
+        printfDebug "Accepted deb EULA: \"$package_name\" \"$eula_section $eula_section_key\""
     else
-        printfDebug "Skipping EULA: \"$package_name\" \"$eula_section $eula_section_key\""
+        printfDebug "Skipping deb EULA: \"$package_name\" \"$eula_section $eula_section_key\""
     fi
 }
