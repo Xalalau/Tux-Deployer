@@ -8,6 +8,7 @@ addPPAKey "winehq-archive" "/etc/apt/keyrings" "https://dl.winehq.org/wine-build
 addPPAKey "Google Inc." "/usr/share/keyrings" "https://dl.google.com/linux/linux_signing_key.pub"
 addPPAKey "VirtualBox" "/usr/share/keyrings" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
 addPPAKeyFromKeyServer "Insynchq" "/usr/share/keyrings" "keyserver.ubuntu.com" "ACCAF35C"
+addPPAKey "AnyDesk" "/usr/share/keyrings" "https://keys.anydesk.com/repos/DEB-GPG-KEY"
 
 #addPPALaunchpad "grub-customizer" "ppa:danielrichter2007/grub-customizer"
 #addPPALaunchpad "oibaf" "ppa:oibaf/graphics-drivers"
@@ -22,6 +23,7 @@ addPPALaunchpad "apt-fast" "ppa:apt-fast/stable"
 #addPPALaunchpad "mainline" "ppa:cappelikan/ppa" # Ukuu, now mainline
 addPPA "VirtualBox" "deb http://download.virtualbox.org/virtualbox/debian $DISTRIB_CODENAME contrib"
 addPPA "Insynchq" "deb http://apt.insync.io/ubuntu $DISTRIB_CODENAME non-free contrib"
+addPPA "AnyDesk" "deb http://deb.anydesk.com/ all main"
 download "winehq-$DISTRIB_CODENAME.sources" "/etc/apt/sources.list.d" "https://dl.winehq.org/wine-builds/ubuntu/dists/$DISTRIB_CODENAME/winehq-$DISTRIB_CODENAME.sources" --ROOT
 
 addFlatpakRemote "flathub" "https://flathub.org/repo/flathub.flatpakrepo"
@@ -54,6 +56,7 @@ installApt "libqt5core5a" "libqt5network5" "libqt5gui5"
 installDeb "multimc" "https://files.multimc.org/downloads/multimc_1.6-1.deb"
 
 #installApt "axel"
+installApt "anydesk"
 installApt "apt-fast"
 installApt "audacity"
 installApt "bleachbit"
