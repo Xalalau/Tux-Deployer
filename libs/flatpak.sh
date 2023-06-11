@@ -7,7 +7,7 @@ function isFlatpakInstalled() {
         return
     fi
 
-    if [ "$(flatpak info $package | grep "Commit:")" != "" ]; then
+    if [ "$(flatpak list | grep "	$package	")" != "" ]; then
         return 1
     fi
 
