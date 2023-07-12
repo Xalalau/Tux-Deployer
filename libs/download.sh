@@ -36,9 +36,9 @@ function download() {
         fi
     done
 
-    if [ "${3:0:1}" == "~" ]; then
+    if [ "${path:0:1}" == "~" ]; then
         cd ~
-        path=".${3:1}"
+        path=".${path:1}"
     fi
 
     if [ -f "$path/."$filename"_installed.txt" ]; then
