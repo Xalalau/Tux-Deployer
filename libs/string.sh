@@ -36,12 +36,44 @@ function isStringEmpty() {
     fi
 }
 
-function zFill() {
+function pad() {
     # $1 = String
-    # $2 = Leading zeros
-    # Returns: String with leading zeros
-    local trimmed=`echo $1`
-    local leading_zeros=$2
+    # $2 = Padding size
+    # $3 = Padding char
+    # $4 = Padding type. 0 = Right, 1 = Left, 2 = Both
+    # Returns: Padded string
+    local string_trimmed=`echo $1`
+    local padding_size=$2
+    local padding_char=$3
+    local padding_type=$4
 
-    printf "%0${leading_zeros}d\n" "$trimmed"
+    local real_padding_size=$(($padding_size - ${#string_trimmed}))
+
+    if [[ $real_padding_size -lt 0 ]]; then
+        echo "$string_trimmed"
+        return
+    fi
+
+    if [ "$padding_type" == "0" ]; then
+        for i in $(eval echo "{1..$real_padding_size}"); do
+            printf "$padding_char"
+        done
+        printf "$string_trimmed"
+        printf '\n'
+    elif [ "$padding_type" == "1" ]; then
+        printf "$string_trimmed"
+        for i in $(eval echo "{1..$real_padding_size}"); do
+            printf "$padding_char"
+        done
+        printf '\n'
+    elif [ "$padding_type" == "2" ]; then
+        for i in $(eval echo "{1..$real_padding_size}"); do
+            printf "$padding_char"
+        done
+        printf "$string_trimmed"
+        for i in $(eval echo "{1..$real_padding_size}"); do
+            printf "$padding_char"
+        done
+        printf '\n'
+    fi
 }
