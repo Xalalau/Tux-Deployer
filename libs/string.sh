@@ -35,3 +35,13 @@ function isStringEmpty() {
         return 0
     fi
 }
+
+function zFill() {
+    # $1 = String
+    # $2 = Leading zeros
+    # Returns: String with leading zeros
+    local trimmed=`echo $1`
+    local leading_zeros=$2
+
+    printf "%0${leading_zeros}d\n" "$trimmed"
+}
