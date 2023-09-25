@@ -230,7 +230,7 @@ function acceptDebEULA() {
     local eula_section_key="$3"
     local eula_section_value="$4"
 
-    if [ "$(sudo debconf-show $package_name | grep $eula_section)" == "" ]; then
+    if [ "$(sudo debconf-show $package_name | grep $eula_section)" = "" ]; then
         printfInfo "Accepting deb EULA: \"$package_name\" \"$eula_section $eula_section_key\""
         echo $package_name $eula_section $eula_section_key $eula_section_value | sudo debconf-set-selections &>>"$FILE_LOG";
         printfDebug "Accepted deb EULA: \"$package_name\" \"$eula_section $eula_section_key\""

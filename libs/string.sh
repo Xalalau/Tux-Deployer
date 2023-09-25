@@ -54,19 +54,19 @@ function pad() {
         return
     fi
 
-    if [ "$padding_type" == "0" ]; then
+    if [ "$padding_type" = "0" ]; then
         for i in $(eval echo "{1..$real_padding_size}"); do
             printf "$padding_char"
         done
         printf "$string_trimmed"
         printf '\n'
-    elif [ "$padding_type" == "1" ]; then
+    elif [ "$padding_type" = "1" ]; then
         printf "$string_trimmed"
         for i in $(eval echo "{1..$real_padding_size}"); do
             printf "$padding_char"
         done
         printf '\n'
-    elif [ "$padding_type" == "2" ]; then
+    elif [ "$padding_type" = "2" ]; then
         for i in $(eval echo "{1..$real_padding_size}"); do
             printf "$padding_char"
         done

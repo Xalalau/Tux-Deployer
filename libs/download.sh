@@ -23,20 +23,20 @@ function download() {
 
     for arg in "$@"
     do
-        if [ "$arg" == "--EXTRACT" ]; then
+        if [ "$arg" = "--EXTRACT" ]; then
             extract=1
-        elif [ "$arg" == "--ROOT" ]; then
+        elif [ "$arg" = "--ROOT" ]; then
             sudo+="sudo"
-        elif [ "$arg" == "--EXTRACT-OVERRIDE" ]; then
+        elif [ "$arg" = "--EXTRACT-OVERRIDE" ]; then
             override=1
             extract=1
-        elif [ "$arg" == "--EXTRACT-CLEAR" ]; then
+        elif [ "$arg" = "--EXTRACT-CLEAR" ]; then
             clear=1
             extract=1
         fi
     done
 
-    if [ "${path:0:1}" == "~" ]; then
+    if [ "${path:0:1}" = "~" ]; then
         cd ~
         path=".${path:1}"
     fi
@@ -95,11 +95,11 @@ function download() {
     if [ $extract -eq 1 ]; then
         printfInfo "Extracting: \"$fullfile\""
 
-        if [ "$extension" == "zip" ]; then
+        if [ "$extension" = "zip" ]; then
             $sudo unzip "$path/TEMP/$fullfile" &>>"$FILE_LOG";
-        elif [ "$extension" == "rar" ]; then
+        elif [ "$extension" = "rar" ]; then
             $sudo unrar "$path/TEMP/$fullfile" &>>"$FILE_LOG";
-        elif [ "$extension" == "gz" ]; then
+        elif [ "$extension" = "gz" ]; then
             $sudo tar -zxvf "$path/TEMP/$fullfile" &>>"$FILE_LOG";
         else
             $sudo rm "$path/TEMP/$fullfile" &>>"$FILE_LOG";
@@ -137,7 +137,7 @@ function download() {
     # Move the files to the correct location
     $sudo mv ./TEMP/* ./ &>>"$FILE_LOG";
     $sudo rm -r ./TEMP &>>"$FILE_LOG";
-    if [ "$sudo" == "sudo" ]; then
+    if [ "$sudo" = "sudo" ]; then
         echo "" | sudo tee -a "$path/."$filename"_installed.txt" > /dev/null
     else
         echo "" > "$path/."$filename"_installed.txt" &>>"$FILE_LOG";    

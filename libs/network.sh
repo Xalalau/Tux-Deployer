@@ -82,9 +82,9 @@ function getSubmaskBits() {
 
     export IFS="."
     for octet in $octets; do
-        if [ $octet == "0" ]; then
+        if [ $octet = "0" ]; then
             return $bits
-        elif [ $octet == "255" ]; then
+        elif [ $octet = "255" ]; then
             bits=$((bits + 8))
         else
             local test_bits=128
