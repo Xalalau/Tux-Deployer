@@ -73,6 +73,7 @@ function download() {
 
     # Google drive urls
     local result
+    local parts
     if echo $url | grep -q 'drive.google.com'; then
         if [ $ENABLE_GDRIVE_DOWNLOAD_URLS -eq 0 ]; then
             printfError "Failed to download: \"$fullfile\". Google Drive support is disabled"

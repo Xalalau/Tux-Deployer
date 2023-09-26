@@ -5,11 +5,10 @@ function getActiveNetworkInterface() {
 
 function getNetworkRenderer() {
     # Returns: network renderer
-
     commandExists "nmcli"
-    nmcli_exists="$?"
+    local nmcli_exists="$?"
     commandExists "networkctl"
-    networkctl_exists="$?"
+    local networkctl_exists="$?"
 
     if [ "$nmcli_exists" -eq 1 ] && [ "$(nmcli d | grep -E 'unavailable|connected')" ]; then
         echo 'NetworkManager'
@@ -121,6 +120,8 @@ function getSubmaskIP() {
         return $bits
     fi
 
+    local add_int
+    local last_octet
     while [ $bits -gt 0 ]; do
         bits=$((bits - 8))
 
