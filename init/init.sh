@@ -10,9 +10,9 @@ cd "$DIR_BASE"
 
 #DISTRIB_ID, DISTRIB_RELEASE, DISTRIB_CODENAME, DISTRIB_DESCRIPTION
 if [ -f "/etc/upstream-release/lsb-release" ]; then # Linux Mint
-    source "/etc/upstream-release/lsb-release"
+    . "/etc/upstream-release/lsb-release"
 else
-    source "/etc/lsb-release"
+    . "/etc/lsb-release"
 fi
 
 NOW="$(date)"
@@ -45,11 +45,11 @@ else
     IS_APT_KEY_DEPRECATED=0
 fi
 
-source "$FILE_DEPENDENCIES"
-source "$FILE_CONFIG"
+. "$FILE_DEPENDENCIES"
+. "$FILE_CONFIG"
 
 for file in $DIR_LIBS/*; do
-    source "$file"
+    . "$file"
 done
 
 NETWORK_INTERFACE="$(getActiveNetworkInterface)"

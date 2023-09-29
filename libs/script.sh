@@ -6,9 +6,9 @@ function runScript() {
 
     if [ "$silent" = "" ] || [ $silent -eq 0 ]; then
         printfHr "Starting '$filename.sh'"
-        source "$DIR_SCRIPTS/$filename.sh"
+        . "$DIR_SCRIPTS/$filename.sh"
         printfHr "Finished '$filename.sh'"
     else
-        source "$DIR_SCRIPTS/$filename.sh"
+        . "$DIR_SCRIPTS/$filename.sh"
     fi
 }
