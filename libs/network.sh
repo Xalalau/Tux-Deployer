@@ -1,3 +1,22 @@
+function getNetplanFile() {
+    # $1 = Network directory
+    # $2 = Network interface
+    # Returns: Ethernet Netplan configuration file
+    local dir_network="$1"
+    local network_interface="$2"
+
+    cd "$dir_network"
+
+    if [ -d "$dir_network" ]; then
+        for file in *; do
+            if cat "$dir_network/$file" | grep -q "$network_interface"; then
+                echo "$dir_network/$file"
+                break
+            fi
+        done
+    fi
+}
+
 function getActiveNetworkInterface() {
     # Returns: active network interface
     echo "$(ip route | awk '/default/ {print $5; exit}')"

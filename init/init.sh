@@ -28,11 +28,6 @@ DIR_NETWORK="/etc/netplan"
 FILE_DEPENDENCIES="$DIR_INIT/dependencies.sh"
 FILE_LOG="$DIR_LOGS/$NOW_FORMATED.txt"
 FILE_CONFIG="$DIR_CONFIGS/config.sh"
-FILE_NETPLAN=""
-
-if [ -f "$DIR_NETWORK" ] && [ "$(ls -p $DIR_NETWORK | grep -v /)" ]; then
-    FILE_NETPLAN="$(cd "$DIR_NETWORK"; for file in *; do echo "$DIR_NETWORK/$file"; done;)"
-fi
 
 ARCH="$(dpkg --print-architecture)"
 
@@ -61,6 +56,8 @@ SUBMASK="$(getCurrentSubmaskBits $NETWORK_INTERFACE)"
 MAC="$(getNetworkInterfaceMAC $NETWORK_INTERFACE)"
 MAC_FORMATTED_LOWERCASE="$(echo $MAC | tr -d :)"
 MAC_FORMATTED_UPPERCASE="${MAC_FORMATTED_LOWERCASE^^}"
+
+FILE_NETPLAN="$(getNetplanFile "$DIR_NETWORK" $NETWORK_INTERFACE)"
 
 if [ $DISTRIB_ID != "Ubuntu" ] && [ $DISTRIB_ID != "Pop" ]; then
     printfCritical "Tux Deployer only supports Ubuntu and Pop."
