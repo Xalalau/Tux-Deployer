@@ -5,15 +5,24 @@ function getNetplanFile() {
     local dir_network="$1"
     local network_interface="$2"
 
+    local generic_filename="00-tux-config.yaml"
+    local found=0
+
     cd "$dir_network"
 
     if [ -d "$dir_network" ]; then
         for file in *; do
             if cat "$dir_network/$file" | grep -q "$network_interface"; then
                 echo "$dir_network/$file"
+                found=1
                 break
             fi
         done
+    fi
+
+    if [ $found -eq 0 ]; then
+        echo "$dir_network/$generic_filename"
+        sudo touch "$dir_network/$generic_filename"
     fi
 }
 
