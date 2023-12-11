@@ -66,14 +66,16 @@ function removekey() {
             USE $db;
             DELETE FROM $tbl WHERE \`key\`='$key';
         " > /tmp/easitemp.sql
-    fi
 
-    local res=$(sudo mysql < /tmp/easitemp.sql 2>&1 >/dev/null)
-    if echo $res | grep -q "ERROR"; then
-        printfError "Failed to remove $key"
-        echo $res &>>"$FILE_LOG";
+        local res=$(sudo mysql < /tmp/easitemp.sql 2>&1 >/dev/null)
+        if echo $res | grep -q "ERROR"; then
+            printfError "Failed to remove $key"
+            echo $res &>>"$FILE_LOG";
+        else
+            printfDebug "Key '$key' removed from $tbl"
+        fi
+        rm /tmp/easitemp.sql 
     else
-        printfDebug "Key '$key' removed from $tbl"
+        printfDebug "$tbl doesn't have a key $key to be removed"
     fi
-    rm /tmp/easitemp.sql 
 }
