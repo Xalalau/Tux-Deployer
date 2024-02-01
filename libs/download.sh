@@ -105,7 +105,7 @@ function download() {
         else
             $sudo rm "$path/TEMP/$fullfile" &>>"$FILE_LOG";
             printfError "Failed to extract: \"$fullfile\""
-            return
+            return 0
         fi
         extracted=1
         $sudo rm "$path/TEMP/$fullfile" &>>"$FILE_LOG";
