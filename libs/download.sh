@@ -125,10 +125,11 @@ function download() {
     elif [ $quant1 -eq 1 ] && [ $quant2 -eq 0 ]; then
         # 1 subfolder = Move its content 1 level up
         local dir=$(find . -mindepth 1 -maxdepth 1 -type d)
-        cd "$dir"
+        $sudo mv "$dir" "$dir""_deleteme"
+        cd "$dir""_deleteme"
         $sudo mv * ../ &>>"$FILE_LOG";
         cd ..
-        $sudo rm -r "$dir" &>>"$FILE_LOG";
+        $sudo rm -r "$dir""_deleteme" &>>"$FILE_LOG";
         cd ..
     else
         # At least 1 file = Success
