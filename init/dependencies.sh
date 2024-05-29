@@ -72,7 +72,7 @@ function checkDependencies() {
     fi
 
     if [ $ENABLE_GDRIVE_DOWNLOAD_URLS -eq 1 ]; then
-        installAPTDependency 'pip3' 'python3-pip' $installed_dependencies
+        installAPTDependency 'python3-pip' $installed_dependencies
         if [ "$?" -eq 1 ]; then
             installed_dependencies=1
         fi
@@ -80,7 +80,13 @@ function checkDependencies() {
         commandExists "gdown"
         if [ "$?" -ne 1 ]; then
             printfInfo "Installing: gdown"
-            sudo pip3 install gdown &>>"$FILE_LOG";
+
+            if [ "$DISTRIB_CODENAME" == "noble" ]; then
+                sudo pip3 install gdown --break-system-packages &>>"$FILE_LOG";
+            else
+                sudo pip3 install gdown &>>"$FILE_LOG";
+            fi
+
             commandExists "gdown"
             if [ "$?" -ne 1 ]; then
                 printfError "Failed to install: gdown"

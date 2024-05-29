@@ -64,8 +64,8 @@ if [ $DISTRIB_ID != "Ubuntu" ] && [ $DISTRIB_ID != "Pop" ]; then
     exit
 fi
 
-if [ "$DISTRIB_CODENAME" != "focal" ] && [ "$DISTRIB_CODENAME" != "jammy" ]; then
-    printfWarning "Warning! This script was tested on Ubuntu 20.04 (focal) and Ubuntu 22.04 (jammy), so tweaks may be needed in your version ($DISTRIB_CODENAME)."
+if [ "$DISTRIB_CODENAME" != "focal" ] && [ "$DISTRIB_CODENAME" != "jammy" ] && [ "$DISTRIB_CODENAME" != "noble" ]; then
+    printfWarning "Warning! This script was tested on Ubuntu 20.04 (focal), 22.04 (jammy) and 24.04 (noble), so tweaks may be needed in your version ($DISTRIB_CODENAME)."
 fi
 
 mkdir -p "$DIR_LOGS"

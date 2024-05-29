@@ -45,6 +45,10 @@ function runService() {
 
     isServiceRegistered $service_name
     if [ "$?" -eq 1 ]; then
+        if sudo systemctl status mysql 2>&1 | grep -q daemon-reload; then
+            should_run_daemon_reload=1
+        fi
+
         if [ $should_run_daemon_reload -eq 1 ]; then
             sudo systemctl daemon-reload &>>"$FILE_LOG";
         fi
