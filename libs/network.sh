@@ -12,7 +12,7 @@ function getNetplanFile() {
 
     if [ -d "$dir_network" ]; then
         for file in *; do
-            if cat "$dir_network/$file" | grep -q "$network_interface"; then
+            if sudo cat "$dir_network/$file" | grep -q "$network_interface"; then
                 echo "$dir_network/$file"
                 found=1
                 break
