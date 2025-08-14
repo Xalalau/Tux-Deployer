@@ -49,7 +49,7 @@ function setSQLValue() {
         echo "
             USE $db;
             UPDATE $tbl SET \`value\`='$value' WHERE \`key\`='$key';
-        " > /tmp/easitemp.sql
+        " > /tmp/tuxtemp.sql
     else
         echo "
             USE $db;
@@ -57,17 +57,17 @@ function setSQLValue() {
                 (\`key\`, \`value\`)
             VALUES
                 ('$key', $value);
-        " > /tmp/easitemp.sql
+        " > /tmp/tuxtemp.sql
     fi
 
-    local res=$(sudo mysql < /tmp/easitemp.sql 2>&1 >/dev/null)
+    local res=$(sudo mysql < /tmp/tuxtemp.sql 2>&1 >/dev/null)
     if echo $res | grep -q "ERROR"; then
         printfError "Failed to set $key"
         echo $res &>>"$FILE_LOG";
     else
         printfDebug "$key = $value"
     fi
-    rm /tmp/easitemp.sql 
+    rm /tmp/tuxtemp.sql 
 }
 
 function setSQLValueByIdx() {
@@ -87,7 +87,7 @@ function setSQLValueByIdx() {
         echo "
             USE $db;
             UPDATE $tbl SET \`$field\`='$value' WHERE \`idx\`=$idx;
-        " > /tmp/easitemp.sql
+        " > /tmp/tuxtemp.sql
     else
         echo "
             USE $db;
@@ -95,17 +95,17 @@ function setSQLValueByIdx() {
                 (\`idx\`, \`$field\`)
             VALUES
                 ($idx, '$value');
-        " > /tmp/easitemp.sql
+        " > /tmp/tuxtemp.sql
     fi
 
-    local res=$(sudo mysql < /tmp/easitemp.sql 2>&1 >/dev/null)
+    local res=$(sudo mysql < /tmp/tuxtemp.sql 2>&1 >/dev/null)
     if echo $res | grep -q "ERROR"; then
         printfError "Failed to set idx $idx on field $field with value $value in table $tbl"
         echo $res &>>"$FILE_LOG";
     else
         printfDebug "$tbl idx $idx = $value"
     fi
-    rm /tmp/easitemp.sql 
+    rm /tmp/tuxtemp.sql 
 }
 
 function getSQLValue() {
@@ -154,16 +154,16 @@ function removeSQLkey() {
         echo "
             USE $db;
             DELETE FROM $tbl WHERE \`key\`='$key';
-        " > /tmp/easitemp.sql
+        " > /tmp/tuxtemp.sql
 
-        local res=$(sudo mysql < /tmp/easitemp.sql 2>&1 >/dev/null)
+        local res=$(sudo mysql < /tmp/tuxtemp.sql 2>&1 >/dev/null)
         if echo $res | grep -q "ERROR"; then
             printfError "Failed to remove $key"
             echo $res &>>"$FILE_LOG";
         else
             printfDebug "Key '$key' removed from $tbl"
         fi
-        rm /tmp/easitemp.sql 
+        rm /tmp/tuxtemp.sql 
     else
         printfDebug "$tbl doesn't have a key $key to be removed"
     fi
