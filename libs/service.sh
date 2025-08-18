@@ -77,10 +77,11 @@ function runService() {
 
 function enforceServiceAvailability() {
     # $1 = Service name
+    # $2 = Counts retry
+    # $3 = Sleep time
     local service_name=$1
-
-    local count_retry=20
-    local sleep=3
+    local count_retry=${2:-20}
+    local sleep=${3:-3}
     local total_seconds=$(($count_retry*$sleep))
 
     printfInfo "Waiting for $service_name service to proceed... (It may take up to $total_seconds seconds)"
