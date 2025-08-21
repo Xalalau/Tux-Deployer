@@ -30,30 +30,30 @@ addFlatpakRemote "flathub" "https://flathub.org/repo/flathub.flatpakrepo"
 
 upgradeApt
 
-installDeb "appimagelauncherd" "https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb" # Check for updates
-installDeb "code" "https://go.microsoft.com/fwlink/?LinkID=760868"
-installDeb "discord" "https://discord.com/api/download?platform=linux&format=deb"
-installDeb "google-chrome-stable" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-#installDeb "snes9x-gtk" "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # This version has working top menus
-installDeb "teamviewer" "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb"
-installDeb "freedownloadmanager" "https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb"
+installDeb "https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb" # Check for updates # appimagelauncherd
+installDeb "https://go.microsoft.com/fwlink/?LinkID=760868" # code
+installDeb "https://discord.com/api/download?platform=linux&format=deb" # discord
+installDeb "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" # google-chrome-stable
+#installDeb "https://launchpad.net/ubuntu/+source/snes9x/1:1.52-1/+build/1687493/+files/snes9x-gtk_1.52-1_amd64.deb" # This version has working top menus # snes9x-gtk
+installDeb "https://download.teamviewer.com/download/linux/teamviewer_amd64.deb" # teamviewer
+installDeb "https://files2.freedownloadmanager.org/6/latest/freedownloadmanager.deb" # freedownloadmanager
 
 # Install Steam and its dependencies
 acceptDebEULA "ttf-mscorefonts-installer" "msttcorefonts/accepted-mscorefonts-eula" "select" "true"
 acceptDebEULA "steam" "steam/purge" "note" " "
 acceptDebEULA "steam" "steam/license" "note" " "
 acceptDebEULA "steam" "steam/question" "select" "I AGREE"
-installDeb "steam-devices" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam-devices_1.0.0.68-1_all.deb" # This version accepts EULAs automation
-installDeb "steam" "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.68-1_i386.deb" # This version accepts EULAs automation
+installDeb "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam-devices_1.0.0.68-1_all.deb" # This version accepts EULAs automation # steam-devices
+installDeb "http://ftp.br.debian.org/debian/pool/non-free/s/steam/steam_1.0.0.68-1_i386.deb" # This version accepts EULAs automation # steam
 
 # Install Stremio and its dependencies
 installApt "nodejs" "qml-module-qtwebchannel"
-installDeb "libfdk-aac1" "http://ftp.osuosl.org/pub/ubuntu/pool/multiverse/f/fdk-aac/libfdk-aac1_0.1.6-1_amd64.deb"
-installDeb "stremio" "https://dl.strem.io/shell-linux/v4.4.160/stremio_4.4.160-1_amd64.deb" # Check for updates
+installDeb "http://ftp.osuosl.org/pub/ubuntu/pool/multiverse/f/fdk-aac/libfdk-aac1_0.1.6-1_amd64.deb" # libfdk-aac1
+installDeb "https://dl.strem.io/shell-linux/v4.4.160/stremio_4.4.160-1_amd64.deb" # Check for updates # stremio
 
 # Install MultiMC and its dependencies
 installApt "libqt5core5a" "libqt5network5" "libqt5gui5"
-installDeb "multimc" "https://files.multimc.org/downloads/multimc_1.6-1.deb"
+installDeb "https://files.multimc.org/downloads/multimc_1.6-1.deb" # multimc
 
 #installApt "axel"
 installApt "anydesk"
