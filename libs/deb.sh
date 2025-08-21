@@ -5,17 +5,42 @@ function upgradeApt() {
 }
 
 function isDebInstalled() {
-    # $1 = Package
-    # Returns: 1 [Found] / 0 [Not found]
-    local is_installed_check1=$(dpkg -l "$1" 2>/dev/null | grep 'ii  ')
+    # $1 = Package name
+    # Returns: 0 [Installed] / 1 [Not installed]
+    local status=$(dpkg-query -W -f='${db:Status-Abbrev}' "$1" 2>/dev/null)
 
-    if [ ! -z "$is_installed_check1" ]; then
+    if [[ "$status" == ii* || "$status" == hi* ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+function isDebFileInstalled() {
+    # $1 = Package
+    # Returns 0 if the *same* package (name+version+arch) is already installed.
+    # Returns 1 if not installed or different version/arch.
+    # Returns 2 on error (bad file, unreadable metadata, etc).
+    local deb="$1"
+    [[ -f "$deb" ]] || { echo "File not found: $deb" >&2; return 2; }
+
+    local pkg ver arch
+    pkg=$(dpkg-deb -f "$deb" Package)       || return 2
+    ver=$(dpkg-deb -f "$deb" Version)       || return 2
+    arch=$(dpkg-deb -f "$deb" Architecture) || return 2
+
+    # Query installed state/version/arch
+    local status inst_ver inst_arch
+    if ! read -r status inst_ver inst_arch < <(
+        dpkg-query -W -f='${db:Status-Abbrev} ${Version} ${Architecture}\n' "$pkg" 2>/dev/null
+    ); then
         return 1
     fi
 
-    local is_installed_check2=$(dpkg -l "$1" 2>/dev/null | grep 'hi  ')
-
-    if [ ! -z "$is_installed_check2" ]; then
+    # Must be installed ('ii'), same version, and same arch (or deb is 'all')
+    [[ "${status:0:2}" == "ii" ]] || return 1
+    dpkg --compare-versions "$inst_ver" eq "$ver" || return 1
+    if [[ "$arch" != "all" && "$inst_arch" != "$arch" ]]; then
         return 1
     fi
 
@@ -26,14 +51,14 @@ function installApt() {
     # ... = Packages
     for package in "$@"; do
         isDebInstalled $package
-        if [ "$?" -eq 1 ]; then
+        if [ "$?" -eq 0 ]; then
             printfDebug "Skipping APT: \"$package\""
         else
             printfInfo "Installing APT: \"$package\""
             sudo apt-get install $package -y &>>"$FILE_LOG";
 
             isDebInstalled $package
-            if [ "$?" -eq 1 ]; then
+            if [ "$?" -eq 0 ]; then
                 printfDebug "Installed APT: \"$package\""
             else
                 printfError "Failed to install APT: \"$package\""
@@ -43,43 +68,61 @@ function installApt() {
 }
 
 function installDeb() {
-    # $1 = Package name or package command
-    # $2 = Download URL
-    local package="$1"
-    local url=$2
+    # $1 = Download URL or path
+    # Returns 0 if success
+    # Returns 1 failed to download
+    # Returns 2 file doesn't exist
+    # Returns 3 on installation error
+    local deb_src="$1"
+    local package="package.deb"
+    local deb_tmp_dir="/tmp/easideb"
+    local package_name
+    local package_path
 
-    isDebInstalled $package
-    if [ "$?" -eq 1 ]; then
-        printfDebug "Skipping deb: \"$package\""
+    if [[ "$deb_src" = http* ]]; then
+        package_path="$deb_tmp_dir/$package"
+        mkdir -p "$deb_tmp_dir" &>>"$FILE_LOG"
+        printfInfo "Downloading deb from \"$deb_src\""
+        if ! wget -O "$package_path" "$deb_src" &>>"$FILE_LOG"; then
+            printfError "Failed to download deb \"$deb_src\""
+            return 1
+        fi
+        package_name="$(dpkg-deb -f "$package_path" Package)"
+    elif [[ ! -f "$deb_src" ]]; then
+        printfError "The provided deb path doesn't exist: \"$deb_src\""
+        return 2
     else
-        commandExists $package
-        if [ "$?" -eq 1 ]; then
-            printfDebug "Skipping deb: \"$package\""
-            return
-        fi
-
-        local deb_name="${package}.deb"
-
-        printfInfo "Installing deb: \"$deb_name\""
-
-        wget -O $deb_name $url &>>"$FILE_LOG";
-        sudo dpkg -i $deb_name &>>"$FILE_LOG";
-        sudo apt-get -f install -y &>>"$FILE_LOG";
-
-        isDebInstalled $package
-        if [ "$?" -eq 1 ]; then
-            printfDebug "Installed deb: \"$package\""
-        else
-            commandExists $package
-            if [ "$?" -eq 1 ]; then
-                printfDebug "Installed deb: \"$package\""
-            else
-                printfError "Failed to install deb: \"$package\""
-            fi
-        fi
-
-        rm $deb_name;
+        package_path="$deb_src"
+        package_name="$(dpkg-deb -f "$deb_src" Package)"
     fi
+
+    printfInfo "Installing deb $package_name"
+
+    isDebFileInstalled "$package_path"
+    if [ "$?" -eq 0 ]; then
+        printfDebug "Already installed deb: \"$package_name\""
+        return 0
+    else
+        printfDebug "Installing deb: \"$package_name\""
+        sudo dpkg -i "$package_path" &>>"$FILE_LOG";
+        sudo apt -f install -y &>>"$FILE_LOG";
+    fi
+
+    isDebFileInstalled "$package_path"
+    local result
+    if [ "$?" -eq 0 ]; then
+        printfDebug "Installed deb: \"$package_name\""
+        result=0
+    else
+        printfError "Failed to install deb: \"$package_name\""
+        result=3
+    fi
+
+    if [[ "$deb_src" = http* ]]; then
+        sudo rm "$package_path" &>>"$FILE_LOG";
+    fi
+
+    return $result
 }
 
 function addPPALaunchpad() {
